@@ -1,0 +1,72 @@
+/* ADMIN AUTH LOGIN */
+.btn-letsgo:hover{
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25) !important;
+}
+
+.fa-eye-slash {
+    right: 30px;
+}
+
+#bg-login {
+    background-image: url('../img/flower.png');
+    /* opacity: 0.1; */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 130px 100px;
+    background-clip: border-box;
+}
+
+/* ADMIN SIDE BAR */
+.app-sidebar-menu .menu > .menu-item.menu-border-nama {
+    border-bottom: 1px dashed #33446c;
+}
+
+.table > thead > tr > th {
+    border-bottom-width: 1px !important;
+    font-size: 1em !important;
+    font-weight: 500 !important;
+}
+
+table.dataTable.table-striped > tbody > tr.odd td:nth-child(1),
+table.dataTable.table-striped > tbody > tr.even td:nth-child(1){
+    padding-left: 10px;
+}
+
+.hanaka-button {
+    height:100px;
+    width:100px;
+    border-radius: 10px;
+}
+
+.hanaka-back {
+    font-size: 8px;
+}
+
+
+@media (min-width: 768px ){
+    .hanaka-back {
+        font-size: 12px;
+    }
+
+    .table > thead > tr > th {
+        font-size: 1.5em !important;
+    }
+}
+
+@media (min-width: 1200px ){
+    .hanaka-button {
+        height: 85px;
+        width:  85px;
+        border-radius: 10px;
+        font-size: 10px;
+    }
+}
+
+@media (min-width: 1400px ){
+    .hanaka-button {
+        height: 90px;
+        width:  90px;
+        border-radius: 10px;
+        font-size: 12px;
+    }
+}
