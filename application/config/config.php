@@ -23,8 +23,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://localhost/griyabeji';
-date_default_timezone_set('Asia/Makassar');
+if ($_SERVER['HTTP_HOST'] == 'localhost') {
+    $addurl = '/'.'griyabeji/'; 
+}else{
+    $addurl = '/'; 
+}
+
+$config['base_url'] = (@$_SERVER['HTTPS'] == 'on') ? 'https://'.$_SERVER['HTTP_HOST'].'/' : 'http://'.$_SERVER['HTTP_HOST'].$addurl;
+date_default_timezone_set('Asia/Singapore');
 
 /*
 |--------------------------------------------------------------------------

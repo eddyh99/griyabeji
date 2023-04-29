@@ -8,7 +8,6 @@ class Dashboard extends CI_Controller {
         if (!isset($this->session->userdata['logged_status'])) {
             redirect("/");
         }
-	   $this->load->model('admin/dashboardModel','dashboard');
     }
 
 	public function index() {
@@ -29,7 +28,7 @@ class Dashboard extends CI_Controller {
         $month = date("m");
         $year  = date("Y");
         
-        $result=$this->dashboard->getPenjualan($month,$year);
+        //$result=$this->dashboard->getPenjualan($month,$year);
         
         if (count($result)==0){
             $data=0;
@@ -44,7 +43,7 @@ class Dashboard extends CI_Controller {
         $month = date("m");
         $year  = date("Y");
         
-        $result=$this->dashboard->getBrand($month,$year);
+        //$result=$this->dashboard->getBrand($month,$year);
         
         if (count($result)==0){
             $data=0;
@@ -58,7 +57,7 @@ class Dashboard extends CI_Controller {
         $month = date("m");
         $year  = date("Y");
         
-        $result=$this->dashboard->getBrandstore($month,$year);
+        //$result=$this->dashboard->getBrandstore($month,$year);
         
         if (count($result)==0){
             $data=0;
