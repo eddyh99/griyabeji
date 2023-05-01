@@ -276,13 +276,13 @@
                     <!--====== End Master ===== -->
 
                     <!-- ====== Start Main Laporan ====== -->
-                    <div class="menu-item pt-5">
+                    <!-- <div class="menu-item pt-5"> -->
                         <!-- ====== Start Menu content ====== -->
-                        <div class="menu-content">
+                        <!-- <div class="menu-content">
                             <span class="menu-heading fw-bold text-uppercase fs-7">Laporan</span>
-                        </div>
+                        </div> -->
                         <!-- ====== End Menu content ====== -->
-                    </div>
+                    <!-- </div> -->
                     <!-- ====== Start Main Laporan ====== -->
 
 
