@@ -35,8 +35,6 @@
                                     <input type="text" class="form-control" id="nama" name="nama" value="<?=$detail['nama']?>"  maxlength="50">
                                     </div>
                                 </div>
-
-                                <?php if ($_SESSION["logged_status"]["role"]!="Staff"){?>
                                 <div class="form-group row my-3">
                                     <label class="col-sm-3 col-form-label">Role</label>
                                     <div class="col-sm-7">
@@ -44,14 +42,13 @@
                                             <option value="owner" <?php echo ($detail['role'] == "owner") ? "selected": "" ?>>Owner</option>
                                             <option value="GM" <?php echo ($detail['role'] == "GM") ? "selected": "" ?>>General Manager</option>
                                             <option value="EAM" <?php echo ($detail['role'] == "EAM") ? "selected": "" ?>>Executive Assistant Manager</option>
-                                            <option value="kasir" <?php echo ($detail['role'] == "kasir") ? "selected": "" ?>>Kasir</option>                						<option value="Staff" <?php echo ($detail[0]->role=="Staff") ? "selected": "" ?>>Staff</option>
+                                            <option value="kasir" <?php echo ($detail['role'] == "kasir") ? "selected": "" ?>>Kasir</option>
                                             <option value="admin" <?php echo ($detail['role'] == "admin") ? "selected": "" ?>>Admin</option>
                                             <option value="pengayah" <?php echo ($detail['role'] == "pengayah") ? "selected": "" ?>>Pengayah</option>
                                             
                                         </select>
                                     </div>
                                 </div>
-                                <?php }?>
                                 </div>
                             </div>
                             <div class="col-lg-12 d-flex justify-content-between">

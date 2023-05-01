@@ -75,7 +75,7 @@
 
             <!-- ====== Start Logo Desktop ===== -->
             <a href="#" class="app-sidebar-logo-default text-white fw-bold">
-                <img alt="Logo" src="<?= base_url()?>assets/img/logo.png" class="h-30px app-sidebar-logo-default" />
+                <img alt="Logo" src="<?= base_url()?>assets/img/logo.webp" class="h-80px app-sidebar-logo-default" />
             </a>
             <!--====== End Logo Desktop ===== -->
 
