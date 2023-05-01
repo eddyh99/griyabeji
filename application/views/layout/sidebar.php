@@ -250,7 +250,7 @@
 
                             <!-- ======  Start Menu Paket ===== -->
                             <div class="menu-item">
-                                <a class="menu-link <?=@$side5?>" href="<?= base_url()?>paket">
+                                <a class="menu-link <?=@$side6?>" href="<?= base_url()?>paket">
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
@@ -261,7 +261,7 @@
 
                             <!-- ======  Start Menu Store ===== -->
                             <div class="menu-item">
-                                <a class="menu-link <?=@$side5?>" href="<?= base_url()?>store">
+                                <a class="menu-link <?=@$side7?>" href="<?= base_url()?>store">
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
@@ -288,7 +288,7 @@
 
                     <!--====== Start Harga Items ===== -->
                     <div class="menu-item menu-accordion">
-                        <a class="menu-link " href="<?=base_url()?>hargaitems">
+                        <a class="menu-link " href="<?=base_url()?>items/hargaitems">
                             <span class="menu-icon">
                                 <span class="svg-icon svg-icon-2">
                                     <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
