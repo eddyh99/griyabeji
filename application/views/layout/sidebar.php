@@ -71,11 +71,11 @@
     <div id="kt_app_sidebar" class="app-sidebar flex-column" style="background-color: #202B46;" data-kt-drawer="true" data-kt-drawer-name="app-sidebar" data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true" data-kt-drawer-width="225px" data-kt-drawer-direction="start" data-kt-drawer-toggle="#kt_app_sidebar_mobile_toggle">
 
         <!-- ====== Start Logo Desktop ===== -->
-        <div class="app-sidebar-logo px-6" id="kt_app_sidebar_logo">
+        <div class="app-sidebar-logo px-6 my-6" id="kt_app_sidebar_logo">
 
             <!-- ====== Start Logo Desktop ===== -->
             <a href="#" class="app-sidebar-logo-default text-white fw-bold">
-                <img alt="Logo" src="<?= base_url()?>assets/img/logo.webp" class="h-80px app-sidebar-logo-default" />
+                <img alt="Logo" src="<?= base_url()?>assets/img/logo.webp" class="h-70px app-sidebar-logo-default" />
             </a>
             <!--====== End Logo Desktop ===== -->
 
