@@ -71,11 +71,11 @@
     <div id="kt_app_sidebar" class="app-sidebar flex-column" style="background-color: #202B46;" data-kt-drawer="true" data-kt-drawer-name="app-sidebar" data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true" data-kt-drawer-width="225px" data-kt-drawer-direction="start" data-kt-drawer-toggle="#kt_app_sidebar_mobile_toggle">
 
         <!-- ====== Start Logo Desktop ===== -->
-        <div class="app-sidebar-logo px-6" id="kt_app_sidebar_logo">
+        <div class="app-sidebar-logo px-6 my-6" id="kt_app_sidebar_logo">
 
             <!-- ====== Start Logo Desktop ===== -->
             <a href="#" class="app-sidebar-logo-default text-white fw-bold">
-                <img alt="Logo" src="<?= base_url()?>assets/img/logo.png" class="h-30px app-sidebar-logo-default" />
+                <img alt="Logo" src="<?= base_url()?>assets/img/logo.webp" class="h-70px app-sidebar-logo-default" />
             </a>
             <!--====== End Logo Desktop ===== -->
 
@@ -250,7 +250,7 @@
 
                             <!-- ======  Start Menu Paket ===== -->
                             <div class="menu-item">
-                                <a class="menu-link <?=@$side5?>" href="<?= base_url()?>paket">
+                                <a class="menu-link <?=@$side6?>" href="<?= base_url()?>paket">
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
@@ -261,7 +261,7 @@
 
                             <!-- ======  Start Menu Store ===== -->
                             <div class="menu-item">
-                                <a class="menu-link <?=@$side5?>" href="<?= base_url()?>store">
+                                <a class="menu-link <?=@$side7?>" href="<?= base_url()?>store">
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
@@ -276,19 +276,19 @@
                     <!--====== End Master ===== -->
 
                     <!-- ====== Start Main Laporan ====== -->
-                    <div class="menu-item pt-5">
+                    <!-- <div class="menu-item pt-5"> -->
                         <!-- ====== Start Menu content ====== -->
-                        <div class="menu-content">
+                        <!-- <div class="menu-content">
                             <span class="menu-heading fw-bold text-uppercase fs-7">Laporan</span>
-                        </div>
+                        </div> -->
                         <!-- ====== End Menu content ====== -->
-                    </div>
+                    <!-- </div> -->
                     <!-- ====== Start Main Laporan ====== -->
 
 
                     <!--====== Start Harga Items ===== -->
                     <div class="menu-item menu-accordion">
-                        <a class="menu-link " href="<?=base_url()?>hargaitems">
+                        <a class="menu-link " href="<?=base_url()?>items/hargaitems">
                             <span class="menu-icon">
                                 <span class="svg-icon svg-icon-2">
                                     <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">

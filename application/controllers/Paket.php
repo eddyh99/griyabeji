@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Items extends CI_Controller {
+class Paket extends CI_Controller {
 
 	public function __construct() {
 	   parent::__construct();
@@ -15,14 +15,14 @@ class Items extends CI_Controller {
 
         $data	= array(
             'title'		 => 'Data Pengguna',
-            'content'	 => 'items/index',
-            'extra'		 => 'items/js/js_index',
+            'content'	 => 'paket/index',
+            'extra'		 => 'paket/js/js_index',
 			'mn_setting' => 'active',
-			'colmas'	 => 'show',
+			'colmas'	 => 'collapse',
 			'colset'	 => 'collapse in',
 			'collap'	 => 'collapse',
-			'side4'		 => 'active',
-			'breadcrumb' => '/ Master / Items'
+			'side6'		 => 'active',
+			'breadcrumb' => '/ Master / Paket'
 		);
 		$this->load->view('layout/wrapper', $data);
 	}
@@ -32,38 +32,27 @@ class Items extends CI_Controller {
 		$result = array (
 			array(
                 "id"            => "1",
-				"namaitem"		=> "Dupa Wangi",
+				"namapaket"	    => "Middle Spiritual",
 				"local"			=> "1000000",
 				"domestik"		=> "2000000",
 				"internasional"	=> "3000000",
+                "namaproduk"	=> ["Purification Ceremony", "Healing Therapy"]
 			),
 			array(
                 "id"            => "2",
-				"namaitem"		=> "Gelang Tridatu",
+				"namapaket"	    => "Middle Hash",
 				"local"			=> "1000000",
 				"domestik"		=> "2000000",
 				"internasional"	=> "3000000",
+                "namaproduk"	=> ["Palm Reading", "Healing Therapy"]
 			),
 			array(
                 "id"            => "3",
-				"namaitem"		=> "Canang Sari",
+				"namapaket"	    => "Combo Complate",
 				"local"			=> "1000000",
 				"domestik"		=> "2000000",
 				"internasional"	=> "3000000",
-			),
-			array(
-                "id"            => "4",
-				"namaitem"		=> "Toples Tirta",
-				"local"			=> "1000000",
-				"domestik"		=> "2000000",
-				"internasional"	=> "3000000",
-			),
-			array(
-                "id"            => "5",
-				"namaitem"		=> "Dupa Cempaka",
-				"local"			=> "1000000",
-				"domestik"		=> "2000000",
-				"internasional"	=> "3000000",
+                "namaproduk"	=> ["Palm Reading", "Healing Therapy", "Purification Ceremony"]
 			),
 		);
 		echo json_encode($result);
@@ -71,42 +60,65 @@ class Items extends CI_Controller {
 
     public function tambah(){
 
+		$items = array (
+			array(
+                "id"            => "1",
+				"namaproduk"		=> "Palm Reading",
+			),
+			array(
+                "id"            => "2",
+				"namaproduk"		=> "Healing Therapy",
+			),
+			array(
+                "id"            => "3",
+				"namaproduk"		=> "Purification Ceremony",
+			),
+		);
+
+
+
+
         $data = array(
             'title'		 => 'Tambah Data Pengayah',
-            'content'	 => 'items/tambah',
+            'content'	 => 'paket/tambah',
+			'extra'	     => 'paket/js/js_tambah',
+            'extracss'	 => 'paket/css/css_tambah',
 			'colmas'	 => 'collapse',
 			'colset'	 => 'collapse in',
 			'collap'	 => 'collapse',
-			'side4'		 => 'active',
-			'breadcrumb' => '/ Master / Items / Tambah Data'
+			'side6'		 => 'active',
+			'breadcrumb' => '/ Master / Paket / Tambah Data',
+			'produks'		 => $items,
 		);
 		$this->load->view('layout/wrapper', $data);
     }
 
-	public function AddData(){
-
-		$this->form_validation->set_rules('namaitems', 'Nama Items', 'trim|required');
+	public function AddData(){		
+		$this->form_validation->set_rules('namapaket', 'Nama Paket', 'trim|required');
 		$this->form_validation->set_rules('local', 'Harga Local', 'trim|required');
 		$this->form_validation->set_rules('domestik', 'Harga Domestik', 'trim|required');
 		$this->form_validation->set_rules('internasional', 'Harga Internasional', 'trim|required');
+		$this->form_validation->set_rules('id_produk[]', 'Nama Produk', 'trim|required');
 
 		if ($this->form_validation->run() == FALSE){
 		    $this->session->set_flashdata('message', $this->message->error_msg(validation_errors()));
-		    redirect(base_url()."items/tambah");
+		    redirect(base_url()."paket/tambah");
             return;
 		}
 		
-		$namaitems	    = $this->security->xss_clean($this->input->post('namaitems'));
+		$namapaket	    = $this->security->xss_clean($this->input->post('namapaket'));
 		$local	    	= $this->security->xss_clean($this->input->post('local'));
 		$domestik	    = $this->security->xss_clean($this->input->post('domestik'));
 		$internasional	= $this->security->xss_clean($this->input->post('internasional'));
+		$id_produk	    = $this->security->xss_clean($this->input->post('id_produk'));
 
         
         $data		= array(
-            "namaitems"     => $namaitems,
-			"local"			=> $local,
-			"domestik"		=> $domestik,
-			"internasional" => $internasional
+            "namapaket"      	=> $namapaket,
+            "local"      		=> $local,
+            "domestik"      	=> $domestik,
+            "internasional"     => $internasional,
+            "id_produk"      	=> $id_produk,
         );
 
 		// print_r(json_encode($data));
@@ -119,18 +131,18 @@ class Items extends CI_Controller {
 		// $result["code"]=0;
 
 		//untuk gagal
-		// $result["code"]=5011;
-		// $result["message"]="Data gagal di inputkan";
+		$result["code"]=5011;
+		$result["message"]="Data gagal di inputkan";
 
 				
 		
 		if ($result["code"]==0) {
 		    $this->session->set_flashdata('message', $this->message->success_msg());
-		    redirect(base_url()."items");
+		    redirect(base_url()."paket");
             return;
 		}else{
 		    $this->session->set_flashdata('message', $this->message->error_msg($result["message"]));
-		    redirect(base_url()."items/tambah");
+		    redirect(base_url()."paket/tambah");
             return;
 		}
 	}
@@ -141,54 +153,91 @@ class Items extends CI_Controller {
 		// $result		= $this->PenggunaModel->getUser($username);
 
 		$result = array (
-			"namaitems"	    => "Dupa Wangi",
+			"namaproduk"	=> "PURIFICATION CEREMONY",
 			"local"			=> "1000000",
 			"domestik"		=> "2000000",
 			"internasional"	=> "3000000",
+			"id_items"		=> ["1", "2", "2"]
 		);
+
+		$items = array (
+			array(
+                "id"            => "1",
+				"namaitem"		=> "Dupa Wangi",
+			),
+			array(
+                "id"            => "2",
+				"namaitem"		=> "Gelang Tridatu",
+			),
+			array(
+                "id"            => "3",
+				"namaitem"		=> "Canang Sari",
+			),
+			array(
+                "id"            => "4",
+				"namaitem"		=> "Toples Tirta",
+			),
+			array(
+                "id"            => "5",
+				"namaitem"		=> "Dupa Cempaka",
+			),
+		);
+
+
+		// print_r(json_encode($result));
+		// die;
+
+
 
         $data		= array(
             'title'		 => 'Ubah Data Pengguna',
-            'content'    => 'items/ubah',
+            'content'    => 'paket/ubah',
             'detail'     => $result,
+			'items'		 => $items,
+			'extra'	     => 'paket/js/js_tambah',
+            'extracss'	 => 'paket/css/css_tambah',
 			'mn_master'	 => 'active',
 			'colmas'	 => 'collapse',
 			'colset'	 => 'collapse in',
 			'collap'	 => 'collapse',
-			'side4'		 => 'active',
-			'breadcrumb' => '/ Setup / Items / Ubah Data'
+			'side6'		 => 'active',
+			'breadcrumb' => '/ Setup / Paket / Ubah Data'
 		);
 		$this->load->view('layout/wrapper', $data);
     }
 
 	public function updateData(){
-		$this->form_validation->set_rules('namaitems', 'Nama Items', 'trim|required');
+		$this->form_validation->set_rules('namaproduk', 'Nama Produk', 'trim|required');
 		$this->form_validation->set_rules('local', 'Harga Local', 'trim|required');
 		$this->form_validation->set_rules('domestik', 'Harga Domestik', 'trim|required');
 		$this->form_validation->set_rules('internasional', 'Harga Internasional', 'trim|required');
+		$this->form_validation->set_rules('id_items[]', 'Nama Items', 'trim|required');
 
 		$id	= $this->security->xss_clean($this->input->post('id'));
 
 		if ($this->form_validation->run() == FALSE){
 		    $this->session->set_flashdata('message', $this->message->error_msg(validation_errors()));
-		    redirect(base_url()."items/ubah/".base64_encode($id));
+		    redirect(base_url()."paket/ubah/".base64_encode($id));
             return;
 		}
 
-		$namaitems	= $this->security->xss_clean($this->input->post('namaitems'));
+		$namaproduk	    = $this->security->xss_clean($this->input->post('namaproduk'));
 		$local	    	= $this->security->xss_clean($this->input->post('local'));
 		$domestik	    = $this->security->xss_clean($this->input->post('domestik'));
 		$internasional	= $this->security->xss_clean($this->input->post('internasional'));
+		$id_items	    = $this->security->xss_clean($this->input->post('id_items'));
 
-        $data	= array(
-            "namaitems"      	=> $namaitems,
+        
+        $data		= array(
+            "namaproduk"      	=> $namaproduk,
             "local"      		=> $local,
-            "domestik"     	 	=> $domestik,
+            "domestik"      	=> $domestik,
             "internasional"     => $internasional,
+            "id_items"      	=> $id_items,
         );
 
-		// print_r(json_encode($data));
-		// die;
+		print_r(json_encode($data));
+		die;
 
 
 		// $result		= $this->PenggunaModel->updateData($data,$username);
@@ -203,11 +252,11 @@ class Items extends CI_Controller {
 
 		if ($result["code"]==0) {
 		    $this->session->set_flashdata('message',  $this->message->success_msg());
-		    redirect(base_url()."items");
+		    redirect(base_url()."paket");
             return;
 		}else{
 		    $this->session->set_flashdata('message', $this->message->error_msg($result["message"]));
-		    redirect(base_url()."items/ubah/".base64_encode($id));
+		    redirect(base_url()."paket/ubah/".base64_encode($id));
             return;
 		}
 	}
@@ -229,69 +278,12 @@ class Items extends CI_Controller {
 
 		if ($result["code"]==0) {
 		    $this->session->set_flashdata('message', $this->message->delete_msg());
-		    redirect(base_url()."items");
+		    redirect(base_url()."paket");
 		}else{
 		    $this->session->set_flashdata('message', $this->message->error_msg($result["message"]));
-		    redirect(base_url()."items");
+		    redirect(base_url()."paket");
 		}
 
-	}
-
-	public function hargaitems(){
-		$data	= array(
-            'title'		 => 'Data Pengguna',
-            'content'	 => 'hargaitems/index',
-            'extra'		 => 'hargaitems/js/js_index',
-			'mn_setting' => 'active',
-			'colmas'	 => 'show',
-			'colset'	 => 'collapse in',
-			'collap'	 => 'collapse',
-			'side4'		 => 'active',
-			'breadcrumb' => '/ Harga Items'
-		);
-		$this->load->view('layout/wrapper', $data);
-	}
-
-	public function ListHargaData(){
-		$result = array (
-			array(
-                "id"            => "1",
-				"namaitem"		=> "Dupa Wangi",
-				"periode"		=> "11 January 2023 - 12 January 2023",
-				"local"			=> "1000000",
-				"domestik"		=> "2000000",
-				"internasional"	=> "3000000",
-			),
-			array(
-                "id"            => "2",
-				"namaitem"		=> "Gelang Tridatu",
-				"local"			=> "1000000",
-				"domestik"		=> "2000000",
-				"internasional"	=> "3000000",
-			),
-			array(
-                "id"            => "3",
-				"namaitem"		=> "Canang Sari",
-				"local"			=> "1000000",
-				"domestik"		=> "2000000",
-				"internasional"	=> "3000000",
-			),
-			array(
-                "id"            => "4",
-				"namaitem"		=> "Toples Tirta",
-				"local"			=> "1000000",
-				"domestik"		=> "2000000",
-				"internasional"	=> "3000000",
-			),
-			array(
-                "id"            => "5",
-				"namaitem"		=> "Dupa Cempaka",
-				"local"			=> "1000000",
-				"domestik"		=> "2000000",
-				"internasional"	=> "3000000",
-			),
-		);
-		echo json_encode($result);
 	}
 
 }
