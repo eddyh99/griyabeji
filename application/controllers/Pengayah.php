@@ -8,13 +8,13 @@ class Pengayah extends CI_Controller {
         if (!isset($this->session->userdata['logged_status'])) {
             redirect(base_url());
         }
-	//    $this->load->model('admin/GuideModel');
+	   	$this->load->model('admin/mdl_pengayah',"pengayah");
     }
     
     public function index() {
 
         $data	= array(
-            'title'		 => 'Data Pengguna',
+            'title'		 => NAMETITLE . ' - Data Pengguna',
             'content'	 => 'pengayah/index',
             'extra'		 => 'pengayah/js/js_index',
 			'mn_setting' => 'active',
@@ -22,48 +22,48 @@ class Pengayah extends CI_Controller {
 			'colset'	 => 'collapse in',
 			'collap'	 => 'collapse',
 			'side3'		 => 'active',
-			'breadcrumb' => '/ Master / Pengayah'
+			'breadcrumb' => 'Master / Pengayah'
 		);
 		$this->load->view('layout/wrapper', $data);
 	}
 	
 	public function Listdata(){
-		// $result=$this->PenggunaModel->listpengguna();
-		$result = array (
-			array(
-                "id"            => "1",
-				"nama"		    => "I Made Farhan Sucipto Nugroho",
-				"whatsapp"		=> "11111111",
-			),
-			array(
-                "id"            => "2",
-				"nama"		    => "Pengayah 2",
-				"whatsapp"		=> "22222222",
-			),
-			array(
-                "id"            => "3",
-				"nama"		    => "Pengayah 3",
-				"whatsapp"		=> "333333333",
-			),
-			array(
-                "id"            => "4",
-				"nama"		    => "Pengayah 4",
-				"whatsapp"		=> "44444444",
-			),
-		);
+		$result=$this->pengayah->Listpengayah();
+		// $result = array (
+		// 	array(
+        //         "id"            => "1",
+		// 		"nama"		    => "I Made Farhan Sucipto Nugroho",
+		// 		"whatsapp"		=> "11111111",
+		// 	),
+		// 	array(
+        //         "id"            => "2",
+		// 		"nama"		    => "Pengayah 2",
+		// 		"whatsapp"		=> "22222222",
+		// 	),
+		// 	array(
+        //         "id"            => "3",
+		// 		"nama"		    => "Pengayah 3",
+		// 		"whatsapp"		=> "333333333",
+		// 	),
+		// 	array(
+        //         "id"            => "4",
+		// 		"nama"		    => "Pengayah 4",
+		// 		"whatsapp"		=> "44444444",
+		// 	),
+		// );
 		echo json_encode($result);
 	}
 
     public function tambah(){
 
         $data = array(
-            'title'		 => 'Tambah Data Pengayah',
+            'title'		 => NAMETITLE . ' - Tambah Data Pengayah',
             'content'	 => 'pengayah/tambah',
 			'colmas'	 => 'collapse',
 			'colset'	 => 'collapse in',
 			'collap'	 => 'collapse',
 			'side3'		 => 'active',
-			'breadcrumb' => '/ Master / Pengayah / Tambah Data'
+			'breadcrumb' => 'Master / Pengayah / Tambah Data'
 		);
 		$this->load->view('layout/wrapper', $data);
     }
@@ -85,13 +85,14 @@ class Pengayah extends CI_Controller {
         $data		= array(
             "nama"      => $nama,
             "whatsapp"  => $whatsapp,
+			"userid"	=> $_SESSION["logged_status"]["username"]
         );
 
 		// print_r(json_encode($data));
 		// die;
 
 		// Checking Success and Error AddData
-		// $result		= $this->PenggunaModel->insertData($data);
+		$result		= $this->pengayah->insertData($data);
 
 		// untuk sukses
 		// $result["code"]=0;
@@ -113,15 +114,16 @@ class Pengayah extends CI_Controller {
 		}
 	}
 
-    public function ubah(){
+    public function ubah($id){
         
+		$id	= base64_decode($this->security->xss_clean($id));
 		// Menampilkan Hasil Single Data ketika di click username tertentu sebagai parameter
-		// $result		= $this->PenggunaModel->getUser($username);
+		$result		= $this->pengayah->getUser($id);
 
-		$result = array (
-			"nama"		    => "Pengayah 2",
-			"whatsapp"	    => "085123123123",
-		);
+		// $result = array (
+		// 	"nama"		    => "Pengayah 2",
+		// 	"whatsapp"	    => "085123123123",
+		// );
 
         $data		= array(
             'title'		 => 'Ubah Data Pengguna',
@@ -132,7 +134,7 @@ class Pengayah extends CI_Controller {
 			'colset'	 => 'collapse in',
 			'collap'	 => 'collapse',
 			'side3'		 => 'active',
-			'breadcrumb' => '/ Setup / Pengayah / Ubah Data'
+			'breadcrumb' => 'Master / Pengayah / Ubah Data'
 		);
 		$this->load->view('layout/wrapper', $data);
     }
@@ -151,6 +153,7 @@ class Pengayah extends CI_Controller {
 
 		$nama	    = $this->security->xss_clean($this->input->post('nama'));
 		$whatsapp	= $this->security->xss_clean($this->input->post('whatsapp'));
+		$id			= $this->security->xss_clean($this->input->post('id'));
 
 
         $data	= array(
@@ -162,7 +165,7 @@ class Pengayah extends CI_Controller {
 		// die;
 
 
-		// $result		= $this->PenggunaModel->updateData($data,$username);
+		$result		= $this->pengayah->updateData($data,$id);
 		//untuk cek sukses atau gagal dengan cara menambahkan array result
 
 		// untuk sukses
@@ -185,11 +188,11 @@ class Pengayah extends CI_Controller {
 
 	public function DelData($id){
         $data		= array(
-            "status"  => 1,
+            "status"  => 'yes',
         );
 
 		$id	= base64_decode($this->security->xss_clean($id));
-		// $result		= $this->PenggunaModel->hapusData($data,$username);
+		$result		= $this->pengayah->hapusData($data,$id);
 
 		// untuk sukses
 		// $result["code"]=0;

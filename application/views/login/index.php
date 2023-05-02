@@ -4,7 +4,7 @@
                 <div class="container ">
                     <div class="row ">
                         <div class="col-md-4 col-sm-6 mx-auto col-md-offset-4 col-sm-offset-3">
-                            <form action="<?=base_url()?>/Auth/auth_login" method="post">
+                            <form action="<?=base_url()?>auth/auth_login" method="post">
                                 <div id="bg-login" class="card card-login my-10 shadow-lg">
                                     <div class="card-header text-center d-flex justify-content-center">
                                         <h2 class="card-title fs-1 fw-bold">Login Dashboard</h2>
@@ -14,7 +14,7 @@
                                             <div class="form-group mx-auto label-floating">
                                                 <label class="control-label">Username</label>
                                                 <div class="d-flex justify-content-start">
-                                                    <input type="text" name="uname"  class="form-control">
+                                                    <input type="text" name="uname"  class="form-control" required>
                                                     <i class="far fa-eye position-relative d-none"  id="togglePassword" style="cursor: pointer">
                                                     </i>
                                                 </div>
@@ -28,7 +28,7 @@
                                                     <i class="far fa-eye position-relative"  id="togglePassword" style="cursor: pointer"
                                                         toggle="#password">
                                                     </i> -->
-                                                    <input id="text-secret" type="password" name="pass" class="form-control">
+                                                    <input id="text-secret" type="password" name="pass" class="form-control" required>
                                                     <i id="eye-toggle" class="far fa-eye-slash position-relative" style="cursor: pointer"></i>
                                                 </div>
                                             </div>

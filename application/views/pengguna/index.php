@@ -21,7 +21,7 @@
                                 <tr>
                                     <th>Username</th>
                                     <th>Nama</th>
-                                    <th>Jabatan</th>
+                                    <th>Role</th>
                                     <th>Aksi</th>
                                 </tr>
                                 </thead>

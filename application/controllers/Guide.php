@@ -8,13 +8,13 @@ class Guide extends CI_Controller {
         if (!isset($this->session->userdata['logged_status'])) {
             redirect(base_url());
         }
-	//    $this->load->model('admin/GuideModel');
+	    $this->load->model('admin/mdl_guide','guide');
     }
     
     public function index() {
 
         $data	= array(
-            'title'		 => 'Data Pengguna',
+            'title'		 => NAMETITLE . ' - Data Pengguna',
             'content'	 => 'guide/index',
             'extra'		 => 'guide/js/js_index',
 			'mn_setting' => 'active',
@@ -22,48 +22,48 @@ class Guide extends CI_Controller {
 			'colset'	 => 'collapse in',
 			'collap'	 => 'collapse',
 			'side2'		 => 'active',
-			'breadcrumb' => '/ Master / Guide'
+			'breadcrumb' => 'Master / Guide'
 		);
 		$this->load->view('layout/wrapper', $data);
 	}
 	
 	public function Listdata(){
-		// $result=$this->PenggunaModel->listpengguna();
-		$result = array (
-			array(
-                "id"            => "1",
-				"nama"		    => "I Gusti Made Bagus Adi Wicaksono Wijaya",
-				"whatsapp"		=> "11111111",
-			),
-			array(
-                "id"            => "2",
-				"nama"		    => "Guide 2",
-				"whatsapp"		=> "22222222",
-			),
-			array(
-                "id"            => "3",
-				"nama"		    => "Guide 3",
-				"whatsapp"		=> "333333333",
-			),
-			array(
-                "id"            => "4",
-				"nama"		    => "Guide 4",
-				"whatsapp"		=> "44444444",
-			),
-		);
+		$result=$this->guide->listguide();
+		// $result = array (
+		// 	array(
+        //         "id"            => "1",
+		// 		"nama"		    => "I Gusti Made Bagus Adi Wicaksono Wijaya",
+		// 		"whatsapp"		=> "11111111",
+		// 	),
+		// 	array(
+        //         "id"            => "2",
+		// 		"nama"		    => "Guide 2",
+		// 		"whatsapp"		=> "22222222",
+		// 	),
+		// 	array(
+        //         "id"            => "3",
+		// 		"nama"		    => "Guide 3",
+		// 		"whatsapp"		=> "333333333",
+		// 	),
+		// 	array(
+        //         "id"            => "4",
+		// 		"nama"		    => "Guide 4",
+		// 		"whatsapp"		=> "44444444",
+		// 	),
+		// );
 		echo json_encode($result);
 	}
 
     public function tambah(){
 
         $data = array(
-            'title'		 => 'Tambah Data Guide',
+            'title'		 => NAMETITLE . ' - Tambah Data Guide',
             'content'	 => 'guide/tambah',
 			'colmas'	 => 'collapse',
 			'colset'	 => 'collapse in',
 			'collap'	 => 'collapse',
 			'side2'		 => 'active',
-			'breadcrumb' => '/ Master / Guide / Tambah Data'
+			'breadcrumb' => 'Master / Guide / Tambah Data'
 		);
 		$this->load->view('layout/wrapper', $data);
     }
@@ -85,14 +85,11 @@ class Guide extends CI_Controller {
         $data		= array(
             "nama"      => $nama,
             "whatsapp"  => $whatsapp,
+			"userid"	=> $_SESSION["logged_status"]["username"]
         );
 
-		// print_r(json_encode($data));
-		// die;
-
 		// Checking Success and Error AddData
-		// $result		= $this->PenggunaModel->insertData($data);
-
+		$result		= $this->guide->insertData($data);
 		// untuk sukses
 		// $result["code"]=0;
 
@@ -113,18 +110,19 @@ class Guide extends CI_Controller {
 		}
 	}
 
-    public function ubah(){
+    public function ubah($id){
         
-		// Menampilkan Hasil Single Data ketika di click username tertentu sebagai parameter
-		// $result		= $this->PenggunaModel->getUser($username);
+		// Menampilkan Hasil Single Data ketika di click id tertentu sebagai parameter
+		$id	= base64_decode($this->security->xss_clean($id));
+		$result		= $this->guide->getUser($id);
 
-		$result = array (
-			"nama"		    => "Guide1",
-			"whatsapp"	    => "085123123123",
-		);
+		// $result = array (
+		// 	"nama"		    => "Guide1",
+		// 	"whatsapp"	    => "085123123123",
+		// );
 
         $data		= array(
-            'title'		 => 'Ubah Data Pengguna',
+            'title'		 => NAMETITLE . ' - Ubah Data Pengguna',
             'content'    => 'guide/ubah',
             'detail'     => $result,
 			'mn_master'	 => 'active',
@@ -132,7 +130,7 @@ class Guide extends CI_Controller {
 			'colset'	 => 'collapse in',
 			'collap'	 => 'collapse',
 			'side2'		 => 'active',
-			'breadcrumb' => '/ Setup / Guide / Ubah Data'
+			'breadcrumb' => 'Master / Guide / Ubah Data'
 		);
 		$this->load->view('layout/wrapper', $data);
     }
@@ -151,6 +149,7 @@ class Guide extends CI_Controller {
 
 		$nama	    = $this->security->xss_clean($this->input->post('nama'));
 		$whatsapp	= $this->security->xss_clean($this->input->post('whatsapp'));
+		$id			= $this->security->xss_clean($this->input->post('id'));
 
 
         $data	= array(
@@ -162,7 +161,7 @@ class Guide extends CI_Controller {
 		// die;
 
 
-		// $result		= $this->PenggunaModel->updateData($data,$username);
+		$result		= $this->guide->updateData($data,$id);
 		//untuk cek sukses atau gagal dengan cara menambahkan array result
 
 		// untuk sukses
@@ -185,11 +184,11 @@ class Guide extends CI_Controller {
 
 	public function DelData($id){
         $data		= array(
-            "status"  => 1,
+            "status"  => 'yes',
         );
 
 		$id	= base64_decode($this->security->xss_clean($id));
-		// $result		= $this->PenggunaModel->hapusData($data,$username);
+		$result		= $this->guide->hapusData($data,$id);
 
 		// untuk sukses
 		// $result["code"]=0;

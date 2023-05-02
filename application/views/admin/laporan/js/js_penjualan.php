@@ -29,6 +29,7 @@
     }
   });
 
+
 var table;
 	table = $('#table_data').DataTable({
 			"order": [[ 0, "asc" ]],

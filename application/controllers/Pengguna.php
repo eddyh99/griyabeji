@@ -8,13 +8,13 @@ class Pengguna extends CI_Controller {
         if (!isset($this->session->userdata['logged_status'])) {
             redirect(base_url());
         }
-	   $this->load->model('admin/PenggunaModel');
+	   $this->load->model('admin/Mdl_pengguna',"pengguna");
     }
     
     public function index() {
 
         $data	= array(
-            'title'		 => 'Data Pengguna',
+            'title'		 => NAMETITLE . '- Data Pengguna',
             'content'	 => 'pengguna/index',
             'extra'		 => 'pengguna/js/js_index',
 			'mn_setting' => 'active',
@@ -22,45 +22,45 @@ class Pengguna extends CI_Controller {
 			'colset'	 => 'collapse in',
 			'collap'	 => 'collapse',
 			'side1'		 => 'active',
-			'breadcrumb' => '/ Master / Pengguna'
+			'breadcrumb' => 'Master / Pengguna'
 		);
 		$this->load->view('layout/wrapper', $data);
 	}
 	
 	public function Listdata(){
-		// $result=$this->PenggunaModel->listpengguna();
-		$result = array (
-			array(
-				"username"		=> "owner123",
-				"nama"			=> "Nama Owner",
-				"role"			=> "owner"
-			),
-			array(
-				"username"		=> "general_manager123",
-				"nama"			=> "Nama GM",
-				"role"			=> "GM"
-			),
-			array(
-				"username"		=> "executive_am123",
-				"nama"			=> "Nama EAM",
-				"role"			=> "EAM"
-			),
-			array(
-				"username"		=> "kasir123",
-				"nama"			=> "Nama Kasir",
-				"role"			=> "kasir"
-			),
-			array(
-				"username"		=> "admin123",
-				"nama"			=> "Nama Admin",
-				"role"			=> "admin"
-			),
-			array(
-				"username"		=> "penhayah123",
-				"nama"			=> "Nama Pengayah",
-				"role"			=> "pengayah"
-			),
-		);
+		$result=$this->pengguna->listpengguna();
+		// $result = array (
+		// 	array(
+		// 		"username"		=> "owner123",
+		// 		"nama"			=> "Nama Owner",
+		// 		"role"			=> "owner"
+		// 	),
+		// 	array(
+		// 		"username"		=> "general_manager123",
+		// 		"nama"			=> "Nama GM",
+		// 		"role"			=> "GM"
+		// 	),
+		// 	array(
+		// 		"username"		=> "executive_am123",
+		// 		"nama"			=> "Nama EAM",
+		// 		"role"			=> "EAM"
+		// 	),
+		// 	array(
+		// 		"username"		=> "kasir123",
+		// 		"nama"			=> "Nama Kasir",
+		// 		"role"			=> "kasir"
+		// 	),
+		// 	array(
+		// 		"username"		=> "admin123",
+		// 		"nama"			=> "Nama Admin",
+		// 		"role"			=> "admin"
+		// 	),
+		// 	array(
+		// 		"username"		=> "penhayah123",
+		// 		"nama"			=> "Nama Pengayah",
+		// 		"role"			=> "pengayah"
+		// 	),
+		// );
 		echo json_encode($result);
 	}
 
@@ -73,7 +73,7 @@ class Pengguna extends CI_Controller {
 			'colset'	 => 'collapse in',
 			'collap'	 => 'collapse',
 			'side1'		 => 'active',
-			'breadcrumb' => '/ Master / Pengguna / Tambah Data'
+			'breadcrumb' => 'Master / Pengguna / Tambah Data'
 		);
 		$this->load->view('layout/wrapper', $data);
     }
@@ -105,7 +105,7 @@ class Pengguna extends CI_Controller {
 		// die;
 
 		// Checking Success and Error AddData
-		// $result		= $this->PenggunaModel->insertData($data);
+		$result		= $this->pengguna->insertData($data);
 
 		// untuk sukses
 		// $result["code"]=0;
@@ -114,8 +114,6 @@ class Pengguna extends CI_Controller {
 		// $result["code"]=5011;
 		// $result["message"]="Data gagal di inputkan";
 
-				
-		
 		if ($result["code"]==0) {
 		    $this->session->set_flashdata('message', $this->message->success_msg());
 		    redirect(base_url()."pengguna");
@@ -132,19 +130,16 @@ class Pengguna extends CI_Controller {
 		$username	= base64_decode($this->security->xss_clean($username));
 
 		// Menampilkan Hasil Single Data ketika di click username tertentu sebagai parameter
-		// $result		= $this->PenggunaModel->getUser($username);
-		$result = array (
-			"username"		=> "admin",
-			"nama"			=> "admin",
-			"role"			=> "Owner"
-		);
+		$result		= $this->pengguna->getUser($username);
 
-
-
-
+		// $result = array (
+		// 	"username"		=> "admin",
+		// 	"nama"			=> "admin",
+		// 	"role"			=> "Owner"
+		// );
 
         $data		= array(
-            'title'		 => 'Ubah Data Pengguna',
+            'title'		 => NAMETITLE . ' - Ubah Data Pengguna',
             'content'    => 'pengguna/ubah',
             'detail'     => $result,
 			'mn_master'	 => 'active',
@@ -152,7 +147,7 @@ class Pengguna extends CI_Controller {
 			'colset'	 => 'collapse in',
 			'collap'	 => 'collapse',
 			'side1'		 => 'active',
-			'breadcrumb' => '/ Setup / Pengguna / Ubah Data'
+			'breadcrumb' => 'Master / Pengguna / Ubah Data'
 		);
 		$this->load->view('layout/wrapper', $data);
     }
@@ -188,11 +183,7 @@ class Pengguna extends CI_Controller {
             );
         }
 
-		// print_r(json_encode($data));
-		// die;
-
-
-		// $result		= $this->PenggunaModel->updateData($data,$username);
+		 $result		= $this->pengguna->updateData($data,$username);
 		//untuk cek sukses atau gagal dengan cara menambahkan array result
 
 		// untuk sukses
@@ -204,9 +195,6 @@ class Pengguna extends CI_Controller {
 
 		if ($result["code"]==0) {
 		    $this->session->set_flashdata('message',  $this->message->success_msg());
-		    // if ($_SESSION["logged_status"]["role"]=="Staff"){
-    		//     redirect(base_url()."staff/dashboard");
-		    // }
 		    redirect(base_url()."pengguna");
             return;
 		}else{
@@ -218,11 +206,11 @@ class Pengguna extends CI_Controller {
 
 	public function DelData($username){
         $data		= array(
-            "status"  => 1,
+            "status"  => 'yes',
         );
 
 		$username	= base64_decode($this->security->xss_clean($username));
-		// $result		= $this->PenggunaModel->hapusData($data,$username);
+		$result		= $this->pengguna->hapusData($data,$username);
 
 		// untuk sukses
 		// $result["code"]=0;
