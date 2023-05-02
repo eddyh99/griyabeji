@@ -8,7 +8,7 @@
 			
 			<!-- ======= Start Row Content Canva JS ====== -->
             <div class="col-md-12 text-right my-10">
-                    <a class="btn btn-primary" href="<?=base_url()?>items/tambahharga">Tambah</a>
+                    <a class="btn btn-primary" href="<?=base_url()?>paket/tambahharga">Tambah</a>
             </div>
 			<div class="row">
                 <div class="card">
@@ -19,7 +19,7 @@
                             <table id="table_data" class="table table-striped nowrap" width="100%">
                                 <thead>
                                 <tr>
-                                    <th>Nama Items</th>
+                                    <th>Nama Paket</th>
                                     <th>Tanggal Awal</th>
                                     <th>Tanggal Akhir</th>
                                     <th>Local</th>

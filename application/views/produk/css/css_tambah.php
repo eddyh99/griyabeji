@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="<?=base_url()?>assets/bootstrap/plugins/select2/css/select2.min.css">
 <style>
-        .select2-selection__choice__remove {
+    .select2-selection__choice__remove {
         display: none !important;
     }
     label {

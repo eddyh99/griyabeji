@@ -9,7 +9,7 @@
 				"order": [[ 0, "asc" ]],
 				"scrollX": true,
 				"ajax": {
-						"url": "<?=base_url()?>items/ListHargaItemsData",
+						"url": "<?=base_url()?>paket/ListHargaItemsData",
 						"type": "POST",
 						"dataSrc":function (data){
 								return data;							

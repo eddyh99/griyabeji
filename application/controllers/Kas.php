@@ -1,130 +1,118 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Items extends CI_Controller {
+class Kas extends CI_Controller {
 
 	public function __construct() {
 	   parent::__construct();
         if (!isset($this->session->userdata['logged_status'])) {
             redirect(base_url());
         }
-	    $this->load->model('admin/mdl_items',"items");
+	//    $this->load->model('admin/GuideModel');
     }
-	
-	// ===== START ITEMS =====
-
+    
     public function index() {
 
         $data	= array(
-            'title'		 => NAMETITLE . '- Data Items',
-            'content'	 => 'items/index',
-            'extra'		 => 'items/js/js_index',
-			'mn_setting' => 'active',
-			'colmas'	 => 'show',
-			'colset'	 => 'collapse in',
-			'collap'	 => 'collapse',
-			'side4'		 => 'active',
-			'breadcrumb' => 'Master / Items'
+            'title'		 => 'Kas',
+            'content'	 => 'kas/index',
+            'extra'		 => 'kas/js/js_index',
+			'side12'	 => 'active',
+			'breadcrumb' => '/ Kas'
 		);
 		$this->load->view('layout/wrapper', $data);
 	}
 	
 	public function Listdata(){
-	 	$result=$this->items->listitems();
-		// $result = array (
-		// 	array(
-        //         "id"            => "1",
-		// 		"namaitem"		=> "Dupa Wangi",
-		// 		"local"			=> "1000000",
-		// 		"domestik"		=> "2000000",
-		// 		"internasional"	=> "3000000",
-		// 	),
-		// 	array(
-        //         "id"            => "2",
-		// 		"namaitem"		=> "Gelang Tridatu",
-		// 		"local"			=> "1000000",
-		// 		"domestik"		=> "2000000",
-		// 		"internasional"	=> "3000000",
-		// 	),
-		// 	array(
-        //         "id"            => "3",
-		// 		"namaitem"		=> "Canang Sari",
-		// 		"local"			=> "1000000",
-		// 		"domestik"		=> "2000000",
-		// 		"internasional"	=> "3000000",
-		// 	),
-		// 	array(
-        //         "id"            => "4",
-		// 		"namaitem"		=> "Toples Tirta",
-		// 		"local"			=> "1000000",
-		// 		"domestik"		=> "2000000",
-		// 		"internasional"	=> "3000000",
-		// 	),
-		// 	array(
-        //         "id"            => "5",
-		// 		"namaitem"		=> "Dupa Cempaka",
-		// 		"local"			=> "1000000",
-		// 		"domestik"		=> "2000000",
-		// 		"internasional"	=> "3000000",
-		// 	),
-		// );
+		// $result=$this->PenggunaModel->listpengguna();
+		$result = array (
+			array(
+                "id"            => "1",
+				"tanggal"		=> "14 May 2023",
+				"nominal"		=> "100000",
+				"keterangan"	=> "ini kas",
+				"store"			=> "Warkop",
+			),
+			array(
+                "id"            => "2",
+				"tanggal"		=> "15 May 2023",
+				"nominal"		=> "200000",
+				"keterangan"	=> "ini kas",
+				"store"			=> "parkir",
+			),
+			array(
+                "id"            => "3",
+				"tanggal"		=> "16 May 2023",
+				"nominal"		=> "300000",
+				"keterangan"	=> "ini kas",
+				"store"			=> "Warung Herbal",
+			),
+		);
 		echo json_encode($result);
 	}
 
     public function tambah(){
 
+		$stores = array(
+			array(
+				"id"			=> "1",
+				"storename"		=> "parkir"
+			),
+			array(
+				"id"			=> "2",
+				"storename"		=> "Warkop"
+			),
+			array(
+				"id"			=> "3",
+				"storename"		=> "Warung Kerohanian"
+			),
+		);
+
         $data = array(
-            'title'		 => NAMETITLE . ' - Tambah Data Items',
-            'content'	 => 'items/tambah',
-			'colmas'	 => 'collapse',
-			'colset'	 => 'collapse in',
-			'collap'	 => 'collapse',
-			'side4'		 => 'active',
-			'breadcrumb' => 'Master / Items / Tambah Data'
+            'title'		 => 'Tambah Data Pengayah',
+            'content'	 => 'kas/tambah',
+            'extra'		 => 'kas/js/js_tambah',
+			'side12'	 => 'active',
+			'breadcrumb' => '/ Kas / Tambah Data',
+			'stores' 	 => $stores
 		);
 		$this->load->view('layout/wrapper', $data);
     }
 
 	public function AddData(){
 
-		$this->form_validation->set_rules('namaitems', 'Nama Items', 'trim|required');
-		$this->form_validation->set_rules('hpp', 'HPP', 'trim|required|greater_than[0]');
-		$this->form_validation->set_rules('local', 'Harga Local', 'trim|required');
-		$this->form_validation->set_rules('domestik', 'Harga Domestik', 'trim|required');
-		$this->form_validation->set_rules('internasional', 'Harga Internasional', 'trim|required');
+		$this->form_validation->set_rules('tanggal', 'Tanggal', 'trim|required');
+		$this->form_validation->set_rules('storename', 'Nama Store', 'trim|required');
+		$this->form_validation->set_rules('jenis', 'Jenis Kas', 'trim|required');
+		$this->form_validation->set_rules('nominal', 'Nominal', 'trim|required');
+		$this->form_validation->set_rules('keterangan', 'Keterangan', 'trim|required');
 
 		if ($this->form_validation->run() == FALSE){
 		    $this->session->set_flashdata('message', $this->message->error_msg(validation_errors()));
-		    redirect(base_url()."items/tambah");
+		    redirect(base_url()."kas/tambah");
             return;
 		}
 		
-		$namaitems	    = $this->security->xss_clean($this->input->post('namaitems'));
-		$lokal	    	= $this->security->xss_clean($this->input->post('local'));
-		$domestik	    = $this->security->xss_clean($this->input->post('domestik'));
-		$internasional	= $this->security->xss_clean($this->input->post('internasional'));
-		$hpp	    	= $this->security->xss_clean($this->input->post('hpp'));
+		$tanggal	    = $this->security->xss_clean($this->input->post('tanggal'));
+		$storename	    = $this->security->xss_clean($this->input->post('storename'));
+		$jenis	    	= $this->security->xss_clean($this->input->post('jenis'));
+		$nominal	    = $this->security->xss_clean($this->input->post('nominal'));
+		$keterangan		= $this->security->xss_clean($this->input->post('keterangan'));
 
         
         $data		= array(
-            "namaitem"     	=> $namaitems,
-			"userid"		=> $_SESSION["logged_status"]["username"]
+            "tanggal"     	=> $tanggal,
+            "storename"     => $storename,
+			"jenis"			=> $jenis,
+			"nominal"		=> $nominal,
+			"keterangan" 	=> $keterangan
         );
-
-		$harga		= array(
-			"hpp"			=> $hpp,
-			"tanggal"		=> date("Y-m-d H:i:s"),
-			"lokal"			=> $lokal,
-			"domestik"		=> $domestik,
-			"internasional" => $internasional,
-			"userid"		=> $_SESSION["logged_status"]["username"]
-		);
 
 		// print_r(json_encode($data));
 		// die;
 
 		// Checking Success and Error AddData
-		$result		= $this->items->insertData($data,$harga);
+		// $result		= $this->PenggunaModel->insertData($data);
 
 		// untuk sukses
 		// $result["code"]=0;
@@ -137,30 +125,29 @@ class Items extends CI_Controller {
 		
 		if ($result["code"]==0) {
 		    $this->session->set_flashdata('message', $this->message->success_msg());
-		    redirect(base_url()."items");
+		    redirect(base_url()."kas");
             return;
 		}else{
 		    $this->session->set_flashdata('message', $this->message->error_msg($result["message"]));
-		    redirect(base_url()."items/tambah");
+		    redirect(base_url()."kas/tambah");
             return;
 		}
 	}
 
-    public function ubah($id){
+    public function ubah(){
         
 		// Menampilkan Hasil Single Data ketika di click username tertentu sebagai parameter
-		$id	= base64_decode($this->security->xss_clean($id));
-		$result		= $this->items->getItems($id);
+		// $result		= $this->PenggunaModel->getUser($username);
 
-		// $result = array (
-		// 	"namaitems"	    => "Dupa Wangi",
-		// 	"local"			=> "1000000",
-		// 	"domestik"		=> "2000000",
-		// 	"internasional"	=> "3000000",
-		// );
+		$result = array (
+			"namaitems"	    => "Dupa Wangi",
+			"local"			=> "1000000",
+			"domestik"		=> "2000000",
+			"internasional"	=> "3000000",
+		);
 
         $data		= array(
-            'title'		 => NAMETITLE . ' - Ubah Data Items',
+            'title'		 => 'Ubah Data Pengguna',
             'content'    => 'items/ubah',
             'detail'     => $result,
 			'mn_master'	 => 'active',
@@ -168,14 +155,13 @@ class Items extends CI_Controller {
 			'colset'	 => 'collapse in',
 			'collap'	 => 'collapse',
 			'side4'		 => 'active',
-			'breadcrumb' => 'Master / Items / Ubah Data'
+			'breadcrumb' => '/ Setup / Items / Ubah Data'
 		);
 		$this->load->view('layout/wrapper', $data);
     }
 
 	public function updateData(){
 		$this->form_validation->set_rules('namaitems', 'Nama Items', 'trim|required');
-		$this->form_validation->set_rules('hpp', 'HPP', 'trim|required|greater_than[0]');
 		$this->form_validation->set_rules('local', 'Harga Local', 'trim|required');
 		$this->form_validation->set_rules('domestik', 'Harga Domestik', 'trim|required');
 		$this->form_validation->set_rules('internasional', 'Harga Internasional', 'trim|required');
@@ -189,36 +175,22 @@ class Items extends CI_Controller {
 		}
 
 		$namaitems	= $this->security->xss_clean($this->input->post('namaitems'));
-		$lokal	    	= $this->security->xss_clean($this->input->post('local'));
+		$local	    	= $this->security->xss_clean($this->input->post('local'));
 		$domestik	    = $this->security->xss_clean($this->input->post('domestik'));
 		$internasional	= $this->security->xss_clean($this->input->post('internasional'));
-		$hpp	    	= $this->security->xss_clean($this->input->post('hpp'));
-		$id	    		= $this->security->xss_clean($this->input->post('id'));
 
-        
-        $data		= array(
-            "namaitem"     	=> $namaitems,
-			"userid"		=> $_SESSION["logged_status"]["username"],
-			"update_at"		=> date("Y-m-d H:i:s")
+        $data	= array(
+            "namaitems"      	=> $namaitems,
+            "local"      		=> $local,
+            "domestik"     	 	=> $domestik,
+            "internasional"     => $internasional,
         );
-
-		$harga		= array(
-			"id_items"		=> $id,
-			"tanggal"		=> date("Y-m-d H:i:s"),
-			"hpp"			=> $hpp,
-			"lokal"			=> $lokal,
-			"domestik"		=> $domestik,
-			"internasional" => $internasional,
-			"userid"		=> $_SESSION["logged_status"]["username"]
-		);
-
 
 		// print_r(json_encode($data));
 		// die;
 
 
-		$result		= $this->items->updateData($data,$harga,$id);
-
+		// $result		= $this->PenggunaModel->updateData($data,$username);
 		//untuk cek sukses atau gagal dengan cara menambahkan array result
 
 		// untuk sukses
@@ -241,11 +213,11 @@ class Items extends CI_Controller {
 
 	public function DelData($id){
         $data		= array(
-            "status"  => 'yes',
+            "status"  => 1,
         );
 
 		$id	= base64_decode($this->security->xss_clean($id));
-		$result		= $this->items->hapusData($data,$id);
+		// $result		= $this->PenggunaModel->hapusData($data,$username);
 
 		// untuk sukses
 		// $result["code"]=0;
@@ -264,13 +236,9 @@ class Items extends CI_Controller {
 
 	}
 
-	// ===== END ITEMS =====
-
-	// ===== START HARGA ITEMS =====
-
 	public function hargaitems(){
 		$data	= array(
-            'title'		 => NAMETITLE . ' - Harga Items',
+            'title'		 => 'Data Pengguna',
             'content'	 => 'hargaitems/index',
             'extra'		 => 'hargaitems/js/js_index',
 			'mn_setting' => 'active',
@@ -288,8 +256,7 @@ class Items extends CI_Controller {
 			array(
                 "id"            => "1",
 				"namaitem"		=> "Dupa Wangi",
-				"awal"			=> "11 January 2023",
-				"akhir"			=> "12 January 2023",
+				"periode"		=> "11 January 2023 - 12 January 2023",
 				"local"			=> "1000000",
 				"domestik"		=> "2000000",
 				"internasional"	=> "3000000",
@@ -297,8 +264,7 @@ class Items extends CI_Controller {
 			array(
                 "id"            => "2",
 				"namaitem"		=> "Gelang Tridatu",
-				"awal"			=> "11 January 2023",
-				"akhir"			=> "12 January 2023",
+				"periode"		=> "11 January 2023 - 12 January 2023",
 				"local"			=> "1000000",
 				"domestik"		=> "2000000",
 				"internasional"	=> "3000000",
@@ -306,8 +272,23 @@ class Items extends CI_Controller {
 			array(
                 "id"            => "3",
 				"namaitem"		=> "Canang Sari",
-				"awal"			=> "11 January 2023",
-				"akhir"			=> "12 January 2023",
+				"periode"		=> "11 January 2023 - 12 January 2023",
+				"local"			=> "1000000",
+				"domestik"		=> "2000000",
+				"internasional"	=> "3000000",
+			),
+			array(
+                "id"            => "4",
+				"namaitem"		=> "Toples Tirta",
+				"periode"		=> "11 January 2023 - 12 January 2023",
+				"local"			=> "1000000",
+				"domestik"		=> "2000000",
+				"internasional"	=> "3000000",
+			),
+			array(
+                "id"            => "5",
+				"namaitem"		=> "Dupa Cempaka",
+				"periode"		=> "11 January 2023 - 12 January 2023",
 				"local"			=> "1000000",
 				"domestik"		=> "2000000",
 				"internasional"	=> "3000000",
@@ -335,7 +316,7 @@ class Items extends CI_Controller {
 
 		
 		$data	= array(
-            'title'		 => 'Harga Items',
+            'title'		 => 'Data Pengguna',
             'content'	 => 'hargaitems/tambah',
             'extra'		 => 'hargaitems/js/js_tambah',
 			'mn_setting' => 'active',
@@ -369,6 +350,9 @@ class Items extends CI_Controller {
 		$tanggal_awal       = date_format(date_create($tanggal[0]),"Y-m-d");
 		$tanggal_akhir      = date_format(date_create($tanggal[1]),"Y-m-d");
 
+		// print_r($tanggal_awal);
+		// print_r($tanggal_akhir);
+		// die;
 
 
         $data		= array(
@@ -376,8 +360,7 @@ class Items extends CI_Controller {
 			"local"			=> $local,
 			"domestik"		=> $domestik,
 			"internasional" => $internasional,
-			"tanggal_awal" 	=> $tanggal_awal,
-			"tanggal_akhir" => $tanggal_akhir
+			"tanggal" 			=> $tanggal
         );
 
 		// print_r(json_encode($data));
@@ -405,7 +388,5 @@ class Items extends CI_Controller {
             return;
 		}
 	}
-
-	// ===== END HARGA ITEMS =====
 
 }

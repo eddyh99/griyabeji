@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Mdl_pengguna extends CI_Model{
 	public function Listpengguna(){		
-		$sql="SELECT username,nama,role FROM ".PENGGUNA." WHERE status='no' AND role!='admin'";
+		$sql="SELECT username,nama,role FROM " .PENGGUNA. " WHERE status='no' AND role!='admin'";
 		$query=$this->db->query($sql);
 		if ($query){
 			return $query->result_array();

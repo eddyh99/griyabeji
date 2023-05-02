@@ -12,16 +12,14 @@ class Produk extends CI_Controller {
 	    $this->load->model('admin/mdl_items','items');
     }
     
+	// ===== START PRODUK =====
+
     public function index() {
 
         $data	= array(
             'title'		 => NAMETITLE . ' - Data Produk',
             'content'	 => 'produk/index',
             'extra'		 => 'produk/js/js_index',
-			'mn_setting' => 'active',
-			'colmas'	 => 'collapse',
-			'colset'	 => 'collapse in',
-			'collap'	 => 'collapse',
 			'side5'		 => 'active',
 			'breadcrumb' => 'Master / Produk'
 		);
@@ -102,9 +100,6 @@ class Produk extends CI_Controller {
             'content'	 => 'produk/tambah',
 			'extra'	     => 'produk/js/js_tambah',
             'extracss'	 => 'produk/css/css_tambah',
-			'colmas'	 => 'collapse',
-			'colset'	 => 'collapse in',
-			'collap'	 => 'collapse',
 			'side5'		 => 'active',
 			'breadcrumb' => 'Master / Produk / Tambah Data',
 			'items'		 => $items,
@@ -225,16 +220,12 @@ class Produk extends CI_Controller {
 
 
         $data		= array(
-            'title'		 => NAMETITLE . ' - Ubah Data Pengguna',
+            'title'		 => 'Ubah Produk',
             'content'    => 'produk/ubah',
             'detail'     => $result,
 			'items'		 => $items,
 			'extra'	     => 'produk/js/js_tambah',
             'extracss'	 => 'produk/css/css_tambah',
-			'mn_master'	 => 'active',
-			'colmas'	 => 'collapse',
-			'colset'	 => 'collapse in',
-			'collap'	 => 'collapse',
 			'side5'		 => 'active',
 			'breadcrumb' => 'Master / Produk / Ubah Data'
 		);
@@ -322,5 +313,146 @@ class Produk extends CI_Controller {
 		}
 
 	}
+
+	// ===== END PRODUK =====
+
+	
+	// ===== START HARGA PRODUK =====
+
+	public function hargaproduk(){
+		$data	= array(
+            'title'		 => 'Harga Produk',
+            'content'	 => 'hargaproduk/index',
+            'extra'		 => 'hargaproduk/js/js_index',
+			'side9'		 => 'active',
+			'breadcrumb' => '/ Harga Produk'
+		);
+		$this->load->view('layout/wrapper', $data);
+	}
+
+	public function ListHargaItemsData(){
+		$result = array (
+			array(
+                "id"            => "1",
+				"namaitem"		=> "Palm Reading",
+				"awal"			=> "44 January 2023",
+				"akhir"			=> "12 January 2023",
+				"local"			=> "1000000",
+				"domestik"		=> "2000000",
+				"internasional"	=> "3000000",
+			),
+			array(
+                "id"            => "2",
+				"namaitem"		=> "Puri Cation",
+				"awal"			=> "11 January 2023",
+				"akhir"			=> "12 January 2023",
+				"local"			=> "1000000",
+				"domestik"		=> "2000000",
+				"internasional"	=> "3000000",
+			),
+			array(
+                "id"            => "3",
+				"namaitem"		=> "Healing",
+				"awal"			=> "11 January 2023",
+				"akhir"			=> "12 January 2023",
+				"local"			=> "1000000",
+				"domestik"		=> "2000000",
+				"internasional"	=> "3000000",
+			),
+		);
+		echo json_encode($result);
+	}
+
+	public function tambahharga(){
+
+		$produks = array(
+			array(
+				"id"			=> "1",
+				"namaproduk"	=> "Purification Ceremony"
+			),
+			array(
+				"id"			=> "2",
+				"namaproduk"	=> "Healing Therapy"
+			),
+			array(
+				"id"			=> "3",
+				"namaproduk"	=> "Palm Reading"
+			),
+		);
+
+		
+		$data	= array(
+            'title'		 => 'Harga Produk',
+            'content'	 => 'hargaproduk/tambah',
+            'extra'		 => 'hargaproduk/js/js_tambah',
+			'mn_setting' => 'active',
+			'side9'		 => 'active',
+			'produks'	 => $produks,
+			'breadcrumb' => '/ Harga Produk / Tambah'
+		);
+		$this->load->view('layout/wrapper', $data);
+	}
+
+	public function AddHargaData(){
+
+		$this->form_validation->set_rules('namaproduk', 'Nama Produk', 'trim|required');
+		$this->form_validation->set_rules('local', 'Harga Local', 'trim|required');
+		$this->form_validation->set_rules('domestik', 'Harga Domestik', 'trim|required');
+		$this->form_validation->set_rules('internasional', 'Harga Internasional', 'trim|required');
+		$this->form_validation->set_rules('tanggal', 'Tanggal', 'trim|required');
+
+		if ($this->form_validation->run() == FALSE){
+		    $this->session->set_flashdata('message', $this->message->error_msg(validation_errors()));
+		    redirect(base_url()."produk/tambahharga");
+            return;
+		}
+		
+		$namaproduk	    = $this->security->xss_clean($this->input->post('namaproduk'));
+		$local	    	= $this->security->xss_clean($this->input->post('local'));
+		$domestik	    = $this->security->xss_clean($this->input->post('domestik'));
+		$internasional	= $this->security->xss_clean($this->input->post('internasional'));
+		$tanggal		= explode("-",$this->security->xss_clean($this->input->post('tanggal')));
+
+		$tanggal_awal       = date_format(date_create($tanggal[0]),"Y-m-d");
+		$tanggal_akhir      = date_format(date_create($tanggal[1]),"Y-m-d");
+
+
+
+        $data		= array(
+            "namaproduk"     => $namaproduk,
+			"local"			=> $local,
+			"domestik"		=> $domestik,
+			"internasional" => $internasional,
+			"tanggal_awal" 	=> $tanggal_awal,
+			"tanggal_akhir" => $tanggal_akhir
+        );
+
+		// print_r(json_encode($data));
+		// die;
+
+		// Checking Success and Error AddData
+		// $result		= $this->PenggunaModel->insertData($data);
+
+		// untuk sukses
+		// $result["code"]=0;
+
+		//untuk gagal
+		// $result["code"]=5011;
+		// $result["message"]="Data gagal di inputkan";
+
+				
+		
+		if ($result["code"]==0) {
+		    $this->session->set_flashdata('message', $this->message->success_msg());
+		    redirect(base_url()."produk/hargaproduk");
+            return;
+		}else{
+		    $this->session->set_flashdata('message', $this->message->error_msg($result["message"]));
+		    redirect(base_url()."produk/tambahharga");
+            return;
+		}
+	}
+
+	// ===== END HARGA PRODUK =====
 
 }

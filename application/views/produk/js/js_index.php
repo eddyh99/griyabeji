@@ -67,6 +67,7 @@
 					
 				]
 		});
+
 		// Add event listener for opening and closing details
 		$('#table_data tbody').on('click', 'td.details-control', function () {
 			var tr = $(this).closest('tr');
