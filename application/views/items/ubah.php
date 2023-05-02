@@ -15,19 +15,27 @@
                     <?php } ?>
                     <div class="card-content">
                         <form id="form_input" method="post" action="<?=base_url()?>items/updateData">
+                            <input type="hidden" name="id" value="<?=$detail["id"]?>">
                             <div class="col-lg-6">
                                 <div class="card-body">
                                     <div class="form-group row my-3">
                                         <label class="col-sm-3 col-form-label">Nama Items</label>
                                         <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="namaitems" name="namaitems" maxlength="35" value="<?=$detail['namaitems']?>">
+                                        <input type="text" class="form-control" id="namaitems" name="namaitems" maxlength="35" value="<?=$detail['namaitem']?>">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row my-5">
+                                        <label class="col-sm-3 col-form-label">HPP</label>
+                                        <div class="col-sm-7 d-flex align-items-center">
+                                            <span class="me-3">Rp. </span>
+                                            <input type="text" class="form-control rupiah" id="hpp" name="hpp" maxlength="35" value="<?= $detail['hpp'];?>">
                                         </div>
                                     </div>
                                     <div class="form-group row my-5">
                                         <label class="col-sm-3 col-form-label">Harga Lokal</label>
                                         <div class="col-sm-7 d-flex align-items-center">
                                             <span class="me-3">Rp. </span>
-                                            <input type="text" class="form-control rupiah" id="local" name="local" maxlength="35" value="<?= $detail['local'];?>">
+                                            <input type="text" class="form-control rupiah" id="local" name="local" maxlength="35" value="<?= $detail['lokal'];?>">
                                         </div>
                                     </div>
                                     <div class="form-group row my-5">

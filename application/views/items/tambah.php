@@ -24,6 +24,13 @@
                                         </div>
                                     </div>
                                     <div class="form-group row my-5">
+                                        <label class="col-sm-3 col-form-label">HPP</label>
+                                        <div class="col-sm-7 d-flex align-items-center">
+                                            <span class="me-3">Rp. </span>
+                                            <input type="text" class="form-control rupiah" id="hpp" name="hpp" maxlength="35" autocomplete="off">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row my-5">
                                         <label class="col-sm-3 col-form-label">Harga Lokal</label>
                                         <div class="col-sm-7 d-flex align-items-center">
                                             <span class="me-3">Rp. </span>

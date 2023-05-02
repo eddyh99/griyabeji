@@ -61,12 +61,13 @@
 						"defaultContent": '<i class="fas fa-chevron-down text-primary"></i>'
 					},
 					{ "data": "namaproduk"},
-					{ "data": "local"},
-					{ "data": "domestik"},
-					{ "data": "internasional"},
+					{ "data": "lokal", render: $.fn.dataTable.render.number(',', '.',0, '')},
+					{ "data": "domestik", render: $.fn.dataTable.render.number(',', '.',0, '')},
+					{ "data": "internasional", render: $.fn.dataTable.render.number(',', '.',0, '')},
 					
 				]
 		});
+
 		// Add event listener for opening and closing details
 		$('#table_data tbody').on('click', 'td.details-control', function () {
 			var tr = $(this).closest('tr');

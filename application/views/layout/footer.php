@@ -61,7 +61,6 @@
 		<!--begin::Vendors Javascript(used for this page only)-->
 		<script src="<?= base_url()?>assets/plugins/custom/fullcalendar/fullcalendar.bundle.js"></script>
 		<script src="<?= base_url()?>assets/plugins/custom/datatables/datatables.bundle.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/0.9.0/jquery.mask.min.js"></script>
 		<!--end::Vendors Javascript-->
 
         <?php 

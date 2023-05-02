@@ -8,94 +8,100 @@ class Produk extends CI_Controller {
         if (!isset($this->session->userdata['logged_status'])) {
             redirect(base_url());
         }
-	//    $this->load->model('admin/GuideModel');
+	    $this->load->model('admin/mdl_produk','produk');
+	    $this->load->model('admin/mdl_items','items');
     }
     
+	// ===== START PRODUK =====
+
     public function index() {
 
         $data	= array(
-            'title'		 => 'Data Pengguna',
+            'title'		 => NAMETITLE . ' - Data Produk',
             'content'	 => 'produk/index',
             'extra'		 => 'produk/js/js_index',
-			'mn_setting' => 'active',
-			'colmas'	 => 'collapse',
-			'colset'	 => 'collapse in',
-			'collap'	 => 'collapse',
 			'side5'		 => 'active',
-			'breadcrumb' => '/ Master / Produk'
+			'breadcrumb' => 'Master / Produk'
 		);
 		$this->load->view('layout/wrapper', $data);
 	}
 	
 	public function Listdata(){
-		// $result=$this->PenggunaModel->listpengguna();
-		$result = array (
-			array(
-                "id"            => "1",
-				"namaproduk"	=> "Purification Ceremony",
-				"local"			=> "1000000",
-				"domestik"		=> "2000000",
-				"internasional"	=> "3000000",
-				"namaitems"		=> ["Dupa", "Gelang", "Tirta", "Canang Sari", "Air", "Tas"]
-			),
-			array(
-                "id"            => "2",
-				"namaproduk"	=> "Healing Therapy",
-				"local"			=> "1000000",
-				"domestik"		=> "2000000",
-				"internasional"	=> "3000000",
-				"namaitems"		=> "gelang"
-			),
-			array(
-                "id"            => "3",
-				"namaproduk"	=> "Palm Reading",
-				"local"			=> "1000000",
-				"domestik"		=> "2000000",
-				"internasional"	=> "3000000",
-				"namaitems"		=> "dupa"
-			),
-		);
-		echo json_encode($result);
+		$result=$this->produk->listproduk();
+		$produk=$result;
+		$i=0;
+		foreach ($result as $dt){
+			$produk[$i]["namaitems"]=array();
+			$items=$this->produk->itemproduk($dt["id"]);
+			foreach ($items as $itm){
+				array_push($produk[$i]["namaitems"],$itm["namaitem"]);
+			}
+			$i++;
+		}
+		// $result = array (
+		// 	array(
+        //         "id"            => "1",
+		// 		"namaproduk"	=> "Purification Ceremony",
+		// 		"local"			=> "1000000",
+		// 		"domestik"		=> "2000000",
+		// 		"internasional"	=> "3000000",
+		// 		"namaitems"		=> ["Dupa", "Gelang", "Tirta", "Canang Sari", "Air", "Tas"]
+		// 	),
+		// 	array(
+        //         "id"            => "2",
+		// 		"namaproduk"	=> "Healing Therapy",
+		// 		"local"			=> "1000000",
+		// 		"domestik"		=> "2000000",
+		// 		"internasional"	=> "3000000",
+		// 		"namaitems"		=> "gelang"
+		// 	),
+		// 	array(
+        //         "id"            => "3",
+		// 		"namaproduk"	=> "Palm Reading",
+		// 		"local"			=> "1000000",
+		// 		"domestik"		=> "2000000",
+		// 		"internasional"	=> "3000000",
+		// 		"namaitems"		=> "dupa"
+		// 	),
+		// );
+		echo json_encode($produk);
 	}
 
     public function tambah(){
-
-		$items = array (
-			array(
-                "id"            => "1",
-				"namaitem"		=> "Dupa Wangi",
-			),
-			array(
-                "id"            => "2",
-				"namaitem"		=> "Gelang Tridatu",
-			),
-			array(
-                "id"            => "3",
-				"namaitem"		=> "Canang Sari",
-			),
-			array(
-                "id"            => "4",
-				"namaitem"		=> "Toples Tirta",
-			),
-			array(
-                "id"            => "5",
-				"namaitem"		=> "Dupa Cempaka",
-			),
-		);
+		$items=$this->items->listitems();
+		// $items = array (
+		// 	array(
+        //         "id"            => "1",
+		// 		"namaitem"		=> "Dupa Wangi",
+		// 	),
+		// 	array(
+        //         "id"            => "2",
+		// 		"namaitem"		=> "Gelang Tridatu",
+		// 	),
+		// 	array(
+        //         "id"            => "3",
+		// 		"namaitem"		=> "Canang Sari",
+		// 	),
+		// 	array(
+        //         "id"            => "4",
+		// 		"namaitem"		=> "Toples Tirta",
+		// 	),
+		// 	array(
+        //         "id"            => "5",
+		// 		"namaitem"		=> "Dupa Cempaka",
+		// 	),
+		// );
 
 
 
 
         $data = array(
-            'title'		 => 'Tambah Data Pengayah',
+            'title'		 => NAMETITLE . ' - Tambah Data Produk',
             'content'	 => 'produk/tambah',
 			'extra'	     => 'produk/js/js_tambah',
             'extracss'	 => 'produk/css/css_tambah',
-			'colmas'	 => 'collapse',
-			'colset'	 => 'collapse in',
-			'collap'	 => 'collapse',
 			'side5'		 => 'active',
-			'breadcrumb' => '/ Master / Produk / Tambah Data',
+			'breadcrumb' => 'Master / Produk / Tambah Data',
 			'items'		 => $items,
 		);
 		$this->load->view('layout/wrapper', $data);
@@ -115,25 +121,29 @@ class Produk extends CI_Controller {
 		}
 		
 		$namaproduk	    = $this->security->xss_clean($this->input->post('namaproduk'));
-		$local	    	= $this->security->xss_clean($this->input->post('local'));
+		$lokal	    	= $this->security->xss_clean($this->input->post('local'));
 		$domestik	    = $this->security->xss_clean($this->input->post('domestik'));
 		$internasional	= $this->security->xss_clean($this->input->post('internasional'));
-		$id_items	    = $this->security->xss_clean($this->input->post('id_items'));
+		$items	    	= $this->security->xss_clean($this->input->post('id_items'));
 
-        
-        $data		= array(
-            "namaproduk"      	=> $namaproduk,
-            "local"      		=> $local,
-            "domestik"      	=> $domestik,
-            "internasional"     => $internasional,
-            "id_items"      	=> $id_items,
+		$data		= array(
+            "namaproduk"    => $namaproduk,
+			"userid"		=> $_SESSION["logged_status"]["username"]
         );
+
+		$harga		= array(
+			"tanggal"		=> date("Y-m-d H:i:s"),
+			"lokal"			=> $lokal,
+			"domestik"		=> $domestik,
+			"internasional" => $internasional,
+			"userid"		=> $_SESSION["logged_status"]["username"]
+		);
 
 		// print_r(json_encode($data));
 		// die;
 
 		// Checking Success and Error AddData
-		// $result		= $this->PenggunaModel->insertData($data);
+		 $result		= $this->produk->insertData($data,$harga,$items);
 
 		// untuk sukses
 		// $result["code"]=0;
@@ -155,41 +165,53 @@ class Produk extends CI_Controller {
 		}
 	}
 
-    public function ubah(){
+    public function ubah($id){
         
 		// Menampilkan Hasil Single Data ketika di click username tertentu sebagai parameter
-		// $result		= $this->PenggunaModel->getUser($username);
+		$id	= base64_decode($this->security->xss_clean($id));
+		$result		= $this->produk->getProduk($id);
+		$items		= $this->produk->itemproduk($id);
 
-		$result = array (
-			"namaproduk"	=> "PURIFICATION CEREMONY",
-			"local"			=> "1000000",
-			"domestik"		=> "2000000",
-			"internasional"	=> "3000000",
-			"id_items"		=> ["1", "2", "2"]
-		);
+		// $produk		= $result;
+		$result["id_items"]=array();
+		foreach ($items as $itm){
+			array_push($result["id_items"],$itm["id_items"]);
+		}
+		//items ini belum muncul sesuai dengan yang id items dari produk
+		
+		// $result = array (
+		// 	"namaproduk"	=> "PURIFICATION CEREMONY",
+		// 	"local"			=> "1000000",
+		// 	"domestik"		=> "2000000",
+		// 	"internasional"	=> "3000000",
+		// 	"id_items"		=> ["1", "2", "2"]
+		// );
 
-		$items = array (
-			array(
-                "id"            => "1",
-				"namaitem"		=> "Dupa Wangi",
-			),
-			array(
-                "id"            => "2",
-				"namaitem"		=> "Gelang Tridatu",
-			),
-			array(
-                "id"            => "3",
-				"namaitem"		=> "Canang Sari",
-			),
-			array(
-                "id"            => "4",
-				"namaitem"		=> "Toples Tirta",
-			),
-			array(
-                "id"            => "5",
-				"namaitem"		=> "Dupa Cempaka",
-			),
-		);
+		$items = $this->items->listitems();
+
+
+		// array (
+		// 	array(
+        //         "id"            => "1",
+		// 		"namaitem"		=> "Dupa Wangi",
+		// 	),
+		// 	array(
+        //         "id"            => "2",
+		// 		"namaitem"		=> "Gelang Tridatu",
+		// 	),
+		// 	array(
+        //         "id"            => "3",
+		// 		"namaitem"		=> "Canang Sari",
+		// 	),
+		// 	array(
+        //         "id"            => "4",
+		// 		"namaitem"		=> "Toples Tirta",
+		// 	),
+		// 	array(
+        //         "id"            => "5",
+		// 		"namaitem"		=> "Dupa Cempaka",
+		// 	),
+		// );
 
 
 		// print_r(json_encode($result));
@@ -198,18 +220,14 @@ class Produk extends CI_Controller {
 
 
         $data		= array(
-            'title'		 => 'Ubah Data Pengguna',
+            'title'		 => 'Ubah Produk',
             'content'    => 'produk/ubah',
             'detail'     => $result,
 			'items'		 => $items,
 			'extra'	     => 'produk/js/js_tambah',
             'extracss'	 => 'produk/css/css_tambah',
-			'mn_master'	 => 'active',
-			'colmas'	 => 'collapse',
-			'colset'	 => 'collapse in',
-			'collap'	 => 'collapse',
 			'side5'		 => 'active',
-			'breadcrumb' => '/ Setup / Produk / Ubah Data'
+			'breadcrumb' => 'Master / Produk / Ubah Data'
 		);
 		$this->load->view('layout/wrapper', $data);
     }
@@ -221,8 +239,6 @@ class Produk extends CI_Controller {
 		$this->form_validation->set_rules('internasional', 'Harga Internasional', 'trim|required');
 		$this->form_validation->set_rules('id_items[]', 'Nama Items', 'trim|required');
 
-		$id	= $this->security->xss_clean($this->input->post('id'));
-
 		if ($this->form_validation->run() == FALSE){
 		    $this->session->set_flashdata('message', $this->message->error_msg(validation_errors()));
 		    redirect(base_url()."produk/ubah/".base64_encode($id));
@@ -230,23 +246,29 @@ class Produk extends CI_Controller {
 		}
 
 		$namaproduk	    = $this->security->xss_clean($this->input->post('namaproduk'));
-		$local	    	= $this->security->xss_clean($this->input->post('local'));
+		$lokal	    	= $this->security->xss_clean($this->input->post('local'));
 		$domestik	    = $this->security->xss_clean($this->input->post('domestik'));
 		$internasional	= $this->security->xss_clean($this->input->post('internasional'));
 		$id_items	    = $this->security->xss_clean($this->input->post('id_items'));
-
+		$id			    = $this->security->xss_clean($this->input->post('id'));
         
         $data		= array(
-            "namaproduk"      	=> $namaproduk,
-            "local"      		=> $local,
-            "domestik"      	=> $domestik,
-            "internasional"     => $internasional,
-            "id_items"      	=> $id_items,
+            "namaproduk"    => $namaproduk,
+			"userid"		=> $_SESSION["logged_status"]["username"]
         );
- 
+
+		$harga		= array(
+			"id_produk"		=> $id,
+			"tanggal"		=> date("Y-m-d H:i:s"),
+			"lokal"			=> $lokal,
+			"domestik"		=> $domestik,
+			"internasional" => $internasional,
+			"userid"		=> $_SESSION["logged_status"]["username"]
+		); 
 
 
-		// $result		= $this->PenggunaModel->updateData($data,$username);
+		$result		= $this->produk->updateData($data,$harga,$id_items,$id);
+
 		//untuk cek sukses atau gagal dengan cara menambahkan array result
 
 		// untuk sukses
@@ -269,11 +291,11 @@ class Produk extends CI_Controller {
 
 	public function DelData($id){
         $data		= array(
-            "status"  => 1,
+            "status"  => 'yes',
         );
 
 		$id	= base64_decode($this->security->xss_clean($id));
-		// $result		= $this->PenggunaModel->hapusData($data,$username);
+		$result		= $this->produk->hapusData($data,$id);
 
 		// untuk sukses
 		// $result["code"]=0;
@@ -291,5 +313,146 @@ class Produk extends CI_Controller {
 		}
 
 	}
+
+	// ===== END PRODUK =====
+
+	
+	// ===== START HARGA PRODUK =====
+
+	public function hargaproduk(){
+		$data	= array(
+            'title'		 => 'Harga Produk',
+            'content'	 => 'hargaproduk/index',
+            'extra'		 => 'hargaproduk/js/js_index',
+			'side9'		 => 'active',
+			'breadcrumb' => '/ Harga Produk'
+		);
+		$this->load->view('layout/wrapper', $data);
+	}
+
+	public function ListHargaItemsData(){
+		$result = array (
+			array(
+                "id"            => "1",
+				"namaitem"		=> "Palm Reading",
+				"awal"			=> "44 January 2023",
+				"akhir"			=> "12 January 2023",
+				"local"			=> "1000000",
+				"domestik"		=> "2000000",
+				"internasional"	=> "3000000",
+			),
+			array(
+                "id"            => "2",
+				"namaitem"		=> "Puri Cation",
+				"awal"			=> "11 January 2023",
+				"akhir"			=> "12 January 2023",
+				"local"			=> "1000000",
+				"domestik"		=> "2000000",
+				"internasional"	=> "3000000",
+			),
+			array(
+                "id"            => "3",
+				"namaitem"		=> "Healing",
+				"awal"			=> "11 January 2023",
+				"akhir"			=> "12 January 2023",
+				"local"			=> "1000000",
+				"domestik"		=> "2000000",
+				"internasional"	=> "3000000",
+			),
+		);
+		echo json_encode($result);
+	}
+
+	public function tambahharga(){
+
+		$produks = array(
+			array(
+				"id"			=> "1",
+				"namaproduk"	=> "Purification Ceremony"
+			),
+			array(
+				"id"			=> "2",
+				"namaproduk"	=> "Healing Therapy"
+			),
+			array(
+				"id"			=> "3",
+				"namaproduk"	=> "Palm Reading"
+			),
+		);
+
+		
+		$data	= array(
+            'title'		 => 'Harga Produk',
+            'content'	 => 'hargaproduk/tambah',
+            'extra'		 => 'hargaproduk/js/js_tambah',
+			'mn_setting' => 'active',
+			'side9'		 => 'active',
+			'produks'	 => $produks,
+			'breadcrumb' => '/ Harga Produk / Tambah'
+		);
+		$this->load->view('layout/wrapper', $data);
+	}
+
+	public function AddHargaData(){
+
+		$this->form_validation->set_rules('namaproduk', 'Nama Produk', 'trim|required');
+		$this->form_validation->set_rules('local', 'Harga Local', 'trim|required');
+		$this->form_validation->set_rules('domestik', 'Harga Domestik', 'trim|required');
+		$this->form_validation->set_rules('internasional', 'Harga Internasional', 'trim|required');
+		$this->form_validation->set_rules('tanggal', 'Tanggal', 'trim|required');
+
+		if ($this->form_validation->run() == FALSE){
+		    $this->session->set_flashdata('message', $this->message->error_msg(validation_errors()));
+		    redirect(base_url()."produk/tambahharga");
+            return;
+		}
+		
+		$namaproduk	    = $this->security->xss_clean($this->input->post('namaproduk'));
+		$local	    	= $this->security->xss_clean($this->input->post('local'));
+		$domestik	    = $this->security->xss_clean($this->input->post('domestik'));
+		$internasional	= $this->security->xss_clean($this->input->post('internasional'));
+		$tanggal		= explode("-",$this->security->xss_clean($this->input->post('tanggal')));
+
+		$tanggal_awal       = date_format(date_create($tanggal[0]),"Y-m-d");
+		$tanggal_akhir      = date_format(date_create($tanggal[1]),"Y-m-d");
+
+
+
+        $data		= array(
+            "namaproduk"     => $namaproduk,
+			"local"			=> $local,
+			"domestik"		=> $domestik,
+			"internasional" => $internasional,
+			"tanggal_awal" 	=> $tanggal_awal,
+			"tanggal_akhir" => $tanggal_akhir
+        );
+
+		// print_r(json_encode($data));
+		// die;
+
+		// Checking Success and Error AddData
+		// $result		= $this->PenggunaModel->insertData($data);
+
+		// untuk sukses
+		// $result["code"]=0;
+
+		//untuk gagal
+		// $result["code"]=5011;
+		// $result["message"]="Data gagal di inputkan";
+
+				
+		
+		if ($result["code"]==0) {
+		    $this->session->set_flashdata('message', $this->message->success_msg());
+		    redirect(base_url()."produk/hargaproduk");
+            return;
+		}else{
+		    $this->session->set_flashdata('message', $this->message->error_msg($result["message"]));
+		    redirect(base_url()."produk/tambahharga");
+            return;
+		}
+	}
+
+	// ===== END HARGA PRODUK =====
 
 }

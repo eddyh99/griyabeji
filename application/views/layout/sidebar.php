@@ -22,8 +22,8 @@
         <!-- ====== Start Mobile logo ====== -->
         <div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0">
             <a href="../../demo1/dist/index.html" class="d-lg-none">
-                <img alt="Logo" src="<?= base_url()?>assets/media/logos/default-small.svg" class="theme-light-show h-30px" />
-                <img alt="Logo" src="<?= base_url()?>assets/media/logos/default-small-dark.svg" class="theme-dark-show h-30px" />
+                <img alt="Logo" src="<?= base_url()?>assets/img/logo.webp" class="theme-light-show h-30px" />
+                <img alt="Logo" src="<?= base_url()?>assets/img/logo.webp" class="theme-dark-show h-30px" />
             </a>
         </div>
         <!-- ====== Start Mobile logo ====== -->
@@ -288,7 +288,7 @@
 
                     <!--====== Start Harga Items ===== -->
                     <div class="menu-item menu-accordion">
-                        <a class="menu-link " href="<?=base_url()?>items/hargaitems">
+                        <a class="menu-link <?=@$side8?>" href="<?=base_url()?>items/hargaitems">
                             <span class="menu-icon">
                                 <span class="svg-icon svg-icon-2">
                                     <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -305,7 +305,7 @@
 
                     <!--====== Start Harga Produk ===== -->
                     <div class="menu-item menu-accordion">
-                        <a class="menu-link " href="<?=base_url()?>hargaproduk">
+                        <a class="menu-link <?=@$side9?>" href="<?=base_url()?>produk/hargaproduk">
                             <span class="menu-icon">
                                 <span class="svg-icon svg-icon-2">
                                     <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -324,7 +324,7 @@
 
                     <!--====== Start Harga Paket ===== -->
                     <div class="menu-item menu-accordion">
-                        <a class="menu-link " href="<?=base_url()?>hargapaket">
+                        <a class="menu-link <?=@$side10?>" href="<?=base_url()?>paket/hargapaket">
                             <span class="menu-icon">
                                 <span class="svg-icon svg-icon-2">
                                     <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -341,7 +341,7 @@
 
                     <!--====== Start Penyesuaian ===== -->
                     <div class="menu-item menu-accordion">
-                        <a class="menu-link " href="<?=base_url()?>penyesuaian">
+                        <a class="menu-link <?=@$side11?>" href="<?=base_url()?>penyesuaian">
                             <span class="menu-icon">
                                 <span class="svg-icon svg-icon-2">
                                     <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -371,7 +371,7 @@
 
                     <!--====== Start Kas ===== -->
                     <div class="menu-item menu-accordion">
-                        <a class="menu-link " href="<?=base_url()?>kas">
+                        <a class="menu-link <?=@$side12?>" href="<?=base_url()?>kas">
                             <span class="menu-icon">
                                 <span class="svg-icon svg-icon-2">
                                     <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
