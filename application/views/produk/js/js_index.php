@@ -61,9 +61,9 @@
 						"defaultContent": '<i class="fas fa-chevron-down text-primary"></i>'
 					},
 					{ "data": "namaproduk"},
-					{ "data": "local"},
-					{ "data": "domestik"},
-					{ "data": "internasional"},
+					{ "data": "lokal", render: $.fn.dataTable.render.number(',', '.',0, '')},
+					{ "data": "domestik", render: $.fn.dataTable.render.number(',', '.',0, '')},
+					{ "data": "internasional", render: $.fn.dataTable.render.number(',', '.',0, '')},
 					
 				]
 		});

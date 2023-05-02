@@ -24,7 +24,7 @@
 		return '<div class="slider">'+
 			'<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
 				'<tr>'+
-					'<td>Nama Items :</td>'+
+					'<td>Nama Produk :</td>'+
 				'</tr>'+
 				'<tr>'+
 					'<td>'+d.namaproduk+'</td>'+
@@ -62,9 +62,9 @@
 						"defaultContent": '<i class="fas fa-chevron-down text-primary"></i>'
 					},
 					{ "data": "namapaket"},
-					{ "data": "local"},
-					{ "data": "domestik"},
-					{ "data": "internasional"},
+					{ "data": "lokal", render: $.fn.dataTable.render.number(',', '.',0, '')},
+					{ "data": "domestik", render: $.fn.dataTable.render.number(',', '.',0, '')},
+					{ "data": "internasional", render: $.fn.dataTable.render.number(',', '.',0, '')},
 					
 				]
 		});
