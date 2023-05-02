@@ -28,9 +28,9 @@ $(function(){
 			}],
             "columns": [
 				  { "data": "namaitem"},
-				  { "data": "local"},
-				  { "data": "domestik"},
-				  { "data": "internasional"},
+				  { "data": "local",render:$.fn.dataTable.render.number('.', ',', 0, '')},
+				  { "data": "domestik",render:$.fn.dataTable.render.number('.', ',', 0, '')},
+				  { "data": "internasional",render:$.fn.dataTable.render.number('.', ',', 0, '')},
 			]
 	});
 })

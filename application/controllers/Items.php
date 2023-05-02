@@ -10,7 +10,9 @@ class Items extends CI_Controller {
         }
 	//    $this->load->model('admin/GuideModel');
     }
-    
+	
+	// ===== START ITEMS =====
+
     public function index() {
 
         $data	= array(
@@ -33,7 +35,7 @@ class Items extends CI_Controller {
 			array(
                 "id"            => "1",
 				"namaitem"		=> "Dupa Wangi",
-				"local"			=> "1000000",
+				"local"			=> "13000",
 				"domestik"		=> "2000000",
 				"internasional"	=> "3000000",
 			),
@@ -237,27 +239,32 @@ class Items extends CI_Controller {
 
 	}
 
+	// ===== END ITEMS =====
+
+	// ===== START HARGA ITEMS =====
+
 	public function hargaitems(){
 		$data	= array(
-            'title'		 => 'Data Pengguna',
+            'title'		 => 'Harga Items',
             'content'	 => 'hargaitems/index',
             'extra'		 => 'hargaitems/js/js_index',
 			'mn_setting' => 'active',
 			'colmas'	 => 'show',
 			'colset'	 => 'collapse in',
 			'collap'	 => 'collapse',
-			'side4'		 => 'active',
+			'side8'		 => 'active',
 			'breadcrumb' => '/ Harga Items'
 		);
 		$this->load->view('layout/wrapper', $data);
 	}
 
-	public function ListHargaData(){
+	public function ListHargaItemsData(){
 		$result = array (
 			array(
                 "id"            => "1",
 				"namaitem"		=> "Dupa Wangi",
-				"periode"		=> "11 January 2023 - 12 January 2023",
+				"awal"			=> "11 January 2023",
+				"akhir"			=> "12 January 2023",
 				"local"			=> "1000000",
 				"domestik"		=> "2000000",
 				"internasional"	=> "3000000",
@@ -265,6 +272,8 @@ class Items extends CI_Controller {
 			array(
                 "id"            => "2",
 				"namaitem"		=> "Gelang Tridatu",
+				"awal"			=> "11 January 2023",
+				"akhir"			=> "12 January 2023",
 				"local"			=> "1000000",
 				"domestik"		=> "2000000",
 				"internasional"	=> "3000000",
@@ -272,20 +281,8 @@ class Items extends CI_Controller {
 			array(
                 "id"            => "3",
 				"namaitem"		=> "Canang Sari",
-				"local"			=> "1000000",
-				"domestik"		=> "2000000",
-				"internasional"	=> "3000000",
-			),
-			array(
-                "id"            => "4",
-				"namaitem"		=> "Toples Tirta",
-				"local"			=> "1000000",
-				"domestik"		=> "2000000",
-				"internasional"	=> "3000000",
-			),
-			array(
-                "id"            => "5",
-				"namaitem"		=> "Dupa Cempaka",
+				"awal"			=> "11 January 2023",
+				"akhir"			=> "12 January 2023",
 				"local"			=> "1000000",
 				"domestik"		=> "2000000",
 				"internasional"	=> "3000000",
@@ -293,5 +290,97 @@ class Items extends CI_Controller {
 		);
 		echo json_encode($result);
 	}
+
+	public function tambahharga(){
+
+		$items = array(
+			array(
+				"id"			=> "1",
+				"namaitem"		=> "Dupa Wangi"
+			),
+			array(
+				"id"			=> "2",
+				"namaitem"		=> "Canang Sari"
+			),
+			array(
+				"id"			=> "3",
+				"namaitem"		=> "Aqua"
+			),
+		);
+
+		
+		$data	= array(
+            'title'		 => 'Harga Items',
+            'content'	 => 'hargaitems/tambah',
+            'extra'		 => 'hargaitems/js/js_tambah',
+			'mn_setting' => 'active',
+			'side8'		 => 'active',
+			'items'		 => $items,
+			'breadcrumb' => '/ Harga Items / Tambah'
+		);
+		$this->load->view('layout/wrapper', $data);
+	}
+
+	public function AddHargaData(){
+
+		$this->form_validation->set_rules('namaitems', 'Nama Items', 'trim|required');
+		$this->form_validation->set_rules('local', 'Harga Local', 'trim|required');
+		$this->form_validation->set_rules('domestik', 'Harga Domestik', 'trim|required');
+		$this->form_validation->set_rules('internasional', 'Harga Internasional', 'trim|required');
+		$this->form_validation->set_rules('tanggal', 'Tanggal', 'trim|required');
+
+		if ($this->form_validation->run() == FALSE){
+		    $this->session->set_flashdata('message', $this->message->error_msg(validation_errors()));
+		    redirect(base_url()."items/tambahharga");
+            return;
+		}
+		
+		$namaitems	    = $this->security->xss_clean($this->input->post('namaitems'));
+		$local	    	= $this->security->xss_clean($this->input->post('local'));
+		$domestik	    = $this->security->xss_clean($this->input->post('domestik'));
+		$internasional	= $this->security->xss_clean($this->input->post('internasional'));
+		$tanggal		= explode("-",$this->security->xss_clean($this->input->post('tanggal')));
+
+		$tanggal_awal       = date_format(date_create($tanggal[0]),"Y-m-d");
+		$tanggal_akhir      = date_format(date_create($tanggal[1]),"Y-m-d");
+
+
+
+        $data		= array(
+            "namaitems"     => $namaitems,
+			"local"			=> $local,
+			"domestik"		=> $domestik,
+			"internasional" => $internasional,
+			"tanggal_awal" 	=> $tanggal_awal,
+			"tanggal_akhir" => $tanggal_akhir
+        );
+
+		// print_r(json_encode($data));
+		// die;
+
+		// Checking Success and Error AddData
+		// $result		= $this->PenggunaModel->insertData($data);
+
+		// untuk sukses
+		// $result["code"]=0;
+
+		//untuk gagal
+		// $result["code"]=5011;
+		// $result["message"]="Data gagal di inputkan";
+
+				
+		
+		if ($result["code"]==0) {
+		    $this->session->set_flashdata('message', $this->message->success_msg());
+		    redirect(base_url()."items/hargaitems");
+            return;
+		}else{
+		    $this->session->set_flashdata('message', $this->message->error_msg($result["message"]));
+		    redirect(base_url()."items/tambahharga");
+            return;
+		}
+	}
+
+	// ===== END HARGA ITEMS =====
 
 }
