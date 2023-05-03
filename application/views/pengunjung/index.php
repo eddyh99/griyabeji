@@ -7,25 +7,25 @@
 		<div id="kt_app_content_container" class="app-container container-fluid">
 			
 			<!-- ======= Start Row Content Canva JS ====== -->
-			<div class="row mt-10">
+			<div class="row">
+                <div class="col-md-12 text-right my-10">
+                    <a class="btn btn-primary" href="<?=base_url()?>pengunjung/tambah">Tambah</a>
+                </div>
                 <div class="card">
                     <?php if (isset($_SESSION["message"])){?>
                     <div class="alert alert-success"><?=$_SESSION["message"]?></div>
                     <?php } ?>
                     <div class="card-content py-6 px-8">
-                    <div class="col-sm-3"><button id="simpan" class="btn btn-primary">Simpan</button></div>
                             <table id="table_data" class="table table-striped nowrap" width="100%">
                                 <thead>
                                 <tr>
-                                    <th class="check">
-                                        <input type="checkbox" id="flowcheckall" value="" />&nbsp;All
-                                    </th>
-                                    <th>Tanggal</th>
-                                    <th>Items</th>
-                                    <th>Stok System</th>
-                                    <th>Stok Riil</th>
-                                    <th>Keterangan</th>
-                                    <!-- <th>Aprroved</th> -->
+                                    <th>Nama</th>
+                                    <th>Whatsapp</th>
+                                    <th>Email</th>
+                                    <th>IG</th>
+                                    <th>Provinsi</th>
+                                    <th>Negara</th>
+                                    <th>Aksi</th>
                                 </tr>
                                 </thead>
                                 <tbody>

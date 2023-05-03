@@ -10,7 +10,9 @@ class Penyesuaian extends CI_Controller {
         }
 	//    $this->load->model('admin/GuideModel');
     }
-    
+	
+	// ===== START PENYESUAIAN =====
+
     public function index() {
 
         $items = array(
@@ -65,8 +67,8 @@ class Penyesuaian extends CI_Controller {
             "keterangan"        => $keterangan,
         );
 
-		print_r(json_encode($data));
-		die;
+		// print_r(json_encode($data));
+		// die;
 
 		// Checking Success and Error AddData
 		// $result		= $this->PenggunaModel->insertData($data);
@@ -91,5 +93,63 @@ class Penyesuaian extends CI_Controller {
 		}
 	}
 
+	// ===== END PENYESUAIAN =====
+
+
+	// ===== START APPROVAL PENYESUAIAN =====
+
+	public function approval(){
+        $data	= array(
+            'title'		 => 'Approval Penyesuaian',
+            'content'	 => 'penyesuaian/approval',
+            'extra'		 => 'penyesuaian/js/js_approval',
+			'side12'     => 'active',
+			'breadcrumb' => '/ Approval Penyesuaian',
+		);
+		$this->load->view('layout/wrapper', $data);
+	}
+
+	public function Listdata(){
+		// $result=$this->pengguna->listpengguna();
+		$result = array (
+			array(
+				"id"			=> "1",
+				"tanggal"		=> "23 May 2023",
+				"namaitems"		=> "Dupa Wangi",
+				"stok"			=> "12",
+				"riil"			=> "10",
+				"keterangan"	=> "Hilang 1",
+				// "approved"		=> "belum",
+			),
+			array(
+				"id"			=> "1",
+				"tanggal"		=> "23 May 2023",
+				"namaitems"		=> "Dupa Wangi",
+				"stok"			=> "12",
+				"riil"			=> "10",
+				"keterangan"	=> "Hilang 1",
+				// "approved"		=> "sudah",
+			),
+			array(
+				"id"			=> "1",
+				"tanggal"		=> "23 May 2023",
+				"namaitems"		=> "Dupa Wangi",
+				"stok"			=> "12",
+				"riil"			=> "10",
+				"keterangan"	=> "Hilang 1",
+				// "approved"		=> "belum",
+			),
+		);
+		echo json_encode($result);
+	}
+
+	public function simpandata(){
+		$id = $this->security->xss_clean($this->input->post('id'));
+		// $barang = json_decode($this->security->xss_clean($this->input->post('barang')));
+		// $result=$this->pinjamModel->setKembali($id,$barang);
+		echo "0";
+	}
+
+	// ===== END APPROVAL PENYESUAIAN =====
 
 }

@@ -10,6 +10,8 @@ class Kas extends CI_Controller {
         }
 	//    $this->load->model('admin/GuideModel');
     }
+
+	// ====== START KAS =====
     
     public function index() {
 
@@ -17,7 +19,7 @@ class Kas extends CI_Controller {
             'title'		 => 'Kas',
             'content'	 => 'kas/index',
             'extra'		 => 'kas/js/js_index',
-			'side12'	 => 'active',
+			'side13'	 => 'active',
 			'breadcrumb' => '/ Kas'
 		);
 		$this->load->view('layout/wrapper', $data);
@@ -72,7 +74,7 @@ class Kas extends CI_Controller {
             'title'		 => 'Tambah Data Pengayah',
             'content'	 => 'kas/tambah',
             'extra'		 => 'kas/js/js_tambah',
-			'side12'	 => 'active',
+			'side13'	 => 'active',
 			'breadcrumb' => '/ Kas / Tambah Data',
 			'stores' 	 => $stores
 		);
@@ -236,157 +238,49 @@ class Kas extends CI_Controller {
 
 	}
 
-	public function hargaitems(){
-		$data	= array(
-            'title'		 => 'Data Pengguna',
-            'content'	 => 'hargaitems/index',
-            'extra'		 => 'hargaitems/js/js_index',
-			'mn_setting' => 'active',
-			'colmas'	 => 'show',
-			'colset'	 => 'collapse in',
-			'collap'	 => 'collapse',
-			'side8'		 => 'active',
-			'breadcrumb' => '/ Harga Items'
-		);
-		$this->load->view('layout/wrapper', $data);
-	}
+	// ====== END KAS =====
+	
+	
+	// ====== START REKAPAN HARIAN =====
 
-	public function ListHargaItemsData(){
+	public function tutupharian(){
+
+		if (@!isset($_GET["tgl"])){
+	        $tgl=date("d M Y");
+	        $tglcari=date("Y-m-d");
+	    }else{
+	        $tgl     = $this->security->xss_clean($_GET["tgl"]);
+	        $tglcari = date_format(date_create($tgl),"Y-m-d");
+	    }
+
+		// $result=$this->kasModel->lastSaldo($tglcari);
 		$result = array (
-			array(
-                "id"            => "1",
-				"namaitem"		=> "Dupa Wangi",
-				"periode"		=> "11 January 2023 - 12 January 2023",
-				"local"			=> "1000000",
-				"domestik"		=> "2000000",
-				"internasional"	=> "3000000",
+			"saldo"		=> 12000,
+			"jual"		=> 12000,
+			"tunai"		=> 100000,
+			"retur"		=> array(
+				"tunai"	=> 500000,
+				"non"	=> 3000
 			),
-			array(
-                "id"            => "2",
-				"namaitem"		=> "Gelang Tridatu",
-				"periode"		=> "11 January 2023 - 12 January 2023",
-				"local"			=> "1000000",
-				"domestik"		=> "2000000",
-				"internasional"	=> "3000000",
-			),
-			array(
-                "id"            => "3",
-				"namaitem"		=> "Canang Sari",
-				"periode"		=> "11 January 2023 - 12 January 2023",
-				"local"			=> "1000000",
-				"domestik"		=> "2000000",
-				"internasional"	=> "3000000",
-			),
-			array(
-                "id"            => "4",
-				"namaitem"		=> "Toples Tirta",
-				"periode"		=> "11 January 2023 - 12 January 2023",
-				"local"			=> "1000000",
-				"domestik"		=> "2000000",
-				"internasional"	=> "3000000",
-			),
-			array(
-                "id"            => "5",
-				"namaitem"		=> "Dupa Cempaka",
-				"periode"		=> "11 January 2023 - 12 January 2023",
-				"local"			=> "1000000",
-				"domestik"		=> "2000000",
-				"internasional"	=> "3000000",
-			),
+			"kas"	=> []
 		);
-		echo json_encode($result);
-	}
+		// print_r(json_encode($result));
+		// die;
 
-	public function tambahharga(){
 
-		$items = array(
-			array(
-				"id"			=> "1",
-				"namaitem"		=> "Dupa Wangi"
-			),
-			array(
-				"id"			=> "2",
-				"namaitem"		=> "Canang Sari"
-			),
-			array(
-				"id"			=> "3",
-				"namaitem"		=> "Aqua"
-			),
-		);
-
-		
 		$data	= array(
-            'title'		 => 'Data Pengguna',
-            'content'	 => 'hargaitems/tambah',
-            'extra'		 => 'hargaitems/js/js_tambah',
-			'mn_setting' => 'active',
-			'side8'		 => 'active',
-			'items'		 => $items,
-			'breadcrumb' => '/ Harga Items / Tambah'
+            'title'		 => 'Rekapan Harian',
+            'content'	 => 'kas/tutupharian',
+            'extra'		 => 'kas/js/js_tutupharian',
+			'side14'	 => 'active',
+			'breadcrumb' => '/ Rekapan Harian',
+			'penjualan'  => $result,
+			'tgl'        => $tgl,
 		);
 		$this->load->view('layout/wrapper', $data);
 	}
-
-	public function AddHargaData(){
-
-		$this->form_validation->set_rules('namaitems', 'Nama Items', 'trim|required');
-		$this->form_validation->set_rules('local', 'Harga Local', 'trim|required');
-		$this->form_validation->set_rules('domestik', 'Harga Domestik', 'trim|required');
-		$this->form_validation->set_rules('internasional', 'Harga Internasional', 'trim|required');
-		$this->form_validation->set_rules('tanggal', 'Tanggal', 'trim|required');
-
-		if ($this->form_validation->run() == FALSE){
-		    $this->session->set_flashdata('message', $this->message->error_msg(validation_errors()));
-		    redirect(base_url()."items/tambahharga");
-            return;
-		}
-		
-		$namaitems	    = $this->security->xss_clean($this->input->post('namaitems'));
-		$local	    	= $this->security->xss_clean($this->input->post('local'));
-		$domestik	    = $this->security->xss_clean($this->input->post('domestik'));
-		$internasional	= $this->security->xss_clean($this->input->post('internasional'));
-		$tanggal		= explode("-",$this->security->xss_clean($this->input->post('tanggal')));
-
-		$tanggal_awal       = date_format(date_create($tanggal[0]),"Y-m-d");
-		$tanggal_akhir      = date_format(date_create($tanggal[1]),"Y-m-d");
-
-		// print_r($tanggal_awal);
-		// print_r($tanggal_akhir);
-		// die;
+	// ====== END REKAPAN HARIAN =====
 
 
-        $data		= array(
-            "namaitems"     => $namaitems,
-			"local"			=> $local,
-			"domestik"		=> $domestik,
-			"internasional" => $internasional,
-			"tanggal" 			=> $tanggal
-        );
-
-		// print_r(json_encode($data));
-		// die;
-
-		// Checking Success and Error AddData
-		// $result		= $this->PenggunaModel->insertData($data);
-
-		// untuk sukses
-		// $result["code"]=0;
-
-		//untuk gagal
-		// $result["code"]=5011;
-		// $result["message"]="Data gagal di inputkan";
-
-				
-		
-		if ($result["code"]==0) {
-		    $this->session->set_flashdata('message', $this->message->success_msg());
-		    redirect(base_url()."items/hargaitems");
-            return;
-		}else{
-		    $this->session->set_flashdata('message', $this->message->error_msg($result["message"]));
-		    redirect(base_url()."items/tambahharga");
-            return;
-		}
-	}
 
 }

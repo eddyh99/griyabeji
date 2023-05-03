@@ -3,7 +3,7 @@ if (isset($this->session->userdata['logged_status'])) {
     //Menggabungkan semua bagian halaman
     require_once('header.php');
     
-    if ($this->uri->segment(2)!="cashier"){
+    if ($this->uri->segment(1)!="transaksi"){
         require_once('sidebar.php');
     }
     

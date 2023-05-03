@@ -172,6 +172,7 @@ class Produk extends CI_Controller {
 		$result		= $this->produk->getProduk($id);
 		$items		= $this->produk->itemproduk($id);
 
+
 		// $produk		= $result;
 		$result["id_items"]=array();
 		foreach ($items as $itm){
@@ -186,11 +187,10 @@ class Produk extends CI_Controller {
 		// 	"internasional"	=> "3000000",
 		// 	"id_items"		=> ["1", "2", "2"]
 		// );
-
 		$items = $this->items->listitems();
 
 
-		// array (
+		//$items = array (
 		// 	array(
         //         "id"            => "1",
 		// 		"namaitem"		=> "Dupa Wangi",
