@@ -74,8 +74,8 @@
         <div class="app-sidebar-logo px-6 my-6" id="kt_app_sidebar_logo">
 
             <!-- ====== Start Logo Desktop ===== -->
-            <a href="#" class="app-sidebar-logo-default text-white fw-bold">
-                <img alt="Logo" src="<?= base_url()?>assets/img/logo.webp" class="h-70px app-sidebar-logo-default" />
+            <a href="#" class="app-sidebar-logo-default  text-white fw-bold">
+                <img alt="Logo" src="<?= base_url()?>assets/img/logo.png" class="h-70px app-sidebar-logo-default" />
             </a>
             <!--====== End Logo Desktop ===== -->
 
@@ -133,7 +133,7 @@
 
                             <!-- ======  Start Menu Nama Login ===== -->
                             <div class="menu-item">
-                                <a class="menu-link" href="<?=base_url()?>admin/pengguna/ubah/<?=base64_encode($_SESSION["logged_status"]["username"])?>">
+                                <a class="menu-link" href="<?=base_url()?>pengguna/ubah/<?=base64_encode($_SESSION["logged_status"]["username"])?>">
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>

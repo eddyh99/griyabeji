@@ -8,7 +8,7 @@
 var table;
 $(function(){
 	table = $('#table_data').DataTable({
-			"order": [[ 1, "asc" ]],
+			"order": [[ 0, "asc" ]],
             "scrollX": true,
 			"ajax": {
 					"url": "<?=base_url()?>items/Listdata",
@@ -18,7 +18,7 @@ $(function(){
 						  }
 			},
 		    "aoColumnDefs": [{	
-				"aTargets": [4],
+				"aTargets": [5],
 				"mData": "id",
 				"mRender": function (data, type, full, meta){
 					button='<a href="<?=base_url()?>items/ubah/'+encodeURI(btoa(full.id))+'" class="btn btn-simple btn-success btn-icon remove rounded-circle mx-1"><i class="material-icons fs-3">update</i></a>';
@@ -28,9 +28,16 @@ $(function(){
 			}],
             "columns": [
 				  { "data": "namaitem"},
+<<<<<<< HEAD
 				  { "data": "local",render:$.fn.dataTable.render.number('.', ',', 0, '')},
 				  { "data": "domestik",render:$.fn.dataTable.render.number('.', ',', 0, '')},
 				  { "data": "internasional",render:$.fn.dataTable.render.number('.', ',', 0, '')},
+=======
+				  { "data": "hpp", render: $.fn.dataTable.render.number(',', '.',0, '')},
+				  { "data": "lokal", render: $.fn.dataTable.render.number(',', '.',0, '')},
+				  { "data": "domestik", render: $.fn.dataTable.render.number(',', '.',0, '')},
+				  { "data": "internasional", render: $.fn.dataTable.render.number(',', '.',0, '')},
+>>>>>>> 54de31609a4727aa9dcdd9c1b8662e63365cef97
 			]
 	});
 })

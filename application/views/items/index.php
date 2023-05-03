@@ -20,7 +20,8 @@
                                 <thead>
                                 <tr>
                                     <th>Nama Items</th>
-                                    <th>Local</th>
+                                    <th>HPP</th>
+                                    <th>Lokal</th>
                                     <th>Domestik</th>
                                     <th>Internasional</th>
                                     <th>Aksi</th>

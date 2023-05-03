@@ -62,9 +62,15 @@
 						"defaultContent": '<i class="fas fa-chevron-down text-primary"></i>'
 					},
 					{ "data": "namapaket"},
+<<<<<<< HEAD
 					{ "data": "local",render:$.fn.dataTable.render.number('.', ',', 0, '')},
 					{ "data": "domestik",render:$.fn.dataTable.render.number('.', ',', 0, '')},
 					{ "data": "internasional",render:$.fn.dataTable.render.number('.', ',', 0, '')},
+=======
+					{ "data": "lokal", render: $.fn.dataTable.render.number(',', '.',0, '')},
+					{ "data": "domestik", render: $.fn.dataTable.render.number(',', '.',0, '')},
+					{ "data": "internasional", render: $.fn.dataTable.render.number(',', '.',0, '')},
+>>>>>>> 54de31609a4727aa9dcdd9c1b8662e63365cef97
 					
 				]
 		});

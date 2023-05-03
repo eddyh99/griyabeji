@@ -15,6 +15,7 @@
                     <?php } ?>
                     <div class="card-content">
                         <form id="form_input" method="post" action="<?=base_url()?>produk/updateData">
+                            <input type="hidden" name="id" value="<?=$detail["id"]?>">
                             <div class="col-lg-6">
                                 <div class="card-body">
                                     <div class="form-group row my-5">
@@ -27,7 +28,7 @@
                                         <label class="col-sm-3 col-form-label">Harga Lokal</label>
                                         <div class="col-sm-7 d-flex align-items-center">
                                             <span class="me-3">Rp. </span>
-                                            <input type="text" class="form-control rupiah" id="local" name="local" maxlength="35" value="<?= $detail['local'];?>">
+                                            <input type="text" class="form-control rupiah" id="local" name="local" maxlength="35" value="<?= $detail['lokal'];?>">
                                         </div>
                                     </div>
                                     <div class="form-group row my-5">
@@ -48,10 +49,19 @@
                                         <label class="col-sm-3 col-form-label">Pilih Items</label>
                                         <div class="col-sm-7">
                                             <select multiple id="namaitems" name="id_items[]" class="form-control namaitems-select">
+<<<<<<< HEAD
                                                 <?php foreach ($items as $item){?>
                                                     <option 
                                                         value="<?=$item["id"]?>" selected><?=$item["namaitem"]?></option>
                                                 <?php } ?>
+=======
+                                                <?php foreach ($items as $item){
+                                                ?>                                                
+                                                            <option value="<?=$item["id"]?>" selected><?=$item["namaitem"]?></option>
+                                                <?php
+                                                    } 
+                                                ?>
+>>>>>>> 54de31609a4727aa9dcdd9c1b8662e63365cef97
                                             </select>
                                         </div>
                                     </div>
