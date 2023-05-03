@@ -49,7 +49,8 @@
                                         <div class="col-sm-7">
                                             <select multiple id="namaitems" name="id_items[]" class="form-control namaitems-select">
                                                 <?php foreach ($items as $item){?>
-                                                    <option value="<?=$item["id"]?>" selected><?=$item["namaitem"]?></option>
+                                                    <option 
+                                                        value="<?=$item["id"]?>" selected><?=$item["namaitem"]?></option>
                                                 <?php } ?>
                                             </select>
                                         </div>

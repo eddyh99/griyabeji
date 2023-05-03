@@ -160,7 +160,7 @@ class Produk extends CI_Controller {
 			"local"			=> "1000000",
 			"domestik"		=> "2000000",
 			"internasional"	=> "3000000",
-			"id_items"		=> ["1", "2", "2"]
+			"id_items"		=> ["1", "2"]
 		);
 
 		$items = array (
