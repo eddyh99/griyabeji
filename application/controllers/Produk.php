@@ -220,7 +220,7 @@ class Produk extends CI_Controller {
 
 
         $data		= array(
-            'title'		 => 'Ubah Produk',
+            'title'		 => NAMETITLE . ' - Ubah Produk',
             'content'    => 'produk/ubah',
             'detail'     => $result,
 			'items'		 => $items,

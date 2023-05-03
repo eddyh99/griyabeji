@@ -98,3 +98,6 @@ define("PRODUK_DETAIL",'produk_detail');
 define("PAKET",'paket');
 define("PAKET_HARGA",'paket_harga');
 define("PAKET_DETAIL",'paket_detail');
+define("STORE",'store');
+define("PENGUNJUNG",'pengunjung');
+define("KAS",'kas');

@@ -28,7 +28,7 @@
                                         <select id="storename" name="storename" class="form-control">
                                             <option value="" disabled selected>--Pilih Store--</option>
                                             <?php foreach ($stores as $store){?>
-                                                <option value="<?=$store["id"]?>"><?=$store["storename"]?></option>
+                                                <option value="<?=$store["id"]?>"><?=$store["namastore"]?></option>
                                             <?php } ?>
                                         </select>
                                     </div>

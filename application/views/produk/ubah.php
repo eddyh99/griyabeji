@@ -49,19 +49,9 @@
                                         <label class="col-sm-3 col-form-label">Pilih Items</label>
                                         <div class="col-sm-7">
                                             <select multiple id="namaitems" name="id_items[]" class="form-control namaitems-select">
-<<<<<<< HEAD
                                                 <?php foreach ($items as $item){?>
-                                                    <option 
-                                                        value="<?=$item["id"]?>" selected><?=$item["namaitem"]?></option>
+                                                    <option value="<?=$item["id"]?>" selected><?=$item["namaitem"]?></option>
                                                 <?php } ?>
-=======
-                                                <?php foreach ($items as $item){
-                                                ?>                                                
-                                                            <option value="<?=$item["id"]?>" selected><?=$item["namaitem"]?></option>
-                                                <?php
-                                                    } 
-                                                ?>
->>>>>>> 54de31609a4727aa9dcdd9c1b8662e63365cef97
                                             </select>
                                         </div>
                                     </div>

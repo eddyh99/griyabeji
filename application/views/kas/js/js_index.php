@@ -15,7 +15,7 @@ $(function(){
             "columns": [
 				  { "data": "store"},
 				  { "data": "tanggal"},
-				  { "data": "nominal"},
+				  { "data": "nominal", render: $.fn.dataTable.render.number(',', '.',0, '')},
 				  { "data": "keterangan"},
 			]
 	});

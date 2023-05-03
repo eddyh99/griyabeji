@@ -8,13 +8,13 @@ class Pengunjung extends CI_Controller {
         if (!isset($this->session->userdata['logged_status'])) {
             redirect(base_url());
         }
-	   	$this->load->model('admin/mdl_pengayah',"pengayah");
+	   	$this->load->model('admin/mdl_pengunjung',"pengunjung");
     }
     
     public function index() {
 
         $data	= array(
-            'title'		 => NAMETITLE . ' - Data Pengguna',
+            'title'		 => NAMETITLE . ' - Data Pengunjung',
             'content'	 => 'pengunjung/index',
             'extra'		 => 'pengunjung/js/js_index',
 			'mn_setting' => 'active',
@@ -28,48 +28,49 @@ class Pengunjung extends CI_Controller {
 	}
 	
 	public function Listdata(){
-		// $result=$this->pengayah->Listpengayah();
-		$result = array (
-			array(
-                "id"            => "1",
-				"nama"		    => "I Made Farhan Sucipto Nugroho",
-				"whatsapp"		=> "11111111",
-				"email"			=> "made@gmail.com",
-				"ig"			=> "made123",
-				"statename"		=> "Indonesia",
-				"countryname"	=> "Bali"			
+		$result=$this->pengunjung->Listpengunjung();
+		// $result = array (
+		// 	array(
+        //         "id"            => "1",
+		// 		"nama"		    => "I Made Farhan Sucipto Nugroho",
+		// 		"whatsapp"		=> "11111111",
+		// 		"email"			=> "made@gmail.com",
+		// 		"ig"			=> "made123",
+		// 		"statename"		=> "Indonesia",
+		// 		"countryname"	=> "Bali"			
 
-			),
-			array(
-                "id"            => "2",
-				"nama"		    => "Pengunjung 2",
-				"whatsapp"		=> "22222222",
-				"email"			=> "made@gmail.com",
-				"ig"			=> "made123",
-				"statename"		=> "Indonesia",
-				"countryname"	=> "Bali"	
-			),
+		// 	),
+		// 	array(
+        //         "id"            => "2",
+		// 		"nama"		    => "Pengunjung 2",
+		// 		"whatsapp"		=> "22222222",
+		// 		"email"			=> "made@gmail.com",
+		// 		"ig"			=> "made123",
+		// 		"statename"		=> "Indonesia",
+		// 		"countryname"	=> "Bali"	
+		// 	),
 
-		);
+		// );
 		echo json_encode($result);
 	}
 
     public function tambah(){
 
-		$countries = array(
-			array(
-				"code"		=> "ID",
-				"name"		=> "Indonesia"
-			),
-			array(
-				"code"		=> "AE",
-				"name"		=> "United Arab Emirates"
-			),
-			array(
-				"code"		=> "BR",
-				"name"		=> "Brazil"
-			),
-		);
+		$countries = $this->pengunjung->getCountry();
+		// array(
+		// 	array(
+		// 		"code"		=> "ID",
+		// 		"name"		=> "Indonesia"
+		// 	),
+		// 	array(
+		// 		"code"		=> "AE",
+		// 		"name"		=> "United Arab Emirates"
+		// 	),
+		// 	array(
+		// 		"code"		=> "BR",
+		// 		"name"		=> "Brazil"
+		// 	),
+		// );
 
 
 		// $states = array(
@@ -95,7 +96,6 @@ class Pengunjung extends CI_Controller {
 		// 	),
 		// );
 
-
         $data = array(
             'title'		 		=> NAMETITLE . ' - Tambah Data Pengunjung',
             'content'	 		=> 'pengunjung/tambah',
@@ -113,28 +113,29 @@ class Pengunjung extends CI_Controller {
         // $url    = URLAPI . "/v1/member/findme/get_statelist?country=".$country;
         // $state  = apitrackless($url)->message;
 
-		$states = array(
-			array(
-				"state_code"		=> "AC",
-				"country_code"		=> "ID",
-				"state_name"		=> "Aceh"
-			),
-			array(
-				"state_code"		=> "BA",
-				"country_code"		=> "ID",
-				"state_name"		=> "Bali"
-			),
-			array(
-				"state_code"		=> "AJ",
-				"country_code"		=> "AE",
-				"state_name"		=> "Ajman Emirate"
-			),
-			array(
-				"state_code"		=> "DU",
-				"country_code"		=> "AE",
-				"state_name"		=> "Dubai"
-			),
-		);
+		$states =  $this->pengunjung->getstate($country);
+		// array(
+		// 	array(
+		// 		"state_code"		=> "AC",
+		// 		"country_code"		=> "ID",
+		// 		"state_name"		=> "Aceh"
+		// 	),
+		// 	array(
+		// 		"state_code"		=> "BA",
+		// 		"country_code"		=> "ID",
+		// 		"state_name"		=> "Bali"
+		// 	),
+		// 	array(
+		// 		"state_code"		=> "AJ",
+		// 		"country_code"		=> "AE",
+		// 		"state_name"		=> "Ajman Emirate"
+		// 	),
+		// 	array(
+		// 		"state_code"		=> "DU",
+		// 		"country_code"		=> "AE",
+		// 		"state_name"		=> "Dubai"
+		// 	),
+		// );
 
         echo json_encode($states);
 	}
@@ -166,15 +167,16 @@ class Pengunjung extends CI_Controller {
             "whatsapp"  	=> $whatsapp,
             "email"		  	=> $email,
             "ig"		  	=> $ig,
-			"countryname"  	=> $countryname,
-            "statename"  	=> $statename,
+			"state_id"  	=> $statename,
+			"country_code"	=> $countryname,
+			"userid"		=> $_SESSION["logged_status"]["username"]
         );
 
 		// print_r($data);
 		// die;
 
 		// Checking Success and Error AddData
-		// $result		= $this->pengayah->insertData($data);
+		$result		= $this->pengunjung->insertData($data);
 
 		// untuk sukses
 		// $result["code"]=0;
@@ -200,60 +202,27 @@ class Pengunjung extends CI_Controller {
         
 		$id	= base64_decode($this->security->xss_clean($id));
 		// Menampilkan Hasil Single Data ketika di click username tertentu sebagai parameter
-		// $result		= $this->pengayah->getUser($id);
+		$result		= $this->pengunjung->getPengunjung($id);
 
-		$result = array (
-			"id"			=> $id,
-			"nama"		    => "Pengunjung 2",
-			"whatsapp"	    => "085123123123",
-			"email"		    => "pengunjung@gmail.com",
-			"ig"		    => "",
-			"code"  		=> "ID",
-			"countryname"  	=> "Indoensia",
-            "state_code"  	=> "BA",
-            "statename"  	=> "Bali",
-		);
+		// $result = array (
+		// 	"id"			=> $id,
+		// 	"nama"		    => "Pengunjung 2",
+		// 	"whatsapp"	    => "085123123123",
+		// 	"email"		    => "pengunjung@gmail.com",
+		// 	"ig"		    => "",
+		// 	"code"  		=> "ID",
+		// 	"countryname"  	=> "Indoensia",
+        //     "state_code"  	=> "BA",
+        //     "statename"  	=> "Bali",
+		// );
 
 		
-		$countries = array(
-			array(
-				"code"		=> "ID",
-				"name"		=> "Indonesia"
-			),
-			array(
-				"code"		=> "AE",
-				"name"		=> "United Arab Emirates"
-			),
-			array(
-				"code"		=> "BR",
-				"name"		=> "Brazil"
-			),
-		);
-
-
-		$states = array(
-			array(
-				"state_code"		=> "AC",
-				"country_code"		=> "ID",
-				"state_name"		=> "Aceh"
-			),
-			array(
-				"state_code"		=> "BA",
-				"country_code"		=> "ID",
-				"state_name"		=> "Bali"
-			),
-			array(
-				"state_code"		=> "AJ",
-				"country_code"		=> "AE",
-				"state_name"		=> "Ajman Emirate"
-			),
-			array(
-				"state_code"		=> "DU",
-				"country_code"		=> "AE",
-				"state_name"		=> "Dubai"
-			),
-		);
-
+		$countries = $this->pengunjung->getCountry();
+		$states =  $this->pengunjung->getstate($result["code"]);
+		
+		//@todo
+		//cek di view, ketika ganti negara, provinsi dari pertama dari negara sebelum
+		//muncul kemudian di lanjut dengan provinsi dari negara yang di pilih
 
         $data		= array(
             'title'		 => NAMETITLE . ' - Ubah Data Pengunjung',
@@ -280,9 +249,6 @@ class Pengunjung extends CI_Controller {
 		$this->form_validation->set_rules('countryname', 'Country', 'trim|required');
 		$this->form_validation->set_rules('statename', 'State', 'trim|required');
 
-
-		$id	= $this->security->xss_clean($this->input->post('id'));
-
 		if ($this->form_validation->run() == FALSE){
 		    $this->session->set_flashdata('message', $this->message->error_msg(validation_errors()));
 		    redirect(base_url()."pengunjung/ubah/".base64_encode($id));
@@ -296,6 +262,7 @@ class Pengunjung extends CI_Controller {
 		$ig				= $this->security->xss_clean($this->input->post('ig'));
 		$countryname	= $this->security->xss_clean($this->input->post('countryname'));
 		$statename		= $this->security->xss_clean($this->input->post('statename'));
+		$id			    = $this->security->xss_clean($this->input->post('id'));
 
 
         $data	= array(
@@ -303,15 +270,12 @@ class Pengunjung extends CI_Controller {
             "whatsapp"  	=> $whatsapp,
 			"email"		  	=> $email,
             "ig"		  	=> $ig,
-			"countryname"  	=> $countryname,
-            "statename"  	=> $statename,
+			"state_id"  	=> $statename,
+			"country_code"	=> $countryname,
+			"userid"		=> $_SESSION["logged_status"]["username"]
         );
 
-		print_r(json_encode($data));
-		die;
-
-
-		// $result		= $this->pengayah->updateData($data,$id);
+		$result		= $this->pengunjung->updateData($data,$id);
 		//untuk cek sukses atau gagal dengan cara menambahkan array result
 
 		// untuk sukses
@@ -338,7 +302,7 @@ class Pengunjung extends CI_Controller {
         );
 
 		$id	= base64_decode($this->security->xss_clean($id));
-		$result		= $this->pengayah->hapusData($data,$id);
+		$result		= $this->pengunjung->hapusData($data,$id);
 
 		// untuk sukses
 		// $result["code"]=0;

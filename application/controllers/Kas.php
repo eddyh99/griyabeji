@@ -8,70 +8,67 @@ class Kas extends CI_Controller {
         if (!isset($this->session->userdata['logged_status'])) {
             redirect(base_url());
         }
-	//    $this->load->model('admin/GuideModel');
+	    $this->load->model('admin/mdl_kas',"kas");
+		$this->load->model('admin/mdl_store','store');
     }
 
 	// ====== START KAS =====
     
     public function index() {
+		/*@todo
+		tambah kan combo box untuk filter store nya di list kas
+		jadi bisa filter per store nya
+		*/
+
+		$stores=$this->store->Liststore();
+		
 
         $data	= array(
-            'title'		 => 'Kas',
+            'title'		 => NAMETITLE . ' - Kas',
             'content'	 => 'kas/index',
             'extra'		 => 'kas/js/js_index',
 			'side13'	 => 'active',
-			'breadcrumb' => '/ Kas'
+			'breadcrumb' => 'Kas'
 		);
 		$this->load->view('layout/wrapper', $data);
 	}
 	
 	public function Listdata(){
-		// $result=$this->PenggunaModel->listpengguna();
-		$result = array (
-			array(
-                "id"            => "1",
-				"tanggal"		=> "14 May 2023",
-				"nominal"		=> "100000",
-				"keterangan"	=> "ini kas",
-				"store"			=> "Warkop",
-			),
-			array(
-                "id"            => "2",
-				"tanggal"		=> "15 May 2023",
-				"nominal"		=> "200000",
-				"keterangan"	=> "ini kas",
-				"store"			=> "parkir",
-			),
-			array(
-                "id"            => "3",
-				"tanggal"		=> "16 May 2023",
-				"nominal"		=> "300000",
-				"keterangan"	=> "ini kas",
-				"store"			=> "Warung Herbal",
-			),
-		);
+
+		$result=$this->kas->listkas();
+		// $result = array (
+		// 	array(
+        //         "id"            => "1",
+		// 		"tanggal"		=> "14 May 2023",
+		// 		"nominal"		=> "100000",
+		// 		"keterangan"	=> "ini kas",
+		// 		"store"			=> "Warkop",
+		// 	),
+		// 	array(
+        //         "id"            => "2",
+		// 		"tanggal"		=> "15 May 2023",
+		// 		"nominal"		=> "200000",
+		// 		"keterangan"	=> "ini kas",
+		// 		"store"			=> "parkir",
+		// 	),
+		// 	array(
+        //         "id"            => "3",
+		// 		"tanggal"		=> "16 May 2023",
+		// 		"nominal"		=> "300000",
+		// 		"keterangan"	=> "ini kas",
+		// 		"store"			=> "Warung Herbal",
+		// 	),
+		// );
 		echo json_encode($result);
 	}
 
     public function tambah(){
 
-		$stores = array(
-			array(
-				"id"			=> "1",
-				"storename"		=> "parkir"
-			),
-			array(
-				"id"			=> "2",
-				"storename"		=> "Warkop"
-			),
-			array(
-				"id"			=> "3",
-				"storename"		=> "Warung Kerohanian"
-			),
-		);
+		$stores = $this->store->Liststore();
+
 
         $data = array(
-            'title'		 => 'Tambah Data Pengayah',
+            'title'		 => NAMETITLE . ' - Tambah Data KAS',
             'content'	 => 'kas/tambah',
             'extra'		 => 'kas/js/js_tambah',
 			'side13'	 => 'active',
@@ -103,18 +100,19 @@ class Kas extends CI_Controller {
 
         
         $data		= array(
-            "tanggal"     	=> $tanggal,
-            "storename"     => $storename,
+            "tanggal"     	=> date("Y-m-d H:i:s"),
+            "store_id"     	=> $storename,
 			"jenis"			=> $jenis,
 			"nominal"		=> $nominal,
-			"keterangan" 	=> $keterangan
+			"keterangan" 	=> $keterangan,
+			"userid"		=> $_SESSION["logged_status"]["username"]
         );
 
 		// print_r(json_encode($data));
 		// die;
 
 		// Checking Success and Error AddData
-		// $result		= $this->PenggunaModel->insertData($data);
+		$result		= $this->kas->insertData($data);
 
 		// untuk sukses
 		// $result["code"]=0;

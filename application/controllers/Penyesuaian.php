@@ -8,34 +8,34 @@ class Penyesuaian extends CI_Controller {
         if (!isset($this->session->userdata['logged_status'])) {
             redirect(base_url('/'));
         }
-	//    $this->load->model('admin/GuideModel');
+	    $this->load->model('admin/mdl_items','items');
     }
 	
 	// ===== START PENYESUAIAN =====
 
     public function index() {
-
-        $items = array(
-			array(
-				"id"			=> "1",
-				"namaitem"		=> "Dupa Wangi"
-			),
-			array(
-				"id"			=> "2",
-				"namaitem"		=> "Canang Sari"
-			),
-			array(
-				"id"			=> "3",
-				"namaitem"		=> "Aqua"
-			),
-		);
+		$items=$this->items->listitems();
+        // $items = array(
+		// 	array(
+		// 		"id"			=> "1",
+		// 		"namaitem"		=> "Dupa Wangi"
+		// 	),
+		// 	array(
+		// 		"id"			=> "2",
+		// 		"namaitem"		=> "Canang Sari"
+		// 	),
+		// 	array(
+		// 		"id"			=> "3",
+		// 		"namaitem"		=> "Aqua"
+		// 	),
+		// );
 
         $data	= array(
-            'title'		 => 'Data Pengguna',
+            'title'		 => NAMETITLE . ' - Data Penyesuaian',
             'content'	 => 'penyesuaian/index',
             'extra'		 => 'penyesuaian/js/js_index',
 			'side11'     => 'active',
-			'breadcrumb' => '/ Penyesuaian',
+			'breadcrumb' => 'Penyesuaian',
             'items'      => $items
 		);
 		$this->load->view('layout/wrapper', $data);
