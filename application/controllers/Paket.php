@@ -308,74 +308,75 @@ class Paket extends CI_Controller {
 
 	public function hargapaket(){
 		$data	= array(
-			'title'		 => 'Harga Paket',
+			'title'		 => NAMETITLE . ' - Harga Paket',
 			'content'	 => 'hargapaket/index',
 			'extra'		 => 'hargapaket/js/js_index',
 			'side10'	 => 'active',
-			'breadcrumb' => '/ Harga Paket'
+			'breadcrumb' => 'Harga Paket'
 		);
 		$this->load->view('layout/wrapper', $data);
 	}
 
 	public function ListHargaItemsData(){
-		$result = array (
-			array(
-				"id"            => "1",
-				"namaitem"		=> "Paket 1",
-				"awal"			=> "44 January 2023",
-				"akhir"			=> "12 January 2023",
-				"local"			=> "1000000",
-				"domestik"		=> "2000000",
-				"internasional"	=> "3000000",
-			),
-			array(
-				"id"            => "2",
-				"namaitem"		=> "Paket 2",
-				"awal"			=> "11 January 2023",
-				"akhir"			=> "12 January 2023",
-				"local"			=> "1000000",
-				"domestik"		=> "2000000",
-				"internasional"	=> "3000000",
-			),
-			array(
-				"id"            => "3",
-				"namaitem"		=> "Paket 3",
-				"awal"			=> "11 January 2023",
-				"akhir"			=> "12 January 2023",
-				"local"			=> "1000000",
-				"domestik"		=> "2000000",
-				"internasional"	=> "3000000",
-			),
-		);
+		$result	= $this->paket->promopaket();
+		// $result = array (
+		// 	array(
+		// 		"id"            => "1",
+		// 		"namaitem"		=> "Paket 1",
+		// 		"awal"			=> "44 January 2023",
+		// 		"akhir"			=> "12 January 2023",
+		// 		"local"			=> "1000000",
+		// 		"domestik"		=> "2000000",
+		// 		"internasional"	=> "3000000",
+		// 	),
+		// 	array(
+		// 		"id"            => "2",
+		// 		"namaitem"		=> "Paket 2",
+		// 		"awal"			=> "11 January 2023",
+		// 		"akhir"			=> "12 January 2023",
+		// 		"local"			=> "1000000",
+		// 		"domestik"		=> "2000000",
+		// 		"internasional"	=> "3000000",
+		// 	),
+		// 	array(
+		// 		"id"            => "3",
+		// 		"namaitem"		=> "Paket 3",
+		// 		"awal"			=> "11 January 2023",
+		// 		"akhir"			=> "12 January 2023",
+		// 		"local"			=> "1000000",
+		// 		"domestik"		=> "2000000",
+		// 		"internasional"	=> "3000000",
+		// 	),
+		// );
 		echo json_encode($result);
 	}
 
 	public function tambahharga(){
-
-		$pakets = array(
-			array(
-				"id"			=> "1",
-				"namapaket"		=> "Paket 33"
-			),
-			array(
-				"id"			=> "2",
-				"namapaket"		=> "Paket 41"
-			),
-			array(
-				"id"			=> "3",
-				"namapaket"		=> "Paket 5"
-			),
-		);
+		$pakets=$this->paket->listpaket();
+		// $pakets = array(
+		// 	array(
+		// 		"id"			=> "1",
+		// 		"namapaket"		=> "Paket 33"
+		// 	),
+		// 	array(
+		// 		"id"			=> "2",
+		// 		"namapaket"		=> "Paket 41"
+		// 	),
+		// 	array(
+		// 		"id"			=> "3",
+		// 		"namapaket"		=> "Paket 5"
+		// 	),
+		// );
 
 		
 		$data	= array(
-			'title'		 => 'Harga Produk',
+			'title'		 => NAMETITLE . ' - Harga Paket',
 			'content'	 => 'hargapaket/tambah',
 			'extra'		 => 'hargapaket/js/js_tambah',
 			'mn_setting' => 'active',
 			'side10'	 => 'active',
 			'pakets'	 => $pakets,
-			'breadcrumb' => '/ Harga Paket / Tambah'
+			'breadcrumb' => 'Harga Paket / Tambah'
 		);
 		$this->load->view('layout/wrapper', $data);
 	}
@@ -406,19 +407,20 @@ class Paket extends CI_Controller {
 
 
 		$data		= array(
-			"namapaket"     => $namapaket,
-			"local"			=> $local,
+			"id_paket"     	=> $namapaket,
+			"lokal"			=> $local,
 			"domestik"		=> $domestik,
 			"internasional" => $internasional,
-			"tanggal_awal" 	=> $tanggal_awal,
-			"tanggal_akhir" => $tanggal_akhir
+			"awal" 			=> $tanggal_awal,
+			"akhir" 		=> $tanggal_akhir,
+			"userid" 		=> $_SESSION["logged_status"]["username"]
 		);
 
 		// print_r(json_encode($data));
 		// die;
 
 		// Checking Success and Error AddData
-		// $result		= $this->PenggunaModel->insertData($data);
+		$result		= $this->paket->insertpromo($data);
 
 		// untuk sukses
 		// $result["code"]=0;

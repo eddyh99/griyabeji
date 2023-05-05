@@ -32,7 +32,7 @@
                                     <div class="form-group row my-5">
                                         <label class="col-sm-3 col-form-label">Stok System</label>
                                         <div class="col-sm-7 d-flex align-items-center">
-                                            <input type="number" class="form-control" id="stok" name="stok" autocomplete="off">
+                                            <input type="number" class="form-control" id="stok" name="stok" autocomplete="off" readonly>
                                         </div>
                                     </div>
                                     <div class="form-group row my-5">

@@ -9,6 +9,7 @@ class Penyesuaian extends CI_Controller {
             redirect(base_url('/'));
         }
 	    $this->load->model('admin/mdl_items','items');
+	    $this->load->model('admin/mdl_penyesuaian','penyesuaian');
     }
 	
 	// ===== START PENYESUAIAN =====
@@ -41,9 +42,13 @@ class Penyesuaian extends CI_Controller {
 		$this->load->view('layout/wrapper', $data);
 	}
 	
+	public function stokitem(){
+		$result=$this->penyesuaian->getstok($_GET["items_id"]);		
+		echo $result;
+	}
+
 	public function AddData(){		
 		$this->form_validation->set_rules('namaitems', 'Nama Items', 'trim|required');
-		$this->form_validation->set_rules('stok', 'Stok System', 'trim|required');
 		$this->form_validation->set_rules('riil', 'Stok Riil', 'trim|required');
 		$this->form_validation->set_rules('keterangan', 'Keterangan', 'trim|required');
 
@@ -55,23 +60,23 @@ class Penyesuaian extends CI_Controller {
 		}
 		
 		$namaitems	    = $this->security->xss_clean($this->input->post('namaitems'));
-		$stok	    	= $this->security->xss_clean($this->input->post('stok'));
 		$riil	        = $this->security->xss_clean($this->input->post('riil'));
 		$keterangan	    = $this->security->xss_clean($this->input->post('keterangan'));
 
         
-        $data		= array(
-            "namaitems"      	=> $namaitems,
-            "stok"      		=> $stok,
-            "riil"      	    => $riil,
+        $data		= array(			
+            "id_items"      	=> $namaitems,
+            "tanggal"      		=> date("Y-m-d H:i:s"),
+            "jumlah"      	    => $riil-$this->penyesuaian->getstok($namaitems),
             "keterangan"        => $keterangan,
+			"userid" 			=> $_SESSION["logged_status"]["username"]
         );
 
 		// print_r(json_encode($data));
 		// die;
 
 		// Checking Success and Error AddData
-		// $result		= $this->PenggunaModel->insertData($data);
+		$result		= $this->penyesuaian->insertData($data);
 
 		// untuk sukses
 		// $result["code"]=0;
@@ -100,11 +105,11 @@ class Penyesuaian extends CI_Controller {
 
 	public function approval(){
         $data	= array(
-            'title'		 => 'Approval Penyesuaian',
+            'title'		 => NAMETITLE . ' - Approval Penyesuaian',
             'content'	 => 'penyesuaian/approval',
             'extra'		 => 'penyesuaian/js/js_approval',
 			'side12'     => 'active',
-			'breadcrumb' => '/ Approval Penyesuaian',
+			'breadcrumb' => 'Approval Penyesuaian',
 		);
 		$this->load->view('layout/wrapper', $data);
 	}

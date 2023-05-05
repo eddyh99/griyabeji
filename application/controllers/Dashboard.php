@@ -19,7 +19,7 @@ class Dashboard extends CI_Controller {
 			'collap'	 => 'collapse',
 			'colmas'	 => 'collapse',
 			'colset'	 => 'collapse',
-            'breadcrumb' => '/ Dashboard'
+            'breadcrumb' => 'Dashboard'
 		);
 		$this->load->view('layout/wrapper', $data);
 	}
