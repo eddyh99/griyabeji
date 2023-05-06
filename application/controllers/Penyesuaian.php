@@ -115,44 +115,50 @@ class Penyesuaian extends CI_Controller {
 	}
 
 	public function Listdata(){
-		// $result=$this->pengguna->listpengguna();
-		$result = array (
-			array(
-				"id"			=> "1",
-				"tanggal"		=> "23 May 2023",
-				"namaitems"		=> "Dupa Wangi",
-				"stok"			=> "12",
-				"riil"			=> "10",
-				"keterangan"	=> "Hilang 1",
-				// "approved"		=> "belum",
-			),
-			array(
-				"id"			=> "1",
-				"tanggal"		=> "23 May 2023",
-				"namaitems"		=> "Dupa Wangi",
-				"stok"			=> "12",
-				"riil"			=> "10",
-				"keterangan"	=> "Hilang 1",
-				// "approved"		=> "sudah",
-			),
-			array(
-				"id"			=> "1",
-				"tanggal"		=> "23 May 2023",
-				"namaitems"		=> "Dupa Wangi",
-				"stok"			=> "12",
-				"riil"			=> "10",
-				"keterangan"	=> "Hilang 1",
-				// "approved"		=> "belum",
-			),
-		);
+		$result=$this->penyesuaian->getpenyesuaian();
+		// $result = array (
+		// 	array(
+		// 		"id"			=> "1",
+		// 		"tanggal"		=> "23 May 2023",
+		// 		"namaitems"		=> "Dupa Wangi",
+		// 		"stok"			=> "12",
+		// 		"riil"			=> "10",
+		// 		"keterangan"	=> "Hilang 1",
+		// 		// "approved"		=> "belum",
+		// 	),
+		// 	array(
+		// 		"id"			=> "1",
+		// 		"tanggal"		=> "23 May 2023",
+		// 		"namaitems"		=> "Dupa Wangi",
+		// 		"stok"			=> "12",
+		// 		"riil"			=> "10",
+		// 		"keterangan"	=> "Hilang 1",
+		// 		// "approved"		=> "sudah",
+		// 	),
+		// 	array(
+		// 		"id"			=> "1",
+		// 		"tanggal"		=> "23 May 2023",
+		// 		"namaitems"		=> "Dupa Wangi",
+		// 		"stok"			=> "12",
+		// 		"riil"			=> "10",
+		// 		"keterangan"	=> "Hilang 1",
+		// 		// "approved"		=> "belum",
+		// 	),
+		// );
 		echo json_encode($result);
 	}
 
 	public function simpandata(){
-		$id = $this->security->xss_clean($this->input->post('id'));
-		// $barang = json_decode($this->security->xss_clean($this->input->post('barang')));
-		// $result=$this->pinjamModel->setKembali($id,$barang);
-		echo "0";
+		$id = $this->security->xss_clean($this->input->post('id'));		
+		$mdata=array();
+		foreach ($id as $dt){
+			$temp["approved"]=1;
+			$temp["id"]=$dt;
+			array_push($mdata,$temp);
+		}
+
+		$result=$this->penyesuaian->setapprove($mdata);
+		redirect("penyesuaian/approval");
 	}
 
 	// ===== END APPROVAL PENYESUAIAN =====

@@ -108,4 +108,7 @@ define("PAKET_PROMO",'paket_promo');
 define("STORE",'store');
 define("PENGUNJUNG",'pengunjung');
 define("KAS",'kas');
+
 define("PENYESUAIAN",'penyesuaian');
+define("PENJUALAN_PENGUNJUNG",'penjualan_pengunjung');
+define("PENJUALAN_DETAIL",'penjualan_detail');
