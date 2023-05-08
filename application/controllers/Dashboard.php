@@ -16,9 +16,6 @@ class Dashboard extends CI_Controller {
             'content'	 => 'admin/dashboard/index',
             'extra'	     => 'admin/dashboard/js/js_index',
 			'mn_dash'	 => 'active',
-			'collap'	 => 'collapse',
-			'colmas'	 => 'collapse',
-			'colset'	 => 'collapse',
             'breadcrumb' => '/ Dashboard'
 		);
 		$this->load->view('layout/wrapper', $data);

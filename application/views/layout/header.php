@@ -17,17 +17,13 @@
   		<link href="<?=base_url()?>assets/css/google-roboto-300-700.css" rel="stylesheet" />
 		<!--end::Fonts-->
 
-		<!--begin::Vendor Stylesheets(used for this page only)-->
-		<!-- <link href="<?= base_url()?>assets/plugins/custom/datatables/datatables.bundle.css" rel="stylesheet" type="text/css" /> -->
-		<link rel="stylesheet" href="<?=base_url()?>assets/bootstrap/plugins/datatables-bs4/css/dataTables.bootstrap4.css">
 	
-		<!--end::Vendor Stylesheets-->
-
-		<!--begin::Global Stylesheets Bundle(mandatory for all pages)-->
+		<link rel="stylesheet" href="<?=base_url()?>assets/bootstrap/plugins/datatables-bs4/css/dataTables.bootstrap4.css">
 		<link href="<?= base_url()?>assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
 		<link href="<?= base_url()?>assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
 		<link href="<?= base_url()?>assets/css/custom.css" rel="stylesheet" type="text/css" />
-		<!--end::Global Stylesheets Bundle-->
+		<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css" rel="stylesheet">
+
 
 		<!-- Datatables -->
 		

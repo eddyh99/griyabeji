@@ -19,10 +19,7 @@ class Items extends CI_Controller {
             'title'		 => NAMETITLE . '- Data Items',
             'content'	 => 'items/index',
             'extra'		 => 'items/js/js_index',
-			'mn_setting' => 'active',
-			'colmas'	 => 'show',
-			'colset'	 => 'collapse in',
-			'collap'	 => 'collapse',
+			'colmas'	 => 'hover show',
 			'side4'		 => 'active',
 			'breadcrumb' => 'Master / Items'
 		);
@@ -273,10 +270,6 @@ class Items extends CI_Controller {
             'title'		 => NAMETITLE . ' - Harga Items',
             'content'	 => 'hargaitems/index',
             'extra'		 => 'hargaitems/js/js_index',
-			'mn_setting' => 'active',
-			'colmas'	 => 'show',
-			'colset'	 => 'collapse in',
-			'collap'	 => 'collapse',
 			'side8'		 => 'active',
 			'breadcrumb' => '/ Harga Items'
 		);

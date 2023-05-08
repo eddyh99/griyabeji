@@ -22,7 +22,7 @@ $(function(){
 				"aTargets": [6],
 				"mData": "id",
 				"mRender": function (data, type, full, meta){
-					button='<a href="<?=base_url()?>pengunjung/ubah/'+encodeURI(btoa(full.id))+'" class="btn btn-simple btn-success btn-icon remove rounded-circle mx-1"><i class="material-icons fs-3">update</i></a>';
+					button='<a href="<?=base_url()?>pengunjung/ubah/'+encodeURI(btoa(full.id))+'" class="btn btn-success btn-icon remove rounded-circle mx-1"><i class="material-icons fs-3">update</i></a>';
 					button=button+'<a href="<?=base_url()?>pengunjung/DelData/'+encodeURI(btoa(full.id))+'" class="btn btn-simple btn-danger btn-icon remove rounded-circle mx-1"><i class="material-icons fs-3">close</i></a>';
 					return button;
 				}

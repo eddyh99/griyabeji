@@ -17,10 +17,7 @@ class Pengunjung extends CI_Controller {
             'title'		 => NAMETITLE . ' - Data Pengunjung',
             'content'	 => 'pengunjung/index',
             'extra'		 => 'pengunjung/js/js_index',
-			'mn_setting' => 'active',
-			'colmas'	 => 'collapse',
-			'colset'	 => 'collapse in',
-			'collap'	 => 'collapse',
+			'colmas'	 => 'hover show',
 			'side15'	 => 'active',
 			'breadcrumb' => 'Master / Pengunjung'
 		);

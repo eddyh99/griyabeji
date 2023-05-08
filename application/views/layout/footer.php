@@ -1,6 +1,6 @@
 							<?php if (@$_SESSION["logged_status"]["is_login"]){?>
 							<!-- ====== Start Footer Page ====== -->
-							<div id="kt_app_footer" class="app-footer">
+							<div id="kt_app_footer" class="app-footer ">
 									<!-- ====== STart Footer container ====== -->
 									<div class="app-container container-fluid d-flex flex-column flex-md-row flex-center flex-md-stack py-3">
 										<div class="text-dark order-2 order-md-1">
@@ -39,6 +39,8 @@
 		</div>
 		<!-- ====== End App ====== -->
 
+		
+
 		<!-- ======= Start Scrolltop ====== -->
 		<div id="kt_scrolltop" class="scrolltop" data-kt-scrolltop="true">
 
@@ -53,15 +55,11 @@
 		<!--======= End Scrolltop ====== -->
 
 
-		<script>var hostUrl = "<?= base_url()?>assets/";</script>
-		<!--begin::Global Javascript Bundle(mandatory for all pages)-->
 		<script src="<?= base_url()?>assets/plugins/global/plugins.bundle.js"></script>
 		<script src="<?= base_url()?>assets/js/scripts.bundle.js"></script>
-		<!--end::Global Javascript Bundle-->
-		<!--begin::Vendors Javascript(used for this page only)-->
 		<script src="<?= base_url()?>assets/plugins/custom/fullcalendar/fullcalendar.bundle.js"></script>
 		<script src="<?= base_url()?>assets/plugins/custom/datatables/datatables.bundle.js"></script>
-		<!--end::Vendors Javascript-->
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
         <?php 
             if (isset($extra)){

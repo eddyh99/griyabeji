@@ -17,10 +17,7 @@ class Guide extends CI_Controller {
             'title'		 => NAMETITLE . ' - Data Pengguna',
             'content'	 => 'guide/index',
             'extra'		 => 'guide/js/js_index',
-			'mn_setting' => 'active',
-			'colmas'	 => 'collapse',
-			'colset'	 => 'collapse in',
-			'collap'	 => 'collapse',
+			'colmas'	 => 'hover show',
 			'side2'		 => 'active',
 			'breadcrumb' => 'Master / Guide'
 		);

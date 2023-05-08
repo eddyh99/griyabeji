@@ -20,6 +20,7 @@ class Produk extends CI_Controller {
             'title'		 => NAMETITLE . ' - Data Produk',
             'content'	 => 'produk/index',
             'extra'		 => 'produk/js/js_index',
+			'colmas'	 => 'hover show',
 			'side5'		 => 'active',
 			'breadcrumb' => 'Master / Produk'
 		);

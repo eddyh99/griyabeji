@@ -172,7 +172,7 @@
                     <!--====== End Dashboard ===== -->
                     
                     <!--====== Start Master ===== -->
-                    <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+                    <div data-kt-menu-trigger="click" class="menu-item menu-accordion <?= @$colmas?>">
 
                         <!-- ===== Start Sub Link Master ===== -->
                         <span class="menu-link">

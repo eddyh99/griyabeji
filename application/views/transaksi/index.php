@@ -74,19 +74,9 @@
 								</div>
 							</div>
 						</div>
-		
-						<div class="row mx-auto mt-12">
-							<div class="form-group col-8 mx-auto">
-								<div class="col-9 mx-auto">
-									<select multiple id="pengunjung" name="pengunjung[]" class="form-control">
-										<?php foreach ($pengunjung as $pen){?>
-											<option value="<?=$pen["id"]?>"><?=$pen["nama"]?></option>
-										<?php } ?>
-									</select>
-								</div>
-							</div>
-						</div>
+	
 						<!-- End Input Data Guide, Pengayah, Pengunjung -->
+
 					</div>
 					<div class="d-flex justify-content-center mt-10">
 						<button type="submit" class="btn btn-primary text-center">Simpan</button>
@@ -95,7 +85,7 @@
 				<!-- ENd Top Section -->
 				
 				<!-- Start Middle Section -->
-				<div class="row mt-10">
+				<!-- <div class="row mt-10">
 					<div class="card">
 						<div class="card-content py-6 px-8">
 							<span>Nama Guide : Guide 1</span>
@@ -118,7 +108,7 @@
 								</table>
 						</div>
 					</div>
-				</div>
+				</div> -->
 				<div class="bg-success mt-10 pb-20">
 					<form action="" method="post">
 						<div class="row col-10 mx-auto">
@@ -259,7 +249,7 @@
 							<div class="row mx-auto">
 								<div class="form-group col-12">
 									<div class="col-8 mx-auto">
-										<p  data-bs-toggle="modal" data-bs-target="#exampleModal" >show modal</p>
+										<p  data-bs-toggle="modal" data-bs-target="#exampleModal" >input pin manager</p>
 										<select id="guide" name="guide" class="form-control">
 											<option value="" disabled selected>--Pilih Guide--</option>
 											<?php foreach ($guide as $g){?>

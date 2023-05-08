@@ -18,10 +18,7 @@ class Paket extends CI_Controller {
             'title'		 => NAMETITLE . ' - Data Paket',
             'content'	 => 'paket/index',
             'extra'		 => 'paket/js/js_index',
-			'mn_setting' => 'active',
-			'colmas'	 => 'collapse',
-			'colset'	 => 'collapse in',
-			'collap'	 => 'collapse',
+			'colmas'	 => 'hover show',
 			'side6'		 => 'active',
 			'breadcrumb' => 'Master / Paket'
 		);

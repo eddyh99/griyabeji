@@ -17,10 +17,7 @@ class Store extends CI_Controller {
             'title'		 => NAMETITLE . '- Data Store',
             'content'	 => 'store/index',
             'extra'		 => 'store/js/js_index',
-			'mn_setting' => 'active',
-			'colmas'	 => 'collapse',
-			'colset'	 => 'collapse in',
-			'collap'	 => 'collapse',
+			'colmas'	 => 'hover show',
 			'side7'		 => 'active',
 			'breadcrumb' => 'Master / Store'
 		);
