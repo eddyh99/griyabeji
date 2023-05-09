@@ -123,5 +123,22 @@ class Mdl_paket extends CI_Model{
 		}
 	}
 
+	/********* Promotional paket *******/
+	public function promopaket(){
+		$now=date("Y-m-d");
+		$sql="SELECT DATE_FORMAT(a.awal,'%d %b %Y') as awal,DATE_FORMAT(a.akhir,'%d %b %Y') as akhir, b.namapaket, a.lokal, a.domestik, a.internasional 
+			FROM ".PAKET_PROMO." a INNER JOIN ".PAKET." b ON a.id_paket=b.id 
+			WHERE b.status='no' AND ? < akhir";
+		$query=$this->db->query($sql,$now);
+		return $query->result_array();
+	}
+
+	public function insertPromo($data){
+		if ($this->db->insert(PAKET_PROMO, $data)){
+            return array("code"=>0, "message"=>"");
+		}else{
+            return $this->db->error();
+		}
+	}
 }
 ?>

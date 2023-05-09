@@ -17,6 +17,7 @@
 						"url": "<?=base_url()?>pengguna/Listdata",
 						"type": "POST",
 						"dataSrc":function (data){
+							console.log(data);
 								return data;							
 							}
 				},

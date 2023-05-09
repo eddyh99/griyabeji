@@ -13,12 +13,15 @@
                     <div class="alert alert-success"><?=$_SESSION["message"]?></div>
                     <?php } ?>
                     <div class="card-content py-6 px-8">
-                    <div class="col-sm-3"><button id="simpan" class="btn btn-primary">Simpan</button></div>
+                        <form id="frm-approve" action="<?=base_url()?>penyesuaian/simpandata" method="post">
+                            <div class="col-sm-3">
+                                <button type="submit" id="simpan" class="btn btn-primary">Simpan</button>
+                            </div>
                             <table id="table_data" class="table table-striped nowrap" width="100%">
                                 <thead>
                                 <tr>
                                     <th class="check">
-                                        <input type="checkbox" id="flowcheckall" value="" />&nbsp;All
+                                        <input type="checkbox" id="flowcheckall" value="" />
                                     </th>
                                     <th>Tanggal</th>
                                     <th>Items</th>
@@ -31,6 +34,7 @@
                                 <tbody>
                                 </tbody>
                             </table>
+                        </form>
                     </div>
                 </div>
 			</div>

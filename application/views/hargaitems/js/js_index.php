@@ -19,7 +19,7 @@
 					{ "data": "namaitem"},
 					{ "data": "awal"},
 					{ "data": "akhir"},
-					{ "data": "local",render:$.fn.dataTable.render.number('.', ',', 0, '') },
+					{ "data": "lokal",render:$.fn.dataTable.render.number('.', ',', 0, '') },
 					{ "data": "domestik",render:$.fn.dataTable.render.number('.', ',', 0, '')},
 					{ "data": "internasional",render:$.fn.dataTable.render.number('.', ',', 0, '')},
 				]

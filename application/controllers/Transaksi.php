@@ -8,77 +8,101 @@ class Transaksi extends CI_Controller {
         if (!isset($this->session->userdata['logged_status'])) {
             redirect(base_url());
         }
-	//    $this->load->model('admin/GuideModel');
+		$this->load->model('admin/mdl_guide','guide');
+		$this->load->model('admin/mdl_pengayah',"pengayah");
+		$this->load->model('admin/mdl_pengunjung',"pengunjung");
+		$this->load->model('admin/mdl_items',"items");
+		$this->load->model('admin/mdl_produk','produk');
+		$this->load->model('admin/mdl_paket',"paket");
+		$this->load->model('admin/Mdl_pengguna',"pengguna");
     }
     
     public function index() {
 
-		$guide = array (
-			array(
-				"id"            => "1",
-				"nama"		    => "Guide 1",
-				"whatsapp"		=> "11111111",
-			),
-			array(
-				"id"            => "2",
-				"nama"		    => "Guide 2",
-				"whatsapp"		=> "22222222",
-			),
-		);
+		$guide = $this->guide->listguide();
+		// $guide = array (
+		// 	array(
+		// 		"id"            => "1",
+		// 		"nama"		    => "Guide 1",
+		// 		"whatsapp"		=> "11111111",
+		// 	),
+		// 	array(
+		// 		"id"            => "2",
+		// 		"nama"		    => "Guide 2",
+		// 		"whatsapp"		=> "22222222",
+		// 	),
+		// );
 
-		$pengayah = array (
-			array(
-                "id"            => "1",
-				"nama"		    => "Pengayah 1",
-				"whatsapp"		=> "11111111",
-			),
-			array(
-                "id"            => "2",
-				"nama"		    => "Pengayah 2",
-				"whatsapp"		=> "22222222",
-			),
-		);
+		$pengayah = $this->pengayah->Listpengayah();
+		// $pengayah = array (
+		// 	array(
+        //         "id"            => "1",
+		// 		"nama"		    => "Pengayah 1",
+		// 		"whatsapp"		=> "11111111",
+		// 	),
+		// 	array(
+        //         "id"            => "2",
+		// 		"nama"		    => "Pengayah 2",
+		// 		"whatsapp"		=> "22222222",
+		// 	),
+		// );
 
-		$pengunjung = array (
-			array(
-                "id"            => "1",
-				"nama"		    => "I Made Farhan Sucipto Nugroho",
-				"whatsapp"		=> "11111111",
-				"email"			=> "made@gmail.com",
-				"ig"			=> "made123",
-				"statename"		=> "Indonesia",
-				"countryname"	=> "Bali"			
+		$pengunjung = $this->pengunjung->Listpengunjung();
+		// $pengunjung = array (
+		// 	array(
+        //         "id"            => "1",
+		// 		"nama"		    => "I Made Farhan Sucipto Nugroho",
+		// 		"whatsapp"		=> "11111111",
+		// 		"email"			=> "made@gmail.com",
+		// 		"ig"			=> "made123",
+		// 		"statename"		=> "Indonesia",
+		// 		"countryname"	=> "Bali"			
 
-			),
-			array(
-                "id"            => "2",
-				"nama"		    => "Pengunjung 2",
-				"whatsapp"		=> "22222222",
-				"email"			=> "made@gmail.com",
-				"ig"			=> "made123",
-				"statename"		=> "Indonesia",
-				"countryname"	=> "Bali"	
-			),
-			array(
-                "id"            => "3",
-				"nama"		    => "Pengunjung 3",
-				"whatsapp"		=> "333",
-				"email"			=> "made@gmail.com",
-				"ig"			=> "made123",
-				"statename"		=> "Indonesia",
-				"countryname"	=> "Bali"	
-			),
-			array(
-                "id"            => "4",
-				"nama"		    => "Pengunjung 4",
-				"whatsapp"		=> "44444444",
-				"email"			=> "made@gmail.com",
-				"ig"			=> "made123",
-				"statename"		=> "Indonesia",
-				"countryname"	=> "Bali"	
-			),
+		// 	),
+		// 	array(
+        //         "id"            => "2",
+		// 		"nama"		    => "Pengunjung 2",
+		// 		"whatsapp"		=> "22222222",
+		// 		"email"			=> "made@gmail.com",
+		// 		"ig"			=> "made123",
+		// 		"statename"		=> "Indonesia",
+		// 		"countryname"	=> "Bali"	
+		// 	),
+		// 	array(
+        //         "id"            => "3",
+		// 		"nama"		    => "Pengunjung 3",
+		// 		"whatsapp"		=> "333",
+		// 		"email"			=> "made@gmail.com",
+		// 		"ig"			=> "made123",
+		// 		"statename"		=> "Indonesia",
+		// 		"countryname"	=> "Bali"	
+		// 	),
+		// 	array(
+        //         "id"            => "4",
+		// 		"nama"		    => "Pengunjung 4",
+		// 		"whatsapp"		=> "44444444",
+		// 		"email"			=> "made@gmail.com",
+		// 		"ig"			=> "made123",
+		// 		"statename"		=> "Indonesia",
+		// 		"countryname"	=> "Bali"	
+		// 	),
 
-		);
+		// );
+
+		// For Select Items
+		$items = $this->items->listitems();
+
+		// For Select Produk
+		$produks = $this->produk->listproduk();
+
+		// For Select Pakets
+		$pakets = $this->paket->listpaket();
+
+		// For Select Pengguna / Manager
+		$pengguna = $this->pengguna->listpengguna();
+
+		// For Select Country
+		$countries = $this->pengunjung->getCountry();
 
 
         $data	= array(
@@ -89,11 +113,55 @@ class Transaksi extends CI_Controller {
 			'guide'		 => $guide,
 			'pengayah'	 => $pengayah,
 			'pengunjung' => $pengunjung,
+			'items'		 => $items,
+			'produks'	 => $produks,
+			'pakets'	 => $pakets,
+			'pengguna'	 => $pengguna,
+			'countries'	 => $countries,
 
 		);
 
 		$this->load->view('layout/wrapper', $data);
 	}
+
+	public function readmanager(){
+		$username = $this->security->xss_clean($this->input->post('username'));
+		// $result = $this->cashierModel->readitem($barcode);
+		echo json_encode($username);
+	}
+
+	public function getstate(){
+		$country    = $_GET["country"];
+        // $url    = URLAPI . "/v1/member/findme/get_statelist?country=".$country;
+        // $state  = apitrackless($url)->message;
+
+		$states =  $this->pengunjung->getstate($country);
+		// array(
+		// 	array(
+		// 		"state_code"		=> "AC",
+		// 		"country_code"		=> "ID",
+		// 		"state_name"		=> "Aceh"
+		// 	),
+		// 	array(
+		// 		"state_code"		=> "BA",
+		// 		"country_code"		=> "ID",
+		// 		"state_name"		=> "Bali"
+		// 	),
+		// 	array(
+		// 		"state_code"		=> "AJ",
+		// 		"country_code"		=> "AE",
+		// 		"state_name"		=> "Ajman Emirate"
+		// 	),
+		// 	array(
+		// 		"state_code"		=> "DU",
+		// 		"country_code"		=> "AE",
+		// 		"state_name"		=> "Dubai"
+		// 	),
+		// );
+
+        echo json_encode($states);
+	}
+
 	
 	public function Listdata(){
 		// $result=$this->PenggunaModel->listpengguna();

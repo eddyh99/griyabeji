@@ -322,74 +322,75 @@ class Produk extends CI_Controller {
 
 	public function hargaproduk(){
 		$data	= array(
-            'title'		 => 'Harga Produk',
+            'title'		 => NAMETITLE . ' - Harga Produk',
             'content'	 => 'hargaproduk/index',
             'extra'		 => 'hargaproduk/js/js_index',
 			'side9'		 => 'active',
-			'breadcrumb' => '/ Harga Produk'
+			'breadcrumb' => 'Harga Produk'
 		);
 		$this->load->view('layout/wrapper', $data);
 	}
 
 	public function ListHargaItemsData(){
-		$result = array (
-			array(
-                "id"            => "1",
-				"namaitem"		=> "Palm Reading",
-				"awal"			=> "44 January 2023",
-				"akhir"			=> "12 January 2023",
-				"local"			=> "1000000",
-				"domestik"		=> "2000000",
-				"internasional"	=> "3000000",
-			),
-			array(
-                "id"            => "2",
-				"namaitem"		=> "Puri Cation",
-				"awal"			=> "11 January 2023",
-				"akhir"			=> "12 January 2023",
-				"local"			=> "1000000",
-				"domestik"		=> "2000000",
-				"internasional"	=> "3000000",
-			),
-			array(
-                "id"            => "3",
-				"namaitem"		=> "Healing",
-				"awal"			=> "11 January 2023",
-				"akhir"			=> "12 January 2023",
-				"local"			=> "1000000",
-				"domestik"		=> "2000000",
-				"internasional"	=> "3000000",
-			),
-		);
+		$result	= $this->produk->promoproduk();
+		// $result = array (
+		// 	array(
+        //         "id"            => "1",
+		// 		"namaitem"		=> "Palm Reading",
+		// 		"awal"			=> "44 January 2023",
+		// 		"akhir"			=> "12 January 2023",
+		// 		"local"			=> "1000000",
+		// 		"domestik"		=> "2000000",
+		// 		"internasional"	=> "3000000",
+		// 	),
+		// 	array(
+        //         "id"            => "2",
+		// 		"namaitem"		=> "Puri Cation",
+		// 		"awal"			=> "11 January 2023",
+		// 		"akhir"			=> "12 January 2023",
+		// 		"local"			=> "1000000",
+		// 		"domestik"		=> "2000000",
+		// 		"internasional"	=> "3000000",
+		// 	),
+		// 	array(
+        //         "id"            => "3",
+		// 		"namaitem"		=> "Healing",
+		// 		"awal"			=> "11 January 2023",
+		// 		"akhir"			=> "12 January 2023",
+		// 		"local"			=> "1000000",
+		// 		"domestik"		=> "2000000",
+		// 		"internasional"	=> "3000000",
+		// 	),
+		// );
 		echo json_encode($result);
 	}
 
 	public function tambahharga(){
-
-		$produks = array(
-			array(
-				"id"			=> "1",
-				"namaproduk"	=> "Purification Ceremony"
-			),
-			array(
-				"id"			=> "2",
-				"namaproduk"	=> "Healing Therapy"
-			),
-			array(
-				"id"			=> "3",
-				"namaproduk"	=> "Palm Reading"
-			),
-		);
+		$produks	= $this->produk->listproduk();
+		// $produks = array(
+		// 	array(
+		// 		"id"			=> "1",
+		// 		"namaproduk"	=> "Purification Ceremony"
+		// 	),
+		// 	array(
+		// 		"id"			=> "2",
+		// 		"namaproduk"	=> "Healing Therapy"
+		// 	),
+		// 	array(
+		// 		"id"			=> "3",
+		// 		"namaproduk"	=> "Palm Reading"
+		// 	),
+		// );
 
 		
 		$data	= array(
-            'title'		 => 'Harga Produk',
+            'title'		 => NAMETITLE . ' - Harga Produk',
             'content'	 => 'hargaproduk/tambah',
             'extra'		 => 'hargaproduk/js/js_tambah',
 			'mn_setting' => 'active',
 			'side9'		 => 'active',
 			'produks'	 => $produks,
-			'breadcrumb' => '/ Harga Produk / Tambah'
+			'breadcrumb' => 'Harga Produk / Tambah'
 		);
 		$this->load->view('layout/wrapper', $data);
 	}
@@ -420,19 +421,20 @@ class Produk extends CI_Controller {
 
 
         $data		= array(
-            "namaproduk"     => $namaproduk,
-			"local"			=> $local,
+            "id_produk"     => $namaproduk,
+			"lokal"			=> $local,
 			"domestik"		=> $domestik,
 			"internasional" => $internasional,
-			"tanggal_awal" 	=> $tanggal_awal,
-			"tanggal_akhir" => $tanggal_akhir
+			"awal" 			=> $tanggal_awal,
+			"akhir" 		=> $tanggal_akhir,
+			"userid" 		=> $_SESSION["logged_status"]["username"]
         );
 
 		// print_r(json_encode($data));
 		// die;
 
 		// Checking Success and Error AddData
-		// $result		= $this->PenggunaModel->insertData($data);
+		$result		= $this->produk->insertPromo($data);
 
 		// untuk sukses
 		// $result["code"]=0;

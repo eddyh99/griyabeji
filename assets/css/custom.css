@@ -46,7 +46,23 @@ table.dataTable.table-striped > tbody > tr.even td:nth-child(1){
     color: white !important;
 }
 
+.btn-transaksi-active{
+    font-weight: bold;
+    background-color: rgb(255, 255, 255);
+    border: 2px solid rgb(32,43,70);
+    border-radius: 8px;
+}
 
+.btn-transkasi-nonactive {
+    font-weight: bold;
+    background-color: transparent;
+    border: 2px solid rgb(176, 176, 176);
+    border-radius: 8px;
+}
+
+.bg-transaksi {
+    background-color: rgb(236, 236, 236);
+}
 
 @media (min-width: 768px ){
     .hanaka-back {

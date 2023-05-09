@@ -271,70 +271,71 @@ class Items extends CI_Controller {
             'content'	 => 'hargaitems/index',
             'extra'		 => 'hargaitems/js/js_index',
 			'side8'		 => 'active',
-			'breadcrumb' => '/ Harga Items'
+			'breadcrumb' => 'Harga Items'
 		);
 		$this->load->view('layout/wrapper', $data);
 	}
 
 	public function ListHargaItemsData(){
-		$result = array (
-			array(
-                "id"            => "1",
-				"namaitem"		=> "Dupa Wangi",
-				"awal"			=> "11 January 2023",
-				"akhir"			=> "12 January 2023",
-				"local"			=> "1000000",
-				"domestik"		=> "2000000",
-				"internasional"	=> "3000000",
-			),
-			array(
-                "id"            => "2",
-				"namaitem"		=> "Gelang Tridatu",
-				"awal"			=> "11 January 2023",
-				"akhir"			=> "12 January 2023",
-				"local"			=> "1000000",
-				"domestik"		=> "2000000",
-				"internasional"	=> "3000000",
-			),
-			array(
-                "id"            => "3",
-				"namaitem"		=> "Canang Sari",
-				"awal"			=> "11 January 2023",
-				"akhir"			=> "12 January 2023",
-				"local"			=> "1000000",
-				"domestik"		=> "2000000",
-				"internasional"	=> "3000000",
-			),
-		);
+		$result	= $this->items->promoitems();
+		// $result = array (
+		// 	array(
+        //         "id"            => "1",
+		// 		"namaitem"		=> "Dupa Wangi",
+		// 		"awal"			=> "11 January 2023",
+		// 		"akhir"			=> "12 January 2023",
+		// 		"local"			=> "1000000",
+		// 		"domestik"		=> "2000000",
+		// 		"internasional"	=> "3000000",
+		// 	),
+		// 	array(
+        //         "id"            => "2",
+		// 		"namaitem"		=> "Gelang Tridatu",
+		// 		"awal"			=> "11 January 2023",
+		// 		"akhir"			=> "12 January 2023",
+		// 		"local"			=> "1000000",
+		// 		"domestik"		=> "2000000",
+		// 		"internasional"	=> "3000000",
+		// 	),
+		// 	array(
+        //         "id"            => "3",
+		// 		"namaitem"		=> "Canang Sari",
+		// 		"awal"			=> "11 January 2023",
+		// 		"akhir"			=> "12 January 2023",
+		// 		"local"			=> "1000000",
+		// 		"domestik"		=> "2000000",
+		// 		"internasional"	=> "3000000",
+		// 	),
+		// );
 		echo json_encode($result);
 	}
 
 	public function tambahharga(){
-
-		$items = array(
-			array(
-				"id"			=> "1",
-				"namaitem"		=> "Dupa Wangi"
-			),
-			array(
-				"id"			=> "2",
-				"namaitem"		=> "Canang Sari"
-			),
-			array(
-				"id"			=> "3",
-				"namaitem"		=> "Aqua"
-			),
-		);
+		$items=$this->items->listitems();
+		// $items = array(
+		// 	array(
+		// 		"id"			=> "1",
+		// 		"namaitem"		=> "Dupa Wangi"
+		// 	),
+		// 	array(
+		// 		"id"			=> "2",
+		// 		"namaitem"		=> "Canang Sari"
+		// 	),
+		// 	array(
+		// 		"id"			=> "3",
+		// 		"namaitem"		=> "Aqua"
+		// 	),
+		// );
 
 		
 		$data	= array(
-            'title'		 => 'Harga Items',
+            'title'		 => NAMETITLE . ' - Harga Items',
             'content'	 => 'hargaitems/tambah',
             'extra'		 => 'hargaitems/js/js_tambah',
 			'mn_setting' => 'active',
 			'side8'		 => 'active',
 			'items'		 => $items,
-			'breadcrumb' => '/ Harga Items / Tambah'
+			'breadcrumb' => 'Harga Items / Tambah'
 		);
 		$this->load->view('layout/wrapper', $data);
 	}
@@ -365,19 +366,20 @@ class Items extends CI_Controller {
 
 
         $data		= array(
-            "namaitems"     => $namaitems,
-			"local"			=> $local,
+            "id_items"     	=> $namaitems,
+			"lokal"			=> $local,
 			"domestik"		=> $domestik,
 			"internasional" => $internasional,
-			"tanggal_awal" 	=> $tanggal_awal,
-			"tanggal_akhir" => $tanggal_akhir
+			"awal" 			=> $tanggal_awal,
+			"akhir" 		=> $tanggal_akhir,
+			"userid" 		=> $_SESSION["logged_status"]["username"]
         );
 
 		// print_r(json_encode($data));
 		// die;
 
 		// Checking Success and Error AddData
-		// $result		= $this->PenggunaModel->insertData($data);
+		$result		= $this->items->insertPromo($data);
 
 		// untuk sukses
 		// $result["code"]=0;

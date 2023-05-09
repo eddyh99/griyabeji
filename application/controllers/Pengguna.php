@@ -108,8 +108,8 @@ class Pengguna extends CI_Controller {
 		// $result["code"]=0;
 
 		//untuk gagal
-		$result["code"]=5011;
-		$result["message"]="Data gagal di inputkan";
+		// $result["code"]=5011;
+		// $result["message"]="Data gagal di inputkan";
 
 		if ($result["code"]==0) {
 		    $this->session->set_flashdata('success', $this->message->success_msg());

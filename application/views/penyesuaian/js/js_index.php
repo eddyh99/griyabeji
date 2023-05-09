@@ -3,5 +3,11 @@
 <script>
       
   $("#namaitems").select2();
-
+  $("#namaitems").on("change", function(e){
+    $.get("<?=base_url()?>penyesuaian/stokitem?items_id="+$(this).val(),function(data, status){  
+      console.log(data);    
+      $("#stok").val(data);
+    });
+  })
+  
 </script>

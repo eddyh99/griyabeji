@@ -11,7 +11,6 @@
     $.ajax({
         url: "<?= base_url() ?>pengunjung/getstate?country=" + country,
         success: function(response) {
-            console.log(response);
             var data = JSON.parse(response);
             var select = document.getElementById("statename");
             for(i = select.options.length - 1; i > 0; i--) {
