@@ -7,14 +7,12 @@
 		<div id="kt_app_content_container" class="app-container container-fluid">
 			
 			<!-- ======= Start Row Content Canva JS ====== -->
+
 			<div class="row">
                 <div class="col-md-12 text-right my-10">
                     <a class="btn btn-primary" href="<?=base_url()?>pengguna/tambah">Tambah</a>
                 </div>
                 <div class="card">
-                    <?php if (isset($_SESSION["message"])){?>
-                    <div class="alert alert-success"><?=$_SESSION["message"]?></div>
-                    <?php } ?>
                     <div class="card-content py-6 px-8">
                             <table id="table_data" class="table table-striped nowrap" width="100%">
                                 <thead>
@@ -39,5 +37,26 @@
 	<!--====== End Content ====== -->
 </div>
 <!--======= End Content wrapper ====== -->
+
+
+<!-- Alert Message -->
+<?php if (isset($_SESSION["success"])){?>
+    <script>
+        setTimeout(function() {
+            Swal.fire({
+                title: '<?= $_SESSION['success']?>',
+                position: 'top-end',
+                background: '#50CD89',
+                customClass: {
+                    title: 'toast-griya-title',
+                },
+                timer: 3000,
+                showConfirmButton: false,
+            });
+        }, 100);
+    </script>
+<?php } ?>
+
+
 
 

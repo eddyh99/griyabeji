@@ -74,8 +74,8 @@
         <div class="app-sidebar-logo px-6 my-6" id="kt_app_sidebar_logo">
 
             <!-- ====== Start Logo Desktop ===== -->
-            <a href="#" class="app-sidebar-logo-default text-white fw-bold">
-                <img alt="Logo" src="<?= base_url()?>assets/img/logo.webp" class="h-70px app-sidebar-logo-default" />
+            <a href="#" class="app-sidebar-logo-default  text-white fw-bold">
+                <img alt="Logo" src="<?= base_url()?>assets/img/logo.png" class="h-70px app-sidebar-logo-default" />
             </a>
             <!--====== End Logo Desktop ===== -->
 
@@ -133,7 +133,7 @@
 
                             <!-- ======  Start Menu Nama Login ===== -->
                             <div class="menu-item">
-                                <a class="menu-link" href="<?=base_url()?>admin/pengguna/ubah/<?=base64_encode($_SESSION["logged_status"]["username"])?>">
+                                <a class="menu-link" href="<?=base_url()?>pengguna/ubah/<?=base64_encode($_SESSION["logged_status"]["username"])?>">
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
@@ -172,7 +172,7 @@
                     <!--====== End Dashboard ===== -->
                     
                     <!--====== Start Master ===== -->
-                    <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+                    <div data-kt-menu-trigger="click" class="menu-item menu-accordion <?= @$colmas?>">
 
                         <!-- ===== Start Sub Link Master ===== -->
                         <span class="menu-link">
@@ -225,6 +225,17 @@
                                 </a>
                             </div>
                             <!-- ======  End  Menu Pengayah ===== -->
+
+                            <!-- ======  Start Menu Pengunjung ===== -->
+                            <div class="menu-item">
+                                <a class="menu-link <?=@$side15?>" href="<?= base_url()?>pengunjung">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">Pengunjung</span>
+                                </a>
+                            </div>
+                            <!-- ======  End  Menu Pengunjung ===== -->
 
                             <!-- ======  Start Menu Items ===== -->
                             <div class="menu-item">
@@ -369,9 +380,28 @@
                     </div>
                     <!--====== End Penyesuaian ===== -->
 
+
+
+                    <!--====== Start Approval Penyesuaian ===== -->
+                    <div class="menu-item menu-accordion">
+                        <a class="menu-link <?=@$side12?>" href="<?=base_url()?>penyesuaian/approval">
+                            <span class="menu-icon">
+                                <span class="svg-icon svg-icon-2">
+                                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M16 7V10H32V7H38C39.1046 7 40 7.89543 40 9V42C40 43.1046 39.1046 44 38 44H10C8.89543 44 8 43.1046 8 42V9C8 7.89543 8.89543 7 10 7H16ZM34.4042 21.4242L21.8438 33.8087L14.5958 26.6623L17.4042 23.814L21.8438 28.1913L31.5958 18.5759L34.4042 21.4242Z" fill="currentcolor"/>
+                                        <path d="M18 4C16.8954 4 16 4.89543 16 6V10H32V6C32 4.89543 31.1046 4 30 4H18Z" fill="#324558"/>
+                                        <path d="M21.8437 33.8087L34.4041 21.4242L31.5957 18.5759L21.8437 28.1913L17.4041 23.814L14.5957 26.6623L21.8437 33.8087Z" fill="#324558"/>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="menu-title">Approval Penyesuaian</span>
+                        </a>
+                    </div>
+                    <!--====== End Approval Penyesuaian ===== -->
+
                     <!--====== Start Kas ===== -->
                     <div class="menu-item menu-accordion">
-                        <a class="menu-link <?=@$side12?>" href="<?=base_url()?>kas">
+                        <a class="menu-link <?=@$side13?>" href="<?=base_url()?>kas">
                             <span class="menu-icon">
                                 <span class="svg-icon svg-icon-2">
                                     <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -388,44 +418,9 @@
                     </div>
                     <!--====== End Kas ===== -->
 
-                    <!--====== Start Event ===== -->
-                    <div class="menu-item menu-accordion">
-                        <a class="menu-link " href="<?=base_url()?>event">
-                            <span class="menu-icon">
-                                <span class="svg-icon svg-icon-2">
-                                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M42 14H6V42C6 43.1046 6.89543 44 8 44H29.6929C26.8255 41.6154 25 38.0209 25 34C25 26.8203 30.8203 21 38 21C39.3956 21 40.7399 21.2199 42 21.627V14Z" fill="#B6C2CD"/>
-                                        <path d="M18 4H14V8H8C6.89543 8 6 8.89543 6 10V14H42V10C42 8.89543 41.1046 8 40 8H34V4H30V8H18V4Z" fill="#324558"/>
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M48 34C48 39.5229 43.5229 44 38 44C32.4772 44 28 39.5229 28 34C28 28.4772 32.4772 24 38 24C43.5229 24 48 28.4772 48 34ZM39.5 28V34.3787L42.5607 37.4393L40.4393 39.5607L36.5 35.6213V28H39.5Z" fill="currentcolor"/>
-                                    </svg>
-
-                                </span>
-                            </span>
-                            <span class="menu-title">Event</span>
-                        </a>
-                    </div>
-                    <!--====== End Event ===== -->
-
-                    <!--====== Start Approval Penyesuaian ===== -->
-                    <div class="menu-item menu-accordion">
-                        <a class="menu-link " href="<?=base_url()?>penyesuaian/approval">
-                            <span class="menu-icon">
-                                <span class="svg-icon svg-icon-2">
-                                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M16 7V10H32V7H38C39.1046 7 40 7.89543 40 9V42C40 43.1046 39.1046 44 38 44H10C8.89543 44 8 43.1046 8 42V9C8 7.89543 8.89543 7 10 7H16ZM34.4042 21.4242L21.8438 33.8087L14.5958 26.6623L17.4042 23.814L21.8438 28.1913L31.5958 18.5759L34.4042 21.4242Z" fill="currentcolor"/>
-                                        <path d="M18 4C16.8954 4 16 4.89543 16 6V10H32V6C32 4.89543 31.1046 4 30 4H18Z" fill="#324558"/>
-                                        <path d="M21.8437 33.8087L34.4041 21.4242L31.5957 18.5759L21.8437 28.1913L17.4041 23.814L14.5957 26.6623L21.8437 33.8087Z" fill="#324558"/>
-                                    </svg>
-                                </span>
-                            </span>
-                            <span class="menu-title">Approval Penyesuaian</span>
-                        </a>
-                    </div>
-                    <!--====== End Approval Penyesuaian ===== -->
-
                     <!--====== Start Rekapan Harian ===== -->
                     <div class="menu-item menu-accordion">
-                        <a class="menu-link " href="<?=base_url()?>penyesuaian/approval">
+                        <a class="menu-link <?=@$side14?>" href="<?=base_url()?>kas/tutupharian">
                             <span class="menu-icon">
                                 <span class="svg-icon svg-icon-2">
                                     <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -442,9 +437,9 @@
                     </div>
                     <!--====== End Rekapan Harian ===== -->
 
-                    <!--====== Start Penjualan ===== -->
+                    <!--====== Start Transaksi ===== -->
                     <div class="menu-item menu-accordion">
-                        <a class="menu-link " href="<?=base_url()?>penyesuaian/approval">
+                        <a class="menu-link " href="<?=base_url()?>transaksi">
                             <span class="menu-icon">
                                 <span class="svg-icon svg-icon-2">
                                     <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -455,10 +450,10 @@
                                     </svg>
                                 </span>
                             </span>
-                            <span class="menu-title">Penjualan</span>
+                            <span class="menu-title">Transaksi</span>
                         </a>
                     </div>
-                    <!--====== End Penjualan ===== -->
+                    <!--====== End Transaksi ===== -->
 
 
                     <!--====== End ALL Side bar ===== -->

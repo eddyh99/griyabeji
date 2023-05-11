@@ -17,10 +17,7 @@ class Pengguna extends CI_Controller {
             'title'		 => NAMETITLE . '- Data Pengguna',
             'content'	 => 'pengguna/index',
             'extra'		 => 'pengguna/js/js_index',
-			'mn_setting' => 'active',
-			'colmas'	 => 'collapse',
-			'colset'	 => 'collapse in',
-			'collap'	 => 'collapse',
+			'colmas'	 => 'hover show',
 			'side1'		 => 'active',
 			'breadcrumb' => 'Master / Pengguna'
 		);
@@ -84,7 +81,7 @@ class Pengguna extends CI_Controller {
 		$this->form_validation->set_rules('nama', 'Nama', 'trim|required');
 
 		if ($this->form_validation->run() == FALSE){
-		    $this->session->set_flashdata('message', $this->message->error_msg(validation_errors()));
+		    $this->session->set_flashdata('error_validation', $this->message->error_msg(validation_errors()));
 		    redirect(base_url()."pengguna/tambah");
             return;
 		}
@@ -115,11 +112,11 @@ class Pengguna extends CI_Controller {
 		// $result["message"]="Data gagal di inputkan";
 
 		if ($result["code"]==0) {
-		    $this->session->set_flashdata('message', $this->message->success_msg());
+		    $this->session->set_flashdata('success', $this->message->success_msg());
 		    redirect(base_url()."pengguna");
             return;
 		}else{
-		    $this->session->set_flashdata('message', $this->message->error_msg($result["message"]));
+		    $this->session->set_flashdata('error', $this->message->error_msg($result["message"]));
 		    redirect(base_url()."pengguna/tambah");
             return;
 		}

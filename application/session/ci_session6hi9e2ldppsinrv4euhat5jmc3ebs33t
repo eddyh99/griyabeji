@@ -1,0 +1,3 @@
+__ci_last_regenerate|i:1683163970;logged_status|a:4:{s:8:"username";s:5:"admin";s:4:"nama";s:5:"admin";s:4:"role";s:5:"admin";s:8:"is_login";b:1;}error_validation|s:86:"<span>The Username field is required.</span>
+<span>The Nama field is required.</span>
+";__ci_vars|a:1:{s:16:"error_validation";s:3:"old";}

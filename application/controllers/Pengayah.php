@@ -17,10 +17,7 @@ class Pengayah extends CI_Controller {
             'title'		 => NAMETITLE . ' - Data Pengguna',
             'content'	 => 'pengayah/index',
             'extra'		 => 'pengayah/js/js_index',
-			'mn_setting' => 'active',
-			'colmas'	 => 'collapse',
-			'colset'	 => 'collapse in',
-			'collap'	 => 'collapse',
+			'colmas'	 => 'hover show',
 			'side3'		 => 'active',
 			'breadcrumb' => 'Master / Pengayah'
 		);

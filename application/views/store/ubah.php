@@ -15,6 +15,7 @@
                     <?php } ?>
                     <div class="card-content">
                         <form id="form_input" method="post" action="<?=base_url()?>store/updateData">
+                            <input type="hidden" name="id" value="<?=$detail["id"]?>">
                             <div class="col-lg-6">
                                 <div class="card-body">
                                     <div class="form-group row my-3">

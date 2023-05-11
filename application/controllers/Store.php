@@ -8,50 +8,47 @@ class Store extends CI_Controller {
         if (!isset($this->session->userdata['logged_status'])) {
             redirect(base_url());
         }
-	//    $this->load->model('admin/GuideModel');
+	    $this->load->model('admin/mdl_store','store');
     }
     
     public function index() {
 
         $data	= array(
-            'title'		 => 'Data Pengguna',
+            'title'		 => NAMETITLE . '- Data Store',
             'content'	 => 'store/index',
             'extra'		 => 'store/js/js_index',
-			'mn_setting' => 'active',
-			'colmas'	 => 'collapse',
-			'colset'	 => 'collapse in',
-			'collap'	 => 'collapse',
+			'colmas'	 => 'hover show',
 			'side7'		 => 'active',
-			'breadcrumb' => '/ Master / Store'
+			'breadcrumb' => 'Master / Store'
 		);
 		$this->load->view('layout/wrapper', $data);
 	}
 	
 	public function Listdata(){
-		// $result=$this->PenggunaModel->listpengguna();
-		$result = array (
-			array(
-                "id"            => "1",
-				"namastore"		=> "Waterfall Store",
-			),
-			array(
-                "id"            => "2",
-				"namastore"		=> "Pool Store",
-			),
-		);
+		$result=$this->store->liststore();
+		// $result = array (
+		// 	array(
+        //         "id"            => "1",
+		// 		"namastore"		=> "Waterfall Store",
+		// 	),
+		// 	array(
+        //         "id"            => "2",
+		// 		"namastore"		=> "Pool Store",
+		// 	),
+		// );
 		echo json_encode($result);
 	}
 
     public function tambah(){
 
         $data = array(
-            'title'		 => 'Tambah Data Pengayah',
+            'title'		 => NAMETITLE . ' - Tambah Data Store',
             'content'	 => 'store/tambah',
 			'colmas'	 => 'collapse',
 			'colset'	 => 'collapse in',
 			'collap'	 => 'collapse',
 			'side7'		 => 'active',
-			'breadcrumb' => '/ Master / Store / Tambah Data'
+			'breadcrumb' => 'Master / Store / Tambah Data'
 		);
 		$this->load->view('layout/wrapper', $data);
     }
@@ -69,14 +66,14 @@ class Store extends CI_Controller {
 
         
         $data		= array(
-            "namastore"      => $namastore
+            "storename"      => $namastore
         );
 
 		// print_r(json_encode($data));
 		// die;
 
 		// Checking Success and Error AddData
-		// $result		= $this->PenggunaModel->insertData($data);
+		$result		= $this->store->insertData($data);
 
 		// untuk sukses
 		// $result["code"]=0;
@@ -98,17 +95,16 @@ class Store extends CI_Controller {
 		}
 	}
 
-    public function ubah(){
-        
+    public function ubah($id){        
 		// Menampilkan Hasil Single Data ketika di click username tertentu sebagai parameter
-		// $result		= $this->PenggunaModel->getUser($username);
-
-		$result = array (
-			"namastore"		    => "Waterfall Beji",
-		);
+		$id			= base64_decode($this->security->xss_clean($id));
+		$result		= $this->store->getStore($id);
+		// $result = array (
+		// 	"namastore"		    => "Waterfall Beji",
+		// );
 
         $data		= array(
-            'title'		 => 'Ubah Data Pengguna',
+            'title'		 => NAMETITLE . ' - Ubah Data Store',
             'content'    => 'store/ubah',
             'detail'     => $result,
 			'mn_master'	 => 'active',
@@ -116,7 +112,7 @@ class Store extends CI_Controller {
 			'colset'	 => 'collapse in',
 			'collap'	 => 'collapse',
 			'side7'		 => 'active',
-			'breadcrumb' => '/ Setup / Store / Ubah Data'
+			'breadcrumb' => 'Master / Store / Ubah Data'
 		);
 		$this->load->view('layout/wrapper', $data);
     }
@@ -133,25 +129,26 @@ class Store extends CI_Controller {
 		}
 
 		$namastore	    = $this->security->xss_clean($this->input->post('namastore'));
+		$id	    		= $this->security->xss_clean($this->input->post('id'));
 
 
         $data	= array(
-            "namastore"      => $namastore
+            "storename"      => $namastore
         );
 
 		// print_r(json_encode($data));
 		// die;
 
 
-		// $result		= $this->PenggunaModel->updateData($data,$username);
+		$result		= $this->store->updateData($data,$id);
 		//untuk cek sukses atau gagal dengan cara menambahkan array result
 
 		// untuk sukses
 		// $result["code"]=0;
 
 		//untuk gagal
-		$result["code"]=5011;
-		$result["message"]="Data gagal di inputkan";
+		//$result["code"]=5011;
+		//$result["message"]="Data gagal di inputkan";
 
 		if ($result["code"]==0) {
 		    $this->session->set_flashdata('message',  $this->message->success_msg());
@@ -166,11 +163,11 @@ class Store extends CI_Controller {
 
 	public function DelData($id){
         $data		= array(
-            "status"  => 1,
+            "status"  => 'yes',
         );
 
 		$id	= base64_decode($this->security->xss_clean($id));
-		// $result		= $this->PenggunaModel->hapusData($data,$username);
+		$result		= $this->store->hapusData($data,$id);
 
 		// untuk sukses
 		// $result["code"]=0;
