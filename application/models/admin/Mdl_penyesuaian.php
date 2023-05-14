@@ -8,7 +8,7 @@ class Mdl_penyesuaian extends CI_Model{
             
             UNION ALL
 
-            SELECT IFNULL(count(1)*-1,0) as jumlah FROM ".PENJUALAN_DETAIL." a INNER JOIN ".PENJUALAN_PENGUNJUNG." b ON a.id=b.id_detail WHERE jenis='items' AND id_produk=? GROUP BY id_produk
+            SELECT IFNULL(sum(jml)*-1,0) as jumlah FROM ".PENJUALAN_DETAIL." a INNER JOIN ".PENJUALAN_PENGUNJUNG." b ON a.id=b.id_detail WHERE jenis='items' AND id_produk=? GROUP BY id_produk
             
             UNION ALL
             
@@ -40,7 +40,7 @@ class Mdl_penyesuaian extends CI_Model{
                         
               UNION ALL
         
-              SELECT id_produk as id_items, IFNULL(count(1)*-1,0) as jumlah FROM ".PENJUALAN_DETAIL." a INNER JOIN ".PENJUALAN_PENGUNJUNG." b ON a.id=b.id_detail WHERE jenis='items' GROUP BY id_produk
+              SELECT id_produk as id_items, IFNULL(sum(jml)*-1,0) as jumlah FROM ".PENJUALAN_DETAIL." a INNER JOIN ".PENJUALAN_PENGUNJUNG." b ON a.id=b.id_detail WHERE jenis='items' GROUP BY id_produk
                         
               UNION ALL
                         

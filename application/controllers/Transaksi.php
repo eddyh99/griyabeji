@@ -15,6 +15,7 @@ class Transaksi extends CI_Controller {
 		$this->load->model('admin/mdl_produk','produk');
 		$this->load->model('admin/mdl_paket',"paket");
 		$this->load->model('admin/Mdl_pengguna',"pengguna");
+		$this->load->model('Mdl_transaksi',"transaksi");
     }
     
     public function index() {
@@ -103,8 +104,6 @@ class Transaksi extends CI_Controller {
 
 		// For Select Country
 		$countries = $this->pengunjung->getCountry();
-
-
         $data	= array(
             'title'		 => 'Data Pengguna',
             'content'	 => 'transaksi/index',
@@ -124,12 +123,59 @@ class Transaksi extends CI_Controller {
 		$this->load->view('layout/wrapper', $data);
 	}
 
-	public function readmanager(){
-		$username = $this->security->xss_clean($this->input->post('username'));
-		// $result = $this->cashierModel->readitem($barcode);
-		echo json_encode($username);
+	public function summarybayar(){
+		$data	= array(
+            'title'		 => 'Data Pengguna',
+            'content'	 => 'transaksi/bayar',
+            'extra'		 => 'transaksi/js/js_bayar',
+ 		);
+		$this->load->view('layout/wrapper', $data);
 	}
 
+	public function approval(){
+		$approval = $this->security->xss_clean($this->input->post('passcode'));
+		$result = $this->pengguna->check_passcode($approval);
+		if (@$result["code"]==0){
+			echo "0";
+		}
+	}
+
+	public function simpandata(){
+		$data = json_decode($this->security->xss_clean($this->input->post('data')));
+		$guide = json_decode($this->security->xss_clean($this->input->post('guide')));
+		$pengayah = json_decode($this->security->xss_clean($this->input->post('pengayah')));
+		$diskon = $this->security->xss_clean($this->input->post('diskon'));
+		$payment = $this->security->xss_clean($this->input->post('payment'));
+		
+		if (empty($guide->id_guide)){
+			$guide_id=NULL;
+		}else{
+			$guide_id=$guide->id_guide;
+		}
+
+		if (empty($pengayah->id_pengayah)){
+			$pengayah_id=NULL;
+		}else{
+			$pengayah_id=$pengayah->id_pengayah;
+		}
+
+		$mtrans=array(
+			"guide_id"		=> $guide_id,
+			"pengayah_id"	=> $pengayah_id,
+			"tanggal"		=> date("y-m-d H:i:s"),
+			"diskon"		=> $diskon,
+			"method"		=> $payment,
+			"userid"		=> $_SESSION["logged_status"]["username"]
+		);
+
+		$result=$this->transaksi->add_data($mtrans,$data);
+		if (@$result["code"]==0){
+			echo "0";
+		}
+	}
+
+	
+	
 	public function getstate(){
 		$country    = $_GET["country"];
         // $url    = URLAPI . "/v1/member/findme/get_statelist?country=".$country;
@@ -162,167 +208,5 @@ class Transaksi extends CI_Controller {
         echo json_encode($states);
 	}
 
-	
-	public function Listdata(){
-		// $result=$this->PenggunaModel->listpengguna();
-		$result = array (
-			array(
-                "id"            => "1",
-				"namastore"		=> "Waterfall Store",
-			),
-			array(
-                "id"            => "2",
-				"namastore"		=> "Pool Store",
-			),
-		);
-		echo json_encode($result);
-	}
-
-    public function tambah(){
-
-        $data = array(
-            'title'		 => 'Tambah Data Pengayah',
-            'content'	 => 'store/tambah',
-			'colmas'	 => 'collapse',
-			'colset'	 => 'collapse in',
-			'collap'	 => 'collapse',
-			'side7'		 => 'active',
-			'breadcrumb' => '/ Master / Store / Tambah Data'
-		);
-		$this->load->view('layout/wrapper', $data);
-    }
-
-	public function AddData(){
-		$this->form_validation->set_rules('namastore', 'Nama Store', 'trim|required');
-
-		if ($this->form_validation->run() == FALSE){
-		    $this->session->set_flashdata('message', $this->message->error_msg(validation_errors()));
-		    redirect(base_url()."store/tambah");
-            return;
-		}
-		
-		$namastore	    = $this->security->xss_clean($this->input->post('namastore'));
-
-        
-        $data		= array(
-            "namastore"      => $namastore
-        );
-
-		// print_r(json_encode($data));
-		// die;
-
-		// Checking Success and Error AddData
-		// $result		= $this->PenggunaModel->insertData($data);
-
-		// untuk sukses
-		// $result["code"]=0;
-
-		//untuk gagal
-		// $result["code"]=5011;
-		// $result["message"]="Data gagal di inputkan";
-
-				
-		
-		if ($result["code"]==0) {
-		    $this->session->set_flashdata('message', $this->message->success_msg());
-		    redirect(base_url()."store");
-            return;
-		}else{
-		    $this->session->set_flashdata('message', $this->message->error_msg($result["message"]));
-		    redirect(base_url()."store/tambah");
-            return;
-		}
-	}
-
-    public function ubah(){
-        
-		// Menampilkan Hasil Single Data ketika di click username tertentu sebagai parameter
-		// $result		= $this->PenggunaModel->getUser($username);
-
-		$result = array (
-			"namastore"		    => "Waterfall Beji",
-		);
-
-        $data		= array(
-            'title'		 => 'Ubah Data Pengguna',
-            'content'    => 'store/ubah',
-            'detail'     => $result,
-			'mn_master'	 => 'active',
-			'colmas'	 => 'collapse',
-			'colset'	 => 'collapse in',
-			'collap'	 => 'collapse',
-			'side7'		 => 'active',
-			'breadcrumb' => '/ Setup / Store / Ubah Data'
-		);
-		$this->load->view('layout/wrapper', $data);
-    }
-
-	public function updateData(){
-		$this->form_validation->set_rules('namastore', 'Nama Store', 'trim|required');
-
-		$id	= $this->security->xss_clean($this->input->post('id'));
-
-		if ($this->form_validation->run() == FALSE){
-		    $this->session->set_flashdata('message', $this->message->error_msg(validation_errors()));
-		    redirect(base_url()."store/ubah/".base64_encode($id));
-            return;
-		}
-
-		$namastore	    = $this->security->xss_clean($this->input->post('namastore'));
-
-
-        $data	= array(
-            "namastore"      => $namastore
-        );
-
-		// print_r(json_encode($data));
-		// die;
-
-
-		// $result		= $this->PenggunaModel->updateData($data,$username);
-		//untuk cek sukses atau gagal dengan cara menambahkan array result
-
-		// untuk sukses
-		// $result["code"]=0;
-
-		//untuk gagal
-		$result["code"]=5011;
-		$result["message"]="Data gagal di inputkan";
-
-		if ($result["code"]==0) {
-		    $this->session->set_flashdata('message',  $this->message->success_msg());
-		    redirect(base_url()."store");
-            return;
-		}else{
-		    $this->session->set_flashdata('message', $this->message->error_msg($result["message"]));
-		    redirect(base_url()."store/ubah/".base64_encode($id));
-            return;
-		}
-	}
-
-	public function DelData($id){
-        $data		= array(
-            "status"  => 1,
-        );
-
-		$id	= base64_decode($this->security->xss_clean($id));
-		// $result		= $this->PenggunaModel->hapusData($data,$username);
-
-		// untuk sukses
-		// $result["code"]=0;
-
-		//untuk gagal
-		// $result["code"]=5011;
-		// $result["message"]="Data gagal di Dihapus";
-
-		if ($result["code"]==0) {
-		    $this->session->set_flashdata('message', $this->message->delete_msg());
-		    redirect(base_url()."store");
-		}else{
-		    $this->session->set_flashdata('message', $this->message->error_msg($result["message"]));
-		    redirect(base_url()."store");
-		}
-
-	}
 
 }

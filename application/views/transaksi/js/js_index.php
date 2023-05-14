@@ -1,126 +1,256 @@
 <script src="<?=base_url()?>assets/bootstrap/plugins/select2/js/select2.full.min.js"></script>
-
+<script src="https://cdn.datatables.net/plug-ins/1.13.4/api/sum().js"></script>
 <script>
   
 
     // ==== START INPUT SELECT2 TRANSAKSI ====  
-    $("#guide").select2();
-    $("#pengayah").select2();
-    $("#namaitems").select2();
-    $("#namaproduk").select2();
-    $("#namapaket").select2();
-    $("#pengguna").select2();
-    
-    $(document).ready(function() {
-        $('#pengunjung').select2({
-            placeholder: "--Pilih Pengunjung--",
-            allowClear: true,
-        });
+    $("#guide").select2({
+        placeholder: "--Pilih Guide--",
+        allowClear: true,
+    });
+    $("#pengayah").select2({
+        placeholder: "--Pilih Pengayah--",
+        allowClear: true,
+    });
+    $(".namaitems").select2({
+        placeholder: "--Pilih Items--",
+        allowClear: true,
+    });
+    $(".namaproduk").select2({
+        placeholder: "--Pilih Produk--",
+        allowClear: true,
+    });
+    $(".namapaket").select2({
+        placeholder: "--Pilih Paket--",
+        allowClear: true,
     });
 
-    $(document).ready(function() {
-        $('#pengunjung2').select2({
-            placeholder: "--Pilih Pengunjung--",
-            allowClear: true,
-        });
+    var pengunjung=$('#pengunjung').select2({
+        ajax: {
+            url: '<?=base_url()?>pengunjung/Listdata',
+            dataType: 'json',
+            type: "GET",
+            processResults: function (data) {
+                return {
+                    results: $.map(data, function (item) {
+                        return {
+                            text: item.nama,
+                            id: item.id
+                        }
+                    })
+                };
+            }          
+        }
     });
 
     // ==== END INPUT SELECT2 TRANSAKSI ====  
     
-    // ==== START LIST DATATABLES TRANSAKSI ====  
-    $(function(){
-        table = $('#table_data').DataTable({
-                "order": [[ 1, "asc" ]],
-                "scrollX": true,
-                "responsive": true,
-                "ajax": {
-                        "url": "<?=base_url()?>pengunjung/Listdata",
-                        "type": "POST",
-                        "dataSrc":function (data){
-                                return data;							
-                            }
-                },
-                "aoColumnDefs": [{	
-                    "aTargets": [6],
-                    "mData": "id",
-                    "mRender": function (data, type, full, meta){
-                        // button='<a href="<?=base_url()?>pengunjung/ubah/'+encodeURI(btoa(full.id))+'" class="btn btn-simple btn-success btn-icon remove rounded-circle mx-1"><i class="material-icons fs-3">update</i></a>';
-                        button='<a href="<?=base_url()?>pengunjung/DelData/'+encodeURI(btoa(full.id))+'" class="btn btn-simple btn-danger btn-icon remove rounded-circle mx-1"><i class="material-icons fs-3">close</i></a>';
-                        return button;
-                    }
-                }],
-                "columns": [
-                    { "data": "nama"},
-                    { "data": "whatsapp" },
-                    { "data": "email" },
-                    { "data": "ig" },
-                    { "data": "statename" },
-                    { "data": "countryname" },
-                ]
+    $("#addfield").on("click",function(e){
+        $newid = $(this).data("increment");
+        $('.repeatDiv:first').find("select[name*=namaitems]").select2("destroy");
+        $('.repeatDiv:first').find("select[name*=namaproduk]").select2("destroy");
+        $('.repeatDiv:first').find("select[name*=namapaket]").select2("destroy");
+
+		$repeatDiv = $("#repeatDiv").wrap('<div/>').parent().html();
+		$('#repeatDiv').unwrap();
+		$($repeatDiv).insertAfter($(".repeatDiv").last());
+		$(".repeatDiv").last().attr('id',   "repeatDiv" + '_' + $newid);
+        $(".repeatDiv").find("select[name*=namaitems]").last().attr("id","namaitems_"+$newid);      
+        $(".repeatDiv").find("select[name*=namaproduk]").last().attr("id","namaproduk_"+$newid);      
+        $(".repeatDiv").find("select[name*=namapaket]").last().attr("id","namapaket_"+$newid); ;      
+        $(".repeatDiv").find("input[name*=jml]").last().attr("id","jml_"+$newid); 
+
+        $(".repeatDiv").find("select[name*=namaitems]").select2({
+            placeholder: "--Pilih Items--",
+            allowClear: true
         });
+        $(".repeatDiv").find("select[name*=namaproduk]").select2({
+            placeholder: "--Pilih Produk--",
+            allowClear: true
+        });
+        $(".repeatDiv").find("select[name*=namapaket]").select2({
+            placeholder: "--Pilih Paket--",
+            allowClear: true
+        });
+		$("#repeatDiv" + '_' + $newid).append('<div class="input-group-append"><button type="button" class="btn btn-danger removeDivBtn" data-id="repeatDiv'+'_'+ $newid+'">Remove</button></div>');
+		$newid++;
+		$(this).data("increment", $newid);
     })
-    // ==== END LIST DATATABLES TRANSAKSI ====  
+    
+    $(document).on('click', '.removeDivBtn', function () {
+        $divId = $(this).data("id");
+        $("#"+$divId).remove();
+        $inc = $("#repeatDivBtn").data("increment");
+        $("#repeatDivBtn").data("increment", $inc-1);
 
-
-    // ==== START HIDE||SHOW TABS ====  
-    $(document).ready(function(){
-        $("#dtambah").hide();
-        $("#tabtransaksi").addClass('btn-transaksi-active shadow-sm');
-        $("#tabtambah").addClass('btn-transkasi-nonactive ');
-        $("#tabtransaksi").click(function(){
-            $("#dtransaksi").show();
-            $("#tabtransaksi").removeClass('btn-transkasi-nonactive ');
-            $("#tabtransaksi").addClass('btn-transaksi-active shadow-sm');
-            $("#tabtambah").removeClass('btn-transaksi-active shadow-sm');
-            $("#tabtambah").addClass('btn-transkasi-nonactive ');
-            $("#dtambah").hide();
-        });
-        $("#tabtambah").click(function(){
-            $("#dtransaksi").hide();
-            $("#tabtransaksi").removeClass('btn-transaksi-active shadow-sm');
-            $("#tabtransaksi").addClass('btn-transkasi-nonactive ');
-            $("#tabtambah").removeClass('btn-transkasi-nonactive ');
-            $("#tabtambah").addClass('btn-transaksi-active shadow-sm');
-            $("#dtambah").show();
-        });
     });
-    // ==== END HIDE||SHOW TABS ====  
 
+    var dataSet=[];
+    $("#addbuy").on("click",function(e){
+        var nama=$('#pengunjung').find(':selected').text();
+        var id_pengunjung=$("#pengunjung").val();
+        var state=$("#pengunjung").find(':selected').data("state");
+        var country=$("#pengunjung").find(':selected').data("country");
 
-    // ==== START ADD DISCOUNT FROM MANAGER ====  
-    $("#pengguna").on("change", function(){
+        var i=0;
+        $('select[name*=namaitems]').each(function() {
+            if ($(this).val().length>0){
+                var namabrg=$(this).find(':selected').text();
+                var idbrg=$(this).val();
+                var lokal=$(this).find(':selected').data("lokal");
+                var domestik=$(this).find(':selected').data("domestik");
+                var inter=$(this).find(':selected').data("inter");
+                if (i==0){
+                    jml=$("#jml").val();
+                    if (state.toLowerCase()=="bali"){
+                        harga=jml*lokal;                        
+                    }else if (country.toLowerCase()=="indonesia"){
+                        harga=jml*domestik;
+                    }else{
+                        harga=jml*inter;
+                    }
+                }else{
+                    jml=$("#jml_"+i).val();
+                    if (state.toLowerCase()=="bali"){
+                        harga=jml*lokal;                        
+                    }else if (country.toLowerCase()=="indonesia"){
+                        harga=jml*domestik;
+                    }else{
+                        harga=jml*inter;
+                    }
+                }                
+                arr = {
+                    "id_pengunjung":id_pengunjung,
+                    "name": nama,
+                    "barang": namabrg,
+                    "id_barang":idbrg,
+                    "jenis" : "items",
+                    "jumlah": jml,
+                    "total": harga
+                };
+                dataSet.push(arr);
+            }
+            i++;
+        });
+        $('select[name*=namaproduk]').each(function() {
+            if ($(this).val().length>0){
+                var namabrg=$(this).find(':selected').text();
+                var idbrg=$(this).val();
+                var lokal=$(this).find(':selected').data("lokal");
+                var domestik=$(this).find(':selected').data("domestik");
+                var inter=$(this).find(':selected').data("inter");
 
-        $modal = $("#discount"); 
-        if($(this).val()){
-            $modal.modal('show');
-        }
+                if (state.toLowerCase()=="bali"){
+                    harga=lokal;                        
+                }else if (country.toLowerCase()=="indonesia"){
+                    harga=domestik;
+                }else{
+                    harga=inter;
+                }
+                arr = {
+                    "id_pengunjung":id_pengunjung,
+                    "name": nama,
+                    "barang": namabrg,
+                    "id_barang":idbrg,
+                    "jenis" : "produk",
+                    "jumlah": "",
+                    "total":harga
+                };
+                dataSet.push(arr);
+            }
+        });
+        $('select[name*=namapaket]').each(function() {
+            if ($(this).val().length>0){
+                var namabrg=$(this).find(':selected').text();
+                var idbrg=$(this).val();
+                var lokal=$(this).find(':selected').data("lokal");
+                var domestik=$(this).find(':selected').data("domestik");
+                var inter=$(this).find(':selected').data("inter");
+                if (state.toLowerCase()=="bali"){
+                    harga=lokal;                        
+                }else if (country.toLowerCase()=="indonesia"){
+                    harga=domestik;
+                }else{
+                    harga=inter;
+                }
+                arr = {
+                    "id_pengunjung":id_pengunjung,
+                    "name": nama,
+                    "barang": namabrg,
+                    "id_barang":idbrg,
+                    "jenis" : "paket",
+                    "jumlah": "",
+                    "total": harga
+                };
+                dataSet.push(arr);
+            }
+        });
+        
+        JSON.stringify(dataSet);
+        console.log(dataSet);
+        tblpesanan.clear();
+        tblpesanan.rows.add(dataSet);
+        tblpesanan.draw();
+    });
 
-        // $("#discount").modal("show");
-        // if(e.which == 13) {
-			// $.ajax({
-			// 	url: "<?=base_url()?>transaksi/readmanager",
-			// 	type: "post",
-			// 	// data: "pengguna="+$(this).val() ,
-			// 	success: function (data) {
-            //         console.log(data);
-			// 		data=JSON.parse(data);
-			// 		results=$.map(data, function (item) {
-			// 					return {
-			// 				   id: item.size,
-			// 				   text: item.size
-			// 					};
-			// 				})
-			// 		$("#discount").modal("show");
-			// 	},
-			// 	error: function(jqXHR, textStatus, errorThrown) {
-			// 	   console.log(textStatus, errorThrown);
-			// 	}
-			// });
-		// }
-	})
-    // ==== END ADD DISCOUNT FROM MANAGER ====  
+    var groupColumn = 0;
+    var tblpesanan = $('#pesanan').DataTable({
+        columnDefs: [{ visible: false, targets: groupColumn }],
+        order: [[groupColumn, 'asc']],
+        displayLength: 25,
+        drawCallback: function (settings) {
+            var api = this.api();
+            var total=api.column(3).data().sum();
+            $( api.column(3).footer() ).html(
+    			total.toLocaleString("en")
+    		);
+            var rows = api.rows({ page: 'current' }).nodes();
+            var last = null;
+ 
+            api
+                .column(groupColumn, { page: 'current' })
+                .data()
+                .each(function (group, i) {
+                    if (last !== group) {
+                        $(rows)
+                            .eq(i)
+                            .before('<tr class="group"><td colspan="3"> Nama : ' + group + '</td></tr>');
+ 
+                        last = group;
+                    }
+                });
+        },
+        data: dataSet,
+        columns: [
+            { data: 'name',title:'Pengunjung'},
+            { data: 'barang',
+              title:'Barang',
+              render: function (data, type, row, meta) {
+                return "&nbsp;&nbsp;&nbsp;"+data} 
+            },
+            { data: 'jumlah',title:'Jumlah' },
+            { data: 'total',
+              title:'Total', 
+              className: "dt-body-right", 
+              render: $.fn.dataTable.render.number(',', '.', 0, '') 
+            }
+        ],
+    });
 
-
+    $("#btnbayar").on("click",function(){
+        var guide = {
+                    "id_guide":$("#guide").val(),
+                    "namaguide": $("#guide").find(':selected').text(),
+                };
+        var pengayah = {
+                    "id_pengayah":$("#pengayah").val(),
+                    "namapengayah": $("#pengayah").find(':selected').text(),
+                };
+        localStorage.setItem('dataSet', JSON.stringify(dataSet));
+        localStorage.setItem('guide',JSON.stringify(guide));
+        localStorage.setItem('pengayah',JSON.stringify(pengayah));
+        window.location.href="<?=base_url()?>transaksi/summarybayar"
+    })
 
     // ==== START SELECT COUNTRY & STATE  ====  
     $("#countryname").select2();

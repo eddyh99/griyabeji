@@ -36,6 +36,14 @@
                                     </div>
                                 </div>
                                 <div class="form-group row my-3">
+                                    <label class="col-sm-3 col-form-label">Passcode</label>
+                                    <div class="col-sm-7">
+                                    <input type="password" class="form-control" id="passcode" name="passcode" maxlength="6" minlength="6" value="<?=$detail["passcode"]?>">
+                                    </div>
+                                    <!-- tolong beri warna merah -->
+                                    *passcode akan digunakan untuk approval                                    
+                                </div>
+                                <div class="form-group row my-3">
                                     <label class="col-sm-3 col-form-label">Role</label>
                                     <div class="col-sm-7">
                                         <select name="role" id="role" class="form-control">

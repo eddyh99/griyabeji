@@ -90,11 +90,13 @@ class Pengguna extends CI_Controller {
 		$password	= $this->security->xss_clean($this->input->post('password'));
 		$nama		= $this->security->xss_clean($this->input->post('nama'));
 		$role		= $this->security->xss_clean($this->input->post('role'));
+		$passcode	= $this->security->xss_clean($this->input->post('passcode'));
         
         $data		= array(
             "username"  => $username,
             "passwd"    => sha1($password),
             "nama"      => $nama,
+            "passcode"  => $passcode,
             "role"      => $role,
         );
 
@@ -164,12 +166,14 @@ class Pengguna extends CI_Controller {
 		$password	= $this->security->xss_clean($this->input->post('password'));
 		$nama		= $this->security->xss_clean($this->input->post('nama'));
 		$role		= $this->security->xss_clean($this->input->post('role'));
+		$passcode	= $this->security->xss_clean($this->input->post('passcode'));
 
         if (empty($password)){
             $data	= array(
                 "username"  => $username,
                 "nama"      => $nama,
                 "role"      => $role,
+				"passcode"	=> $passcode
             );
         }else{
             $data	= array(
@@ -177,6 +181,7 @@ class Pengguna extends CI_Controller {
                 "passwd"    => sha1($password),
                 "nama"      => $nama,
                 "role"      => $role,
+				"passcode"	=> $passcode
             );
         }
 

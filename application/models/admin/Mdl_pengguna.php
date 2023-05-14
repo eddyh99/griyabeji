@@ -13,7 +13,7 @@ class Mdl_pengguna extends CI_Model{
 	}
 
 	public function getUser($username){
-	    $sql="SELECT username,nama, role FROM " . PENGGUNA . " WHERE status='no' AND username=?";
+	    $sql="SELECT username,nama, role,passcode FROM " . PENGGUNA . " WHERE status='no' AND username=?";
 	    $query=$this->db->query($sql,$username);
 		if ($query){
 			return (array)$query->row();
@@ -23,8 +23,8 @@ class Mdl_pengguna extends CI_Model{
 	}
 	
 	public function insertData($data){
-	    $sql=$this->db->insert_string(PENGGUNA, $data)." ON DUPLICATE KEY UPDATE passwd=?, nama=?, role=?, status='0'";
-		if ($this->db->query($sql,array($data["passwd"],$data["nama"],$data["role"]))){
+	    $sql=$this->db->insert_string(PENGGUNA, $data)." ON DUPLICATE KEY UPDATE passwd=?, nama=?, role=?,passcode=?, status='0'";
+		if ($this->db->query($sql,array($data["passwd"],$data["nama"],$data["role"],$data["passcode"]))){
             return array("code"=>0, "message"=>"");
 		}else{
             return $this->db->error();
@@ -46,6 +46,16 @@ class Mdl_pengguna extends CI_Model{
 		    return array("code"=>0, "message"=>"");
 		}else{
             return $this->db->error();
+		}
+	}
+
+	public function check_passcode($passcode){
+		$sql="SELECT * FROM ".PENGGUNA." WHERE passcode=? AND (role='admin' OR role='EAM') AND status='no'";
+		$query=$this->db->query($sql,$passcode);
+		if ($query->num_rows()>0){
+			return array("code"=>0);
+		}else{
+			return array("code"=>5111);
 		}
 	}
 
