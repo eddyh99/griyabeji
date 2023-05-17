@@ -329,11 +329,7 @@
         localStorage.setItem('dataSet', JSON.stringify(dataSet));
         localStorage.setItem('guide', JSON.stringify(guide));
         localStorage.setItem('pengayah', JSON.stringify(pengayah));
-        window.location.href = "<?= base_url() ?>transaksi/summarybayar"
-    })
-
-    $("#searchReservasi").on("click", function() {
-        $("#guide").val("1").change();
+        window.location.href = "<?= base_url() ?>reservasi/summarybayar"
     })
 
     // ==== START SELECT COUNTRY & STATE  ====  
@@ -343,7 +339,7 @@
     $("#countryname").on("change", function() {
         var country = $(this).val();
         $.ajax({
-            url: "<?= base_url() ?>transaksi/getstate?country=" + country,
+            url: "<?= base_url() ?>reservasi/getstate?country=" + country,
             success: function(response) {
                 var data = JSON.parse(response);
                 var select = document.getElementById("statename");

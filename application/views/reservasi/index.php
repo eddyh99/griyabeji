@@ -1,20 +1,8 @@
 <!-- ======= Start Content wrapper ====== -->
 <div class="container-fluid container-md mb-10 mt-auto">
 	<div class="row my-5">
-		<div class="col-4">
-			<label>Kode Reservasi (optional)</label>
-			<div class="row">
-				<div class="col">
-					<input type="text" class="form-control rounded-pill" name="reservasi" id="reservasi">
-					<small class="ms-5 d-none" id="notif_reservasi"></small>
-				</div>
-				<div class="col-auto">
-					<button class="btn btn-beji rounded-pill" id="searchReservasi">Cari</button>
-				</div>
-			</div>
-		</div>
-		<div class="col-4">
-			<label>Guide</label>
+		<div class="col">
+			<label>Guide (optional)</label>
 			<select name="guide" id="guide" class="form-control rounded-pill">
 				<option></option>
 				<?php foreach ($guide as $dt) { ?>
@@ -22,8 +10,8 @@
 				<?php } ?>
 			</select>
 		</div>
-		<div class="col-4">
-			<label>Pengayah</label>
+		<div class="col">
+			<label>Pengayah (optional)</label>
 			<select name="pengayah" id="pengayah" class="form-control rounded-pill">
 				<option></option>
 				<?php foreach ($pengayah as $dt) { ?>
@@ -111,7 +99,7 @@
 	</div>
 	<div class="row mb-5">
 		<div class="col-12 text-end">
-			<button id="btnbayar" class="btn btn-beji rounded-pill">Pembayaran</button>
+			<button id="btnbayar" class="btn btn-beji rounded-pill">Ringkasan</button>
 		</div>
 	</div>
 </div>

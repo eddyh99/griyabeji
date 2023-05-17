@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Transaksi extends CI_Controller
+class Reservasi extends CI_Controller
 {
 
 	public function __construct()
@@ -10,6 +10,7 @@ class Transaksi extends CI_Controller
 		if (!isset($this->session->userdata['logged_status'])) {
 			redirect(base_url());
 		}
+
 		$this->load->model('admin/mdl_guide', 'guide');
 		$this->load->model('admin/mdl_pengayah', "pengayah");
 		$this->load->model('admin/mdl_pengunjung', "pengunjung");
@@ -18,6 +19,7 @@ class Transaksi extends CI_Controller
 		$this->load->model('admin/mdl_paket', "paket");
 		$this->load->model('admin/Mdl_pengguna', "pengguna");
 		$this->load->model('Mdl_transaksi', "transaksi");
+		$this->load->model('Mdl_reservasi', "reservasi");
 	}
 
 	public function index()
@@ -108,10 +110,10 @@ class Transaksi extends CI_Controller
 		// For Select Country
 		$countries = $this->pengunjung->getCountry();
 		$data	= array(
-			'title'		 => 'Data Pengguna',
-			'content'	 => 'transaksi/index',
-			'extra'		 => 'transaksi/js/js_index',
-			'extracss'	 => 'transaksi/css/css_index',
+			'title'		 => 'Reservasi',
+			'content'	 => 'reservasi/index',
+			'extra'		 => 'reservasi/js/js_index',
+			'extracss'	 => 'reservasi/css/css_index',
 			'guide'		 => $guide,
 			'pengayah'	 => $pengayah,
 			'pengunjung' => $pengunjung,
@@ -129,10 +131,10 @@ class Transaksi extends CI_Controller
 	public function summarybayar()
 	{
 		$data	= array(
-			'title'		 => 'Data Pengguna',
-			'extracss'	 => 'transaksi/css/css_index',
-			'content'	 => 'transaksi/bayar',
-			'extra'		 => 'transaksi/js/js_bayar',
+			'title'		 => 'Reservasi',
+			'extracss'	 => 'reservasi/css/css_index',
+			'content'	 => 'reservasi/bayar',
+			'extra'		 => 'reservasi/js/js_bayar',
 		);
 		$this->load->view('layout/wrapper', $data);
 	}
@@ -148,11 +150,16 @@ class Transaksi extends CI_Controller
 
 	public function simpandata()
 	{
-		$data = json_decode($this->security->xss_clean($this->input->post('data')));
-		$guide = json_decode($this->security->xss_clean($this->input->post('guide')));
-		$pengayah = json_decode($this->security->xss_clean($this->input->post('pengayah')));
-		$diskon = $this->security->xss_clean($this->input->post('diskon'));
-		$payment = $this->security->xss_clean($this->input->post('payment'));
+		$data = json_decode($this->security->xss_clean($this->input->get('data')));
+		$guide = json_decode($this->security->xss_clean($this->input->get('guide')));
+		$pengayah = json_decode($this->security->xss_clean($this->input->get('pengayah')));
+		$DP = $this->security->xss_clean($this->input->post('dp'));
+		// $uploadbukti = $this->security->xss_clean($this->input->post('bukti_bayar'));
+
+		$url = '././assets/Bukti_Pembayaran/';
+		$buktiUpload = time() . '.png';
+		$image_name =  $url . $buktiUpload;
+		// file_put_contents($image_name, $data);
 
 		if (empty($guide->id_guide)) {
 			$guide_id = NULL;
@@ -166,19 +173,40 @@ class Transaksi extends CI_Controller
 			$pengayah_id = $pengayah->id_pengayah;
 		}
 
+		$allowTypes = array('jpg', 'png', 'jpeg');
+		// Upload file 
+		$uploadedFile = '';
+		if (!empty($_FILES["bukti_bayar"]["name"])) {
+			// File path config 
+			$fileName = basename($_FILES["bukti_bayar"]["name"]);
+			$fileType = pathinfo($image_name, PATHINFO_EXTENSION);
+
+			// Allow certain file formats to upload 
+			if (in_array($fileType, $allowTypes)) {
+				// Upload file to the server 
+				if (move_uploaded_file($_FILES["bukti_bayar"]["tmp_name"], $image_name)) {
+					$uploadedFile = $fileName;
+				} else {
+					$uploadStatus = 0;
+					$response['message'] = 'Sorry, there was an error uploading your file.';
+				}
+			} else {
+				$uploadStatus = 0;
+				$response['message'] = 'Sorry, only ' . implode('/', $allowTypes) . ' files are allowed to upload.';
+			}
+		}
+
 		$mtrans = array(
-			"guide_id"		=> $guide_id,
 			"pengayah_id"	=> $pengayah_id,
+			"guide_id"		=> $guide_id,
 			"tanggal"		=> date("y-m-d H:i:s"),
-			"diskon"		=> $diskon,
-			"method"		=> $payment,
+			"DP"			=> $DP,
+			"buktibayar"	=> $buktiUpload,
+			"is_proses"		=> "yes",
 			"userid"		=> $_SESSION["logged_status"]["username"]
 		);
 
-		$result = $this->transaksi->add_data($mtrans, $data);
-		// echo json_encode($result);
-		// die;
-
+		$result = $this->reservasi->add_data($mtrans, $data);
 		if (@$result["code"] == 0) {
 			echo "0";
 		}
