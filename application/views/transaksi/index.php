@@ -6,7 +6,7 @@
 			<div class="row">
 				<div class="col">
 					<input type="text" class="form-control rounded-pill" name="reservasi" id="reservasi">
-					<small class="ms-5 d-none" id="notif_reservasi"></small>
+					<small class="ms-5" id="notif_reservasi"></small>
 				</div>
 				<div class="col-auto">
 					<button class="btn btn-beji rounded-pill" id="searchReservasi">Cari</button>
@@ -54,7 +54,7 @@
 			<div class="row g-3 repeatDiv" id="repeatDiv">
 				<div class="col-3">
 					<label>Items</label>
-					<select name="namaitems[]" class="form-control namaitems rounded-pill">
+					<select name="namaitems[]" class="form-control namaitems rounded-pill" id="selectItems">
 						<option></option>
 						<?php foreach ($items as $dt) { ?>
 							<option data-lokal="<?= $dt["lokal"] ?>" data-domestik="<?= $dt["domestik"] ?>" data-inter="<?= $dt["internasional"] ?>" value="<?= $dt["id"] ?>"><?= $dt["namaitem"] ?></option>
@@ -67,7 +67,7 @@
 				</div>
 				<div class="col-3">
 					<label>Produk</label>
-					<select name="namaproduk[]" class="form-control namaproduk rounded-pill">
+					<select name="namaproduk[]" class="form-control namaproduk rounded-pill" id="selectProduk">
 						<option></option>
 						<?php foreach ($produks as $dt) { ?>
 							<option data-lokal="<?= $dt["lokal"] ?>" data-domestik="<?= $dt["domestik"] ?>" data-inter="<?= $dt["internasional"] ?>" value="<?= $dt["id"] ?>"><?= $dt["namaproduk"] ?></option>
@@ -76,7 +76,7 @@
 				</div>
 				<div class="col-3">
 					<label>Paket</label>
-					<select name="namapaket[]" class="form-control namapaket rounded-pill">
+					<select name="namapaket[]" class="form-control namapaket rounded-pill" id="selectPaket">
 						<option></option>
 						<?php foreach ($pakets as $dt) { ?>
 							<option data-lokal="<?= $dt["lokal"] ?>" data-domestik="<?= $dt["domestik"] ?>" data-inter="<?= $dt["internasional"] ?>" value="<?= $dt["id"] ?>"><?= $dt["namapaket"] ?></option>

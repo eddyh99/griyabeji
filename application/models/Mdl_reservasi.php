@@ -69,50 +69,13 @@ class Mdl_reservasi extends CI_Model
 	{
 		$sql = "
 		SELECT 
-		a.id_transaksi,
-		d.id as id_pengunjung, 
-		d.nama, 
-		b.id as id_barang,
-		b.namaitem, 
-		a.jenis,
-		c.jml 
-		FROM reservasi_detail a 
-		INNER JOIN items b ON a.id_produk = b.id 
-		INNER JOIN reservasi_pengunjung c ON a.id = c.id_detail 
-		INNER JOIN pengunjung d ON c.id_pengunjung=d.id 
-		WHERE a.jenis='items' AND a.id_transaksi = ?
-		UNION ALL 
-		SELECT 
-		a.id_transaksi, 
-		d.id as id_pengunjung, 
-		d.nama, 
-		b.id as id_barang,
-		b.namaproduk,  
-		a.jenis,
-		c.jml 
-		FROM reservasi_detail a 
-		INNER JOIN produk b ON a.id_produk=b.id 
-		INNER JOIN reservasi_pengunjung c ON a.id=c.id_detail 
-		INNER JOIN pengunjung d ON c.id_pengunjung=d.id 
-		WHERE a.jenis='produk' AND a.id_transaksi = ?
-		UNION ALL
-		SELECT 
-		a.id_transaksi, 
-		d.id as id_pengunjung, 
-		d.nama, 
-		b.id as id_barang,
-		b.namapaket,  
-		a.jenis,
-		c.jml 
-		FROM reservasi_detail a 
-		INNER JOIN paket b ON a.id_produk=b.id 
-		INNER JOIN reservasi_pengunjung c ON a.id=c.id_detail 
-		INNER JOIN pengunjung d ON c.id_pengunjung=d.id 
-		WHERE a.jenis='paket' AND a.id_transaksi = ?;
+		* 
+		FROM `reservasi`
+		WHERE is_proses = 'yes' AND id = ?;
 		";
-		$query = $this->db->query($sql, array($id, $id, $id));
+		$query = $this->db->query($sql, $id);
 		if ($query) {
-			return $query->result_array();
+			return $query->row();
 		} else {
 			return $this->db->error();
 		}
@@ -121,51 +84,203 @@ class Mdl_reservasi extends CI_Model
 	public function getDataBarang($id)
 	{
 		$sql = "
-		SELECT 
-		a.id_transaksi,
-		d.id as id_pengunjung, 
-		d.nama, 
-		b.id as id_barang,
-		b.namaitem, 
-		a.jenis,
-		c.jml 
-		FROM reservasi_detail a 
-		INNER JOIN items b ON a.id_produk = b.id 
-		INNER JOIN reservasi_pengunjung c ON a.id = c.id_detail 
-		INNER JOIN pengunjung d ON c.id_pengunjung=d.id 
-		WHERE a.jenis='items' AND a.id_transaksi = ?
-		UNION ALL 
-		SELECT 
-		a.id_transaksi, 
-		d.id as id_pengunjung, 
-		d.nama, 
-		b.id as id_barang,
-		b.namaproduk,  
-		a.jenis,
-		c.jml 
-		FROM reservasi_detail a 
-		INNER JOIN produk b ON a.id_produk=b.id 
-		INNER JOIN reservasi_pengunjung c ON a.id=c.id_detail 
-		INNER JOIN pengunjung d ON c.id_pengunjung=d.id 
-		WHERE a.jenis='produk' AND a.id_transaksi = ?
+		SELECT
+			a.id_transaksi,
+			d.id as id_pengunjung, 
+			d.nama,
+			b.id as id_barang,
+			b.namaitem AS namabarang,
+			a.jenis,
+			c.jml,
+			e.state_name,
+			e2.name AS country_name,
+			X.lokal,
+			X.domestik,
+			X.internasional
+		FROM
+			reservasi_detail a
+		INNER JOIN items b ON
+			a.id_produk = b.id
+		INNER JOIN reservasi_pengunjung c ON
+			a.id = c.id_detail
+		INNER JOIN pengunjung d ON
+			c.id_pengunjung = d.id
+		INNER JOIN tbl_state e ON
+			d.state_id = e.state_code AND d.country_code = e.country_code
+		INNER JOIN tbl_country e2 ON
+			d.country_code = e2.code
+		INNER JOIN(
+			SELECT
+				id_items,
+				lokal,
+				domestik,
+				internasional
+			FROM
+				items_harga a
+			JOIN(
+				SELECT
+					MAX(tanggal) AS max_date
+				FROM
+					items_harga
+				WHERE
+					tanggal <=(
+					SELECT
+						tanggal
+					FROM
+						reservasi
+					WHERE
+						id = ?
+				)
+			GROUP BY
+				id_items
+			) X
+		ON
+			a.tanggal = X.max_date
+		) X
+		ON
+			a.id_produk = X.id_items
+		INNER JOIN reservasi g ON
+			g.id = a.id_transaksi
+		WHERE
+			a.jenis = 'items' AND a.id_transaksi = ?
 		UNION ALL
-		SELECT 
-		a.id_transaksi, 
-		d.id as id_pengunjung, 
-		d.nama, 
-		b.id as id_barang,
-		b.namapaket,  
-		a.jenis,
-		c.jml 
-		FROM reservasi_detail a 
-		INNER JOIN paket b ON a.id_produk=b.id 
-		INNER JOIN reservasi_pengunjung c ON a.id=c.id_detail 
-		INNER JOIN pengunjung d ON c.id_pengunjung=d.id 
-		WHERE a.jenis='paket' AND a.id_transaksi = ?;
+		SELECT
+			a.id_transaksi,
+			d.id as id_pengunjung, 
+			d.nama,
+			b.id as id_barang,
+			b.namaproduk AS namabarang,
+			a.jenis,
+			c.jml,
+			e.state_name,
+			e2.name AS country_name,
+			X.lokal,
+			X.domestik,
+			X.internasional
+		FROM
+			reservasi_detail a
+		INNER JOIN produk b ON
+			a.id_produk = b.id
+		INNER JOIN reservasi_pengunjung c ON
+			a.id = c.id_detail
+		INNER JOIN pengunjung d ON
+			c.id_pengunjung = d.id
+		INNER JOIN tbl_state e ON
+			d.state_id = e.state_code AND d.country_code = e.country_code
+		INNER JOIN tbl_country e2 ON
+			d.country_code = e2.code
+		INNER JOIN(
+			SELECT
+				id_produk,
+				lokal,
+				domestik,
+				internasional
+			FROM
+				produk_harga a
+			JOIN(
+				SELECT
+					MAX(tanggal) AS max_date
+				FROM
+					produk_harga
+				WHERE
+					tanggal <=(
+					SELECT
+						tanggal
+					FROM
+						reservasi
+					WHERE
+						id = ?
+				)
+			GROUP BY
+				id_produk
+			) X
+		ON
+			a.tanggal = X.max_date
+		) X
+		ON
+			a.id_produk = X.id_produk
+		INNER JOIN reservasi g ON
+			g.id = a.id_transaksi
+		WHERE
+			a.jenis = 'produk' AND a.id_transaksi = ?
+		UNION ALL
+		SELECT
+			a.id_transaksi,
+			d.id as id_pengunjung, 
+			d.nama,
+			b.id as id_barang,
+			b.namapaket AS namabarang,
+			a.jenis,
+			c.jml,
+			e.state_name,
+			e2.name AS country_name,
+			X.lokal,
+			X.domestik,
+			X.internasional
+		FROM
+			reservasi_detail a
+		INNER JOIN paket b ON
+			a.id_produk = b.id
+		INNER JOIN reservasi_pengunjung c ON
+			a.id = c.id_detail
+		INNER JOIN pengunjung d ON
+			c.id_pengunjung = d.id
+		INNER JOIN tbl_state e ON
+			d.state_id = e.state_code AND d.country_code = e.country_code
+		INNER JOIN tbl_country e2 ON
+			d.country_code = e2.code
+		INNER JOIN(
+			SELECT
+				id_paket,
+				lokal,
+				domestik,
+				internasional
+			FROM
+				paket_harga a
+			JOIN(
+				SELECT
+					MAX(tanggal) AS max_date
+				FROM
+					paket_harga
+				WHERE
+					tanggal <=(
+					SELECT
+						tanggal
+					FROM
+						reservasi
+					WHERE
+						id = ?
+				)
+			GROUP BY
+				id_paket
+			) X
+		ON
+			a.tanggal = X.max_date
+		) X
+		ON
+			a.id_produk = X.id_paket
+		INNER JOIN reservasi g ON
+			g.id = a.id_transaksi
+		WHERE
+			a.jenis = 'paket' AND a.id_transaksi = ?
 		";
-		$query = $this->db->query($sql, array($id, $id, $id));
+		$query = $this->db->query($sql, array($id, $id, $id, $id, $id, $id));
 		if ($query) {
 			return $query->result_array();
+		} else {
+			return $this->db->error();
+		}
+	}
+
+	public function update_proses($id)
+	{
+		$data		= array(
+			"is_proses"  => "no",
+		);
+
+		$this->db->where("id", $id);
+		if ($this->db->update('reservasi', $data)) {
+			return array("code" => 0, "message" => "");
 		} else {
 			return $this->db->error();
 		}

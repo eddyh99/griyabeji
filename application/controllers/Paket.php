@@ -70,6 +70,20 @@ class Paket extends CI_Controller
 		echo json_encode($result);
 	}
 
+	public function ListDataPaket()
+	{
+		$result = $this->paket->Listpaket();
+		echo json_encode($result);
+	}
+
+	public function listByReservasi()
+	{
+		$id = $this->security->xss_clean($this->input->get('reservasi'));
+		$result = $this->paket->ListPaketByReservasi($id);
+
+		echo json_encode($result);
+	}
+
 	public function tambah()
 	{
 

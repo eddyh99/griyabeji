@@ -26,6 +26,46 @@ class Mdl_items extends CI_Model
 		}
 	}
 
+	public function ListitemsByReservasi($id)
+	{
+		$sql = "
+		SELECT
+			a.id_items,
+			b.namaitem,
+			a.lokal,
+			a.domestik,
+			a.internasional
+		FROM
+			items_harga a
+		INNER JOIN items b ON a.id_items = b.id
+		JOIN(
+			SELECT MAX(tanggal) AS max_date
+			FROM
+				items_harga
+			WHERE
+				tanggal <=(
+				SELECT
+					tanggal
+				FROM
+					reservasi
+				WHERE
+					id = ?
+			)
+		GROUP BY
+			id_items
+		) X
+		ON
+			a.tanggal = X.max_date
+		WHERE b.status='no';
+		";
+		$query = $this->db->query($sql, $id);
+		if ($query) {
+			return $query->result_array();
+		} else {
+			return $this->db->error();
+		}
+	}
+
 	public function getItems($id)
 	{
 		$sql = "

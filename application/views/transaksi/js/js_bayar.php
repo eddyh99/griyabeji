@@ -2,8 +2,15 @@
     var data = JSON.parse(localStorage.getItem('dataSet'));
     var guide = JSON.parse(localStorage.getItem('guide'));
     var pengayah = JSON.parse(localStorage.getItem('pengayah'));
+    var kode_reservasi = JSON.parse(localStorage.getItem('kode_reservasi'));
+    var dp = JSON.parse(localStorage.getItem('dp'));
+    var buktibayar = JSON.parse(localStorage.getItem('buktibayar'));
+
     $("#guide").val(guide.namaguide);
     $("#pengayah").val(pengayah.namaguide);
+    $("#reservasi").val(kode_reservasi.kode_reservasi);
+
+    $("#img_bukti_bayar").attr("src", "<?= base_url() ?>assets/Bukti_pembayaran/" + buktibayar);
 
     console.log(data.length);
     var total = 0;
@@ -12,10 +19,20 @@
         total = total + data[i].total;
     }
 
+    $("#dp").val(parseInt(dp).toLocaleString('en'));
+    if (!dp) {
+        $("#hidedp").hide();
+        totaltagihan = total;
+        dp = 0;
+    } else {
+        totaltagihan = total - parseInt(dp);
+    }
+
     $("#totalbeli").val(total.toLocaleString('en'));
-    $("#totaltagih").val(total.toLocaleString('en'));
-    var diskon = $("#diskon").val();
+    $("#totaltagih").val(totaltagihan.toLocaleString('en'));
+
     $("#approve").on("click", function() {
+        var diskon = $("#diskon").val();
         if ($("#diskon").val() > 0) {
             var values = "passcode=" + $("#passcode").val();
             $.ajax({
@@ -24,9 +41,9 @@
                 data: values,
                 success: function(response) {
                     if (response == "0") {
-                        $("#totaltagih").val((total - diskon).toLocaleString('en'))
+                        $("#totaltagih").val((total - diskon - parseInt(dp)).toLocaleString('en'));
                     } else {
-                        //toast gagal
+                        // toa
                     }
                 },
             });
@@ -34,21 +51,16 @@
     });
 
     $("#submit").on("click", function() {
-        values = "data=" + JSON.stringify(data) + "&guide=" + JSON.stringify(guide) + "&pengayah=" + JSON.stringify(pengayah) + "&diskon=" + diskon + "&payment=" + $("#carabayar").val();
+        values = "data=" + JSON.stringify(data) + "&guide=" + JSON.stringify(guide) + "&pengayah=" + JSON.stringify(pengayah) + "&diskon=" + diskon + "&payment=" + $("#carabayar").val() + "&reservasi=" + $("#reservasi").val();
         $.ajax({
             url: "<?= base_url() ?>transaksi/simpandata",
             type: "post",
             data: values,
             success: function(response) {
                 if (response == 0) {
-                    //toast sukses
                     localStorage.clear();
                     window.location.href = "<?= base_url() ?>transaksi";
-                    console.log(response);
-                } else {
-                    //toast gagal
-                    console.log(response);
-                }
+                } else {}
             },
         });
     })

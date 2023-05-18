@@ -46,6 +46,7 @@ class Mdl_transaksi extends CI_Model
 					$temp2["id_detail"]		= $id_detail;
 					$temp2["id_pengunjung"] = $dt->id_pengunjung;
 					$temp2["jml"]			= $dt->jumlah;
+					$temp2["id_reservasi"]	= $dt->id_reservasi;
 					array_push($pengunjung, $temp2);
 				}
 			}

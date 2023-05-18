@@ -22,6 +22,46 @@ class Mdl_paket extends CI_Model
 		return $query->result_array();
 	}
 
+	public function ListPaketByReservasi($id)
+	{
+		$sql = "
+		SELECT
+			a.id_paket,
+			b.namapaket,
+			a.lokal,
+			a.domestik,
+			a.internasional
+		FROM
+			paket_harga a
+		INNER JOIN paket b ON a.id_paket = b.id
+		JOIN(
+			SELECT MAX(tanggal) AS max_date
+			FROM
+				paket_harga
+			WHERE
+				tanggal <=(
+				SELECT
+					tanggal
+				FROM
+					reservasi
+				WHERE
+					id = ?
+			)
+		GROUP BY
+			id_paket
+		) X
+		ON
+			a.tanggal = X.max_date
+		WHERE b.status='no';
+		";
+		$query = $this->db->query($sql, $id);
+		if ($query) {
+			return $query->result_array();
+		} else {
+			return $this->db->error();
+		}
+	}
+
 	public function itempaket($id)
 	{
 		$sql2 = "SELECT id_produk, namaproduk

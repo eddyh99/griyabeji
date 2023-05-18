@@ -22,6 +22,46 @@ class Mdl_produk extends CI_Model
 		return $query->result_array();
 	}
 
+	public function ListProdukByReservasi($id)
+	{
+		$sql = "
+		SELECT
+			a.id_produk,
+			b.namaproduk,
+			a.lokal,
+			a.domestik,
+			a.internasional
+		FROM
+			produk_harga a
+		INNER JOIN produk b ON a.id_produk = b.id
+		JOIN(
+			SELECT MAX(tanggal) AS max_date
+			FROM
+				produk_harga
+			WHERE
+				tanggal <=(
+				SELECT
+					tanggal
+				FROM
+					reservasi
+				WHERE
+					id = ?
+			)
+		GROUP BY
+			id_produk
+		) X
+		ON
+			a.tanggal = X.max_date
+		WHERE b.status='no';
+		";
+		$query = $this->db->query($sql, $id);
+		if ($query) {
+			return $query->result_array();
+		} else {
+			return $this->db->error();
+		}
+	}
+
 	public function itemproduk($id)
 	{
 		$sql2 = "SELECT id_items, namaitem

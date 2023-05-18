@@ -32,6 +32,7 @@
                 <input type="text" class="form-control rounded-pill typeMoney" name="dp" id="dp">
             </div>
         </div>
+
         <div class="row mb-5">
             <div class="col-4">
                 <label class="form-label">Total Tagihan</label>

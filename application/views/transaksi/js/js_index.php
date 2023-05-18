@@ -41,6 +41,137 @@
         }
     });
 
+    $("#pengunjung").on("change", function() {
+        var id = $(this).val();
+        var idReservasi = $("#reservasi").val();
+        var dataPengunjung = dataSet.findIndex((find => find.id_pengunjung === id && find.id_reservasi === idReservasi));
+
+        if (dataPengunjung >= 0) {
+            $.ajax({
+                url: "<?= base_url() ?>items/listByReservasi?reservasi=" + idReservasi,
+                success: function(response) {
+                    var data = JSON.parse(response);
+                    var selectItems = document.getElementById("selectItems");
+                    for (i = selectItems.options.length - 1; i > 0; i--) {
+                        selectItems.remove(i);
+                    }
+                    for (var i = 0; i < data.length; i++) {
+                        var option = document.createElement("OPTION"),
+                            txt = document.createTextNode(data[i].namaitem);
+                        option.appendChild(txt);
+                        option.setAttribute("value", data[i].id_items);
+                        option.setAttribute("data-lokal", data[i].lokal);
+                        option.setAttribute("data-domestik", data[i].domestik);
+                        option.setAttribute("data-inter", data[i].internasional);
+                        selectItems.insertBefore(option, selectItems.lastChild);
+                    }
+                }
+            })
+            $.ajax({
+                url: "<?= base_url() ?>produk/listByReservasi?reservasi=" + idReservasi,
+                success: function(response) {
+                    var data = JSON.parse(response);
+                    var selectProduk = document.getElementById("selectProduk");
+                    for (i = selectProduk.options.length - 1; i > 0; i--) {
+                        selectProduk.remove(i);
+                    }
+                    for (var i = 0; i < data.length; i++) {
+                        var option = document.createElement("OPTION"),
+                            txt = document.createTextNode(data[i].namaproduk);
+                        option.appendChild(txt);
+                        option.setAttribute("value", data[i].id_items);
+                        option.setAttribute("data-lokal", data[i].lokal);
+                        option.setAttribute("data-domestik", data[i].domestik);
+                        option.setAttribute("data-inter", data[i].internasional);
+                        selectProduk.insertBefore(option, selectProduk.lastChild);
+                    }
+                }
+            })
+            $.ajax({
+                url: "<?= base_url() ?>paket/listByReservasi?reservasi=" + idReservasi,
+                success: function(response) {
+                    var data = JSON.parse(response);
+                    var selectPaket = document.getElementById("selectPaket");
+                    for (i = selectPaket.options.length - 1; i > 0; i--) {
+                        selectPaket.remove(i);
+                    }
+                    for (var i = 0; i < data.length; i++) {
+                        var option = document.createElement("OPTION"),
+                            txt = document.createTextNode(data[i].namapaket);
+                        option.appendChild(txt);
+                        option.setAttribute("value", data[i].id_items);
+                        option.setAttribute("data-lokal", data[i].lokal);
+                        option.setAttribute("data-domestik", data[i].domestik);
+                        option.setAttribute("data-inter", data[i].internasional);
+                        selectPaket.insertBefore(option, selectPaket.lastChild);
+                    }
+                }
+            })
+        } else {
+            $.ajax({
+                url: "<?= base_url() ?>items/Listdata",
+                success: function(response) {
+                    var data = JSON.parse(response);
+                    var selectItems = document.getElementById("selectItems");
+                    for (i = selectItems.options.length - 1; i > 0; i--) {
+                        selectItems.remove(i);
+                    }
+                    for (var i = 0; i < data.length; i++) {
+                        var option = document.createElement("OPTION"),
+                            txt = document.createTextNode(data[i].namaitem);
+                        option.appendChild(txt);
+                        option.setAttribute("value", data[i].id_items);
+                        option.setAttribute("data-lokal", data[i].lokal);
+                        option.setAttribute("data-domestik", data[i].domestik);
+                        option.setAttribute("data-inter", data[i].internasional);
+                        selectItems.insertBefore(option, selectItems.lastChild);
+                    }
+                }
+            })
+            $.ajax({
+                url: "<?= base_url() ?>produk/ListDataProduk",
+                success: function(response) {
+                    var data = JSON.parse(response);
+                    var selectProduk = document.getElementById("selectProduk");
+                    for (i = selectProduk.options.length - 1; i > 0; i--) {
+                        selectProduk.remove(i);
+                    }
+                    for (var i = 0; i < data.length; i++) {
+                        var option = document.createElement("OPTION"),
+                            txt = document.createTextNode(data[i].namaproduk);
+                        option.appendChild(txt);
+                        option.setAttribute("value", data[i].id_items);
+                        option.setAttribute("data-lokal", data[i].lokal);
+                        option.setAttribute("data-domestik", data[i].domestik);
+                        option.setAttribute("data-inter", data[i].internasional);
+                        selectProduk.insertBefore(option, selectProduk.lastChild);
+                    }
+                }
+            })
+            $.ajax({
+                url: "<?= base_url() ?>paket/ListDataPaket",
+                success: function(response) {
+                    var data = JSON.parse(response);
+                    var selectPaket = document.getElementById("selectPaket");
+                    for (i = selectPaket.options.length - 1; i > 0; i--) {
+                        selectPaket.remove(i);
+                    }
+                    for (var i = 0; i < data.length; i++) {
+                        var option = document.createElement("OPTION"),
+                            txt = document.createTextNode(data[i].namapaket);
+                        option.appendChild(txt);
+                        option.setAttribute("value", data[i].id_items);
+                        option.setAttribute("data-lokal", data[i].lokal);
+                        option.setAttribute("data-domestik", data[i].domestik);
+                        option.setAttribute("data-inter", data[i].internasional);
+                        selectPaket.insertBefore(option, selectPaket.lastChild);
+                    }
+                }
+            })
+        }
+
+    });
+
     // ==== END INPUT SELECT2 TRANSAKSI ====  
 
     $("#addfield").on("click", function(e) {
@@ -123,6 +254,7 @@
                 var dataItems = dataSet.findIndex((find => find.id_pengunjung === id_pengunjung && find.id_barang === idbrg && find.jenis === "items"));
                 if (dataItems < 0) {
                     arr = {
+                        "id_reservasi": "",
                         "id_pengunjung": id_pengunjung,
                         "name": nama,
                         "barang": namabrg,
@@ -158,6 +290,7 @@
                 var dataProduk = dataSet.findIndex((find => find.id_pengunjung === id_pengunjung && find.id_barang === idbrg && find.jenis === "produk"));
                 if (dataProduk < 0) {
                     arr = {
+                        "id_reservasi": "",
                         "id_pengunjung": id_pengunjung,
                         "name": nama,
                         "barang": namabrg,
@@ -191,6 +324,7 @@
                 console.log(dataPaket);
                 if (dataPaket < 0) {
                     arr = {
+                        "id_reservasi": "",
                         "id_pengunjung": id_pengunjung,
                         "name": nama,
                         "barang": namabrg,
@@ -322,6 +456,9 @@
             "id_guide": $("#guide").val(),
             "namaguide": $("#guide").find(':selected').text(),
         };
+        var kode_reservasi = {
+            "kode_reservasi": $("#reservasi").val(),
+        };
         var pengayah = {
             "id_pengayah": $("#pengayah").val(),
             "namapengayah": $("#pengayah").find(':selected').text(),
@@ -329,11 +466,70 @@
         localStorage.setItem('dataSet', JSON.stringify(dataSet));
         localStorage.setItem('guide', JSON.stringify(guide));
         localStorage.setItem('pengayah', JSON.stringify(pengayah));
+        localStorage.setItem('kode_reservasi', JSON.stringify(kode_reservasi));
         window.location.href = "<?= base_url() ?>transaksi/summarybayar"
     })
 
+    $("#notif_reservasi").hide();
+
     $("#searchReservasi").on("click", function() {
-        $("#guide").val("1").change();
+        dataSet = [];
+        var idreservasi = $("#reservasi").val();
+        $.ajax({
+            url: "<?= base_url() ?>transaksi/getreservasi?id=" + idreservasi,
+            success: function(response) {
+                var data = JSON.parse(response);
+                if (data.code == '404') {
+                    $("#notif_reservasi").show();
+                    $("#notif_reservasi").addClass('text-danger');
+                    $("#notif_reservasi").text(data.messages);
+                } else {
+                    localStorage.setItem('dp', JSON.stringify(data.master.DP));
+                    localStorage.setItem('buktibayar', JSON.stringify(data.master.buktibayar));
+
+                    $("#guide").val(data.master.guide_id).change();
+                    $("#pengayah").val(data.master.pengayah_id).change();
+
+                    $.each(data.barang, function(k, v) {
+                        // console.log(v.lokal);
+                        var state = v.state_name;
+                        var country = v.country_name;
+
+                        if (state.toLowerCase() == "bali") {
+                            harga = parseInt(v.lokal);
+                        } else if (country.toLowerCase() == "indonesia") {
+                            harga = parseInt(v.domestik);
+                        } else {
+                            harga = parseInt(v.internasional);
+                        }
+
+                        if (v.jml == "0") {
+                            jml = "";
+                        } else {
+                            jml = v.jml;
+                        }
+
+                        var state = $("#pengunjung").find(':selected').data("state");
+
+                        arr = {
+                            "id_reservasi": data.master.id,
+                            "id_pengunjung": v.id_pengunjung,
+                            "name": v.nama,
+                            "barang": v.namabarang,
+                            "id_barang": v.id_barang,
+                            "jenis": v.jenis,
+                            "jumlah": jml,
+                            "total": harga
+                        };
+                        dataSet.push(arr);
+                    });
+                    console.log(dataSet);
+                    tblpesanan.clear();
+                    tblpesanan.rows.add(dataSet);
+                    tblpesanan.draw();
+                }
+            }
+        })
     })
 
     // ==== START SELECT COUNTRY & STATE  ====  
@@ -364,4 +560,11 @@
         })
     });
     // ==== END SELECT COUNTRY & STATE  ====  
+
+
+    function onlyUnique(value, index, array) {
+        return array.indexOf(value) === index;
+    }
+
+    var a = ['a', 1, 'a', 2, '1'];
 </script>

@@ -72,6 +72,20 @@ class Produk extends CI_Controller
 		echo json_encode($produk);
 	}
 
+	public function ListDataProduk()
+	{
+		$result = $this->produk->listproduk();
+		echo json_encode($result);
+	}
+
+	public function listByReservasi()
+	{
+		$id = $this->security->xss_clean($this->input->get('reservasi'));
+		$result = $this->produk->ListProdukByReservasi($id);
+
+		echo json_encode($result);
+	}
+
 	public function tambah()
 	{
 		$items = $this->items->listitems();

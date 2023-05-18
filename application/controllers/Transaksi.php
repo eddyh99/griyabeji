@@ -18,6 +18,7 @@ class Transaksi extends CI_Controller
 		$this->load->model('admin/mdl_paket', "paket");
 		$this->load->model('admin/Mdl_pengguna', "pengguna");
 		$this->load->model('Mdl_transaksi', "transaksi");
+		$this->load->model('Mdl_reservasi', "reservasi");
 	}
 
 	public function index()
@@ -146,6 +147,28 @@ class Transaksi extends CI_Controller
 		}
 	}
 
+	public function getreservasi()
+	{
+		$id = $this->security->xss_clean($this->input->get('id'));
+		$master = $this->reservasi->getDataMaster($id);
+		$barang = $this->reservasi->getDataBarang($id);
+
+		if ($master) {
+			$result = array(
+				"master" => $master,
+				"barang" => $barang,
+			);
+		} else {
+			$result = array(
+				"code" => "404",
+				"messages" => "Data tidak ditemukan"
+			);
+		}
+
+
+		echo json_encode($result);
+	}
+
 	public function simpandata()
 	{
 		$data = json_decode($this->security->xss_clean($this->input->post('data')));
@@ -153,6 +176,7 @@ class Transaksi extends CI_Controller
 		$pengayah = json_decode($this->security->xss_clean($this->input->post('pengayah')));
 		$diskon = $this->security->xss_clean($this->input->post('diskon'));
 		$payment = $this->security->xss_clean($this->input->post('payment'));
+		$reservasi = $this->security->xss_clean($this->input->post('reservasi'));
 
 		if (empty($guide->id_guide)) {
 			$guide_id = NULL;
@@ -174,15 +198,28 @@ class Transaksi extends CI_Controller
 			"method"		=> $payment,
 			"userid"		=> $_SESSION["logged_status"]["username"]
 		);
-
 		$result = $this->transaksi->add_data($mtrans, $data);
 		// echo json_encode($result);
 		// die;
 
+
 		if (@$result["code"] == 0) {
-			echo "0";
+			if (!empty($reservasi)) {
+				$update_reservasi = $this->reservasi->update_proses($reservasi);
+				if (@$update_reservasi["code"] == 0) {
+					echo '0';
+				}
+			}
 		}
 	}
+
+	// public function tes()
+	// {
+	// 	$update_reservasi = $this->reservasi->update_proses('21');
+	// 	if (@$update_reservasi["code"] == 0) {
+	// 		print_r($update_reservasi);
+	// 	}
+	// }
 
 
 

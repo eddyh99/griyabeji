@@ -32,43 +32,14 @@ class Items extends CI_Controller
 	public function Listdata()
 	{
 		$result = $this->items->listitems();
-		// $result = array (
-		// 	array(
-		//         "id"            => "1",
-		// 		"namaitem"		=> "Dupa Wangi",
-		// 		"local"			=> "1000000",
-		// 		"domestik"		=> "2000000",
-		// 		"internasional"	=> "3000000",
-		// 	),
-		// 	array(
-		//         "id"            => "2",
-		// 		"namaitem"		=> "Gelang Tridatu",
-		// 		"local"			=> "1000000",
-		// 		"domestik"		=> "2000000",
-		// 		"internasional"	=> "3000000",
-		// 	),
-		// 	array(
-		//         "id"            => "3",
-		// 		"namaitem"		=> "Canang Sari",
-		// 		"local"			=> "1000000",
-		// 		"domestik"		=> "2000000",
-		// 		"internasional"	=> "3000000",
-		// 	),
-		// 	array(
-		//         "id"            => "4",
-		// 		"namaitem"		=> "Toples Tirta",
-		// 		"local"			=> "1000000",
-		// 		"domestik"		=> "2000000",
-		// 		"internasional"	=> "3000000",
-		// 	),
-		// 	array(
-		//         "id"            => "5",
-		// 		"namaitem"		=> "Dupa Cempaka",
-		// 		"local"			=> "1000000",
-		// 		"domestik"		=> "2000000",
-		// 		"internasional"	=> "3000000",
-		// 	),
-		// );
+		echo json_encode($result);
+	}
+
+	public function listByReservasi()
+	{
+		$id = $this->security->xss_clean($this->input->get('reservasi'));
+		$result = $this->items->ListitemsByReservasi($id);
+
 		echo json_encode($result);
 	}
 
