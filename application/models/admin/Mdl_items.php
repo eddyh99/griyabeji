@@ -5,7 +5,7 @@ class Mdl_items extends CI_Model
 {
 	public function Listitems()
 	{
-		$sql = "SELECT id, namaitem,x.hpp, x.lokal,x.domestik, x.internasional 
+		$sql = "SELECT id,id_items, namaitem,x.hpp, x.lokal,x.domestik, x.internasional 
 		FROM " . ITEMS . " a INNER JOIN 
 		( 
 			SELECT a.lokal, a.internasional, a.domestik, a.hpp, a.id_items 

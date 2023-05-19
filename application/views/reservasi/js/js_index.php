@@ -326,9 +326,21 @@
             "id_pengayah": $("#pengayah").val(),
             "namapengayah": $("#pengayah").find(':selected').text(),
         };
+        var jumlah_pengunjung = {
+            "jumlah_pengunjung": $("#jumlah_pengunjung").val(),
+        };
+
+        if (!jumlah_pengunjung.jumlah_pengunjung) {
+            let tamu_uniq = [new Set(dataSet.map(item => item.id_pengunjung))];;
+            jumlah_pengunjung = {
+                "jumlah_pengunjung": tamu_uniq[0].size,
+            };
+        }
+
         localStorage.setItem('dataSet', JSON.stringify(dataSet));
         localStorage.setItem('guide', JSON.stringify(guide));
         localStorage.setItem('pengayah', JSON.stringify(pengayah));
+        localStorage.setItem('jumlah_pengunjung', JSON.stringify(jumlah_pengunjung));
         window.location.href = "<?= base_url() ?>reservasi/summarybayar"
     })
 

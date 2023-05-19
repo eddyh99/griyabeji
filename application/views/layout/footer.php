@@ -54,6 +54,19 @@
 </div>
 <!--======= End Scrolltop ====== -->
 
+<!-- Toast -->
+<div class="position-fixed bottom-0 end-0 p-3 m-3" style="z-index: 11">
+	<div id="notifToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="3000">
+		<div class="toast-header">
+			<img src="<?= base_url() ?>assets/img/logo.webp" class="rounded me-2" alt="..." height="20">
+			<strong class="me-auto">Pesan</strong>
+			<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+		</div>
+		<div class="toast-body" id="message_toast">
+		</div>
+	</div>
+</div>
+
 
 <script src="<?= base_url() ?>assets/plugins/global/plugins.bundle.js"></script>
 <script src="<?= base_url() ?>assets/js/scripts.bundle.js"></script>
@@ -77,6 +90,10 @@ if (isset($extra)) {
 		aForm: true,
 		vMax: '99999999999',
 		vMin: '0'
+	});
+
+	document.addEventListener("DOMContentReady", function() {
+		$("#notifToast").toast();
 	});
 </script>
 

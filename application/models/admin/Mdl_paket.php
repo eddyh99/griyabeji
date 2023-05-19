@@ -5,7 +5,7 @@ class Mdl_paket extends CI_Model
 {
 	public function Listpaket()
 	{
-		$sql = "SELECT id, namapaket, x.lokal,x.domestik, x.internasional 
+		$sql = "SELECT id, id_paket, namapaket, x.lokal,x.domestik, x.internasional 
 		FROM " . PAKET . " a INNER JOIN 
 		( 
 			SELECT a.lokal, a.internasional, a.domestik, a.id_paket 

@@ -43,14 +43,22 @@ class Mdl_transaksi extends CI_Model
 			$pengunjung = array();
 			foreach ($data as $dt) {
 				if ($temp["id_produk"] == $dt->id_barang && $temp["jenis"] == $dt->jenis) {
+
+					if (empty($dt->id_reservasi)) {
+						$id_reservasi = NULL;
+					} else {
+						$id_reservasi = $dt->id_reservasi;
+					}
+
 					$temp2["id_detail"]		= $id_detail;
 					$temp2["id_pengunjung"] = $dt->id_pengunjung;
 					$temp2["jml"]			= $dt->jumlah;
-					$temp2["id_reservasi"]	= $dt->id_reservasi;
+					$temp2["id_reservasi"]	= $id_reservasi;
 					array_push($pengunjung, $temp2);
 				}
 			}
-
+			// return $pengunjung;
+			// die;
 			$this->db->insert_batch("penjualan_pengunjung", $pengunjung);
 		}
 

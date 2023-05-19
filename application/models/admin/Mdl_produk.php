@@ -5,7 +5,7 @@ class Mdl_produk extends CI_Model
 {
 	public function Listproduk()
 	{
-		$sql = "SELECT id, namaproduk, x.lokal,x.domestik, x.internasional 
+		$sql = "SELECT id,id_produk, namaproduk, x.lokal,x.domestik, x.internasional 
 		FROM " . PRODUK . " a INNER JOIN 
 		( 
 			SELECT a.lokal, a.internasional, a.domestik, a.id_produk 

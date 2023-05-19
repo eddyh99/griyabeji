@@ -22,4 +22,3 @@ class Mdl_kas extends CI_Model{
 		}
 	}
 }
-?>

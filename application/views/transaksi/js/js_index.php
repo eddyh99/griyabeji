@@ -24,6 +24,8 @@
     });
 
     var pengunjung = $('#pengunjung').select2({
+        placeholder: "--Pilih Pengunjung--",
+        allowClear: true,
         ajax: {
             url: '<?= base_url() ?>pengunjung/Listdata',
             dataType: 'json',
@@ -45,6 +47,15 @@
         var id = $(this).val();
         var idReservasi = $("#reservasi").val();
         var dataPengunjung = dataSet.findIndex((find => find.id_pengunjung === id && find.id_reservasi === idReservasi));
+        var jml_tamu = $("#jumlah_pengunjung").val();
+
+        var urlItems = "items/Listdata";
+        var urlProduk = "produk/Listdata";
+        var urlPaket = "paket/Listdata";
+
+        let tamu_uniq = [new Set(dataSet.map(item => item.id_pengunjung))];
+
+        console.log("Slot Tamu : " + (parseInt(jml_tamu) - parseInt(tamu_uniq[0].size)));
 
         if (dataPengunjung >= 0) {
             $.ajax({
@@ -79,7 +90,7 @@
                         var option = document.createElement("OPTION"),
                             txt = document.createTextNode(data[i].namaproduk);
                         option.appendChild(txt);
-                        option.setAttribute("value", data[i].id_items);
+                        option.setAttribute("value", data[i].id_produk);
                         option.setAttribute("data-lokal", data[i].lokal);
                         option.setAttribute("data-domestik", data[i].domestik);
                         option.setAttribute("data-inter", data[i].internasional);
@@ -99,7 +110,7 @@
                         var option = document.createElement("OPTION"),
                             txt = document.createTextNode(data[i].namapaket);
                         option.appendChild(txt);
-                        option.setAttribute("value", data[i].id_items);
+                        option.setAttribute("value", data[i].id_paket);
                         option.setAttribute("data-lokal", data[i].lokal);
                         option.setAttribute("data-domestik", data[i].domestik);
                         option.setAttribute("data-inter", data[i].internasional);
@@ -108,8 +119,14 @@
                 }
             })
         } else {
+            if (tamu_uniq[0].size < jml_tamu) {
+                urlItems = "items/listByReservasi?reservasi=" + idReservasi;
+                urlProduk = "produk/listByReservasi?reservasi=" + idReservasi;
+                urlPaket = "paket/listByReservasi?reservasi=" + idReservasi;
+            }
+
             $.ajax({
-                url: "<?= base_url() ?>items/Listdata",
+                url: "<?= base_url() ?>" + urlItems,
                 success: function(response) {
                     var data = JSON.parse(response);
                     var selectItems = document.getElementById("selectItems");
@@ -129,7 +146,7 @@
                 }
             })
             $.ajax({
-                url: "<?= base_url() ?>produk/ListDataProduk",
+                url: "<?= base_url() ?>" + urlProduk,
                 success: function(response) {
                     var data = JSON.parse(response);
                     var selectProduk = document.getElementById("selectProduk");
@@ -140,7 +157,7 @@
                         var option = document.createElement("OPTION"),
                             txt = document.createTextNode(data[i].namaproduk);
                         option.appendChild(txt);
-                        option.setAttribute("value", data[i].id_items);
+                        option.setAttribute("value", data[i].id_produk);
                         option.setAttribute("data-lokal", data[i].lokal);
                         option.setAttribute("data-domestik", data[i].domestik);
                         option.setAttribute("data-inter", data[i].internasional);
@@ -149,7 +166,7 @@
                 }
             })
             $.ajax({
-                url: "<?= base_url() ?>paket/ListDataPaket",
+                url: "<?= base_url() ?>" + urlPaket,
                 success: function(response) {
                     var data = JSON.parse(response);
                     var selectPaket = document.getElementById("selectPaket");
@@ -160,7 +177,7 @@
                         var option = document.createElement("OPTION"),
                             txt = document.createTextNode(data[i].namapaket);
                         option.appendChild(txt);
-                        option.setAttribute("value", data[i].id_items);
+                        option.setAttribute("value", data[i].id_paket);
                         option.setAttribute("data-lokal", data[i].lokal);
                         option.setAttribute("data-domestik", data[i].domestik);
                         option.setAttribute("data-inter", data[i].internasional);
@@ -222,6 +239,8 @@
         var id_pengunjung = $("#pengunjung").val();
         var state = $("#pengunjung").find(':selected').data("state");
         var country = $("#pengunjung").find(':selected').data("country");
+        var reservasi = $("#reservasi").val();
+        var jml_tamu = $("#jumlah_pengunjung").val();
 
         var i = 0;
         $('select[name*=namaitems]').each(function() {
@@ -251,10 +270,23 @@
                     }
                 }
 
+
                 var dataItems = dataSet.findIndex((find => find.id_pengunjung === id_pengunjung && find.id_barang === idbrg && find.jenis === "items"));
+                var dataPengunjung = dataSet.findIndex((find => find.id_pengunjung === id_pengunjung && find.id_reservasi === reservasi));
+                var kode_reservasi = "";
+                let tamu_uniq = [new Set(dataSet.map(item => item.id_pengunjung))];
+
+                if (reservasi) {
+                    if (dataPengunjung >= 0) {
+                        kode_reservasi = reservasi;
+                    } else if (tamu_uniq[0].size < jml_tamu) {
+                        kode_reservasi = reservasi;
+                    }
+                }
+
                 if (dataItems < 0) {
                     arr = {
-                        "id_reservasi": "",
+                        "id_reservasi": kode_reservasi,
                         "id_pengunjung": id_pengunjung,
                         "name": nama,
                         "barang": namabrg,
@@ -266,7 +298,6 @@
                     dataSet.push(arr);
                 } else {
                     dataSet[dataItems].jumlah = parseInt(dataSet[dataItems].jumlah) + parseInt(jml)
-                    // console.log(dataSet[dataItems].jumlah);
                 }
             }
             i++;
@@ -288,9 +319,21 @@
                 }
 
                 var dataProduk = dataSet.findIndex((find => find.id_pengunjung === id_pengunjung && find.id_barang === idbrg && find.jenis === "produk"));
+                var dataPengunjung = dataSet.findIndex((find => find.id_pengunjung === id_pengunjung && find.id_reservasi === reservasi));
+                var kode_reservasi = "";
+                let tamu_uniq = [new Set(dataSet.map(item => item.id_pengunjung))];
+
+                if (reservasi) {
+                    if (dataPengunjung >= 0) {
+                        kode_reservasi = reservasi;
+                    } else if (tamu_uniq[0].size < jml_tamu) {
+                        kode_reservasi = reservasi;
+                    }
+                }
+
                 if (dataProduk < 0) {
                     arr = {
-                        "id_reservasi": "",
+                        "id_reservasi": kode_reservasi,
                         "id_pengunjung": id_pengunjung,
                         "name": nama,
                         "barang": namabrg,
@@ -321,10 +364,21 @@
                 }
 
                 var dataPaket = dataSet.findIndex((find => find.id_pengunjung === id_pengunjung && find.id_barang === idbrg && find.jenis === "paket"));
-                console.log(dataPaket);
+                var dataPengunjung = dataSet.findIndex((find => find.id_pengunjung === id_pengunjung && find.id_reservasi === reservasi));
+                var kode_reservasi = "";
+                let tamu_uniq = [new Set(dataSet.map(item => item.id_pengunjung))];
+
+                if (reservasi) {
+                    if (dataPengunjung >= 0) {
+                        kode_reservasi = reservasi;
+                    } else if (tamu_uniq[0].size < jml_tamu) {
+                        kode_reservasi = reservasi;
+                    }
+                }
+
                 if (dataPaket < 0) {
                     arr = {
-                        "id_reservasi": "",
+                        "id_reservasi": kode_reservasi,
                         "id_pengunjung": id_pengunjung,
                         "name": nama,
                         "barang": namabrg,
@@ -474,21 +528,33 @@
 
     $("#searchReservasi").on("click", function() {
         dataSet = [];
-        var idreservasi = $("#reservasi").val();
+        var idreservasi = $("#kode_reservasi").val();
         $.ajax({
             url: "<?= base_url() ?>transaksi/getreservasi?id=" + idreservasi,
             success: function(response) {
                 var data = JSON.parse(response);
                 if (data.code == '404') {
+                    // Toast
+                    $('#notifToast').toast("show");
+                    $('#message_toast').text(data.messages);
+                    // Toast
+
                     $("#notif_reservasi").show();
                     $("#notif_reservasi").addClass('text-danger');
                     $("#notif_reservasi").text(data.messages);
+                    $("#reservasi").val("");
+
+                    tblpesanan.clear();
+                    tblpesanan.rows.add(dataSet);
+                    tblpesanan.draw();
                 } else {
                     localStorage.setItem('dp', JSON.stringify(data.master.DP));
                     localStorage.setItem('buktibayar', JSON.stringify(data.master.buktibayar));
 
                     $("#guide").val(data.master.guide_id).change();
                     $("#pengayah").val(data.master.pengayah_id).change();
+                    $("#jumlah_pengunjung").val(data.master.jml_tamu);
+                    $("#reservasi").val(idreservasi);
 
                     $.each(data.barang, function(k, v) {
                         // console.log(v.lokal);
@@ -560,11 +626,4 @@
         })
     });
     // ==== END SELECT COUNTRY & STATE  ====  
-
-
-    function onlyUnique(value, index, array) {
-        return array.indexOf(value) === index;
-    }
-
-    var a = ['a', 1, 'a', 2, '1'];
 </script>

@@ -31,9 +31,15 @@
 						<?php } ?>
 					</select>
 				</div>
-				<div class="col">
+				<div class="col-auto">
 					<button class="btn btn-beji rounded-pill" id="add" data-bs-toggle="modal" data-bs-target="#newvisitor">Pengunjung Baru</button>
 				</div>
+			</div>
+		</div>
+		<div class="col">
+			<label>Jumlah Pengunjung</label>
+			<div class="col">
+				<input type="text" class="form-control rounded-pill typeMoney" name="jumlah_pengunjung" id="jumlah_pengunjung">
 			</div>
 		</div>
 	</div>

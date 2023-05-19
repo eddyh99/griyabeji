@@ -5,7 +5,8 @@
 			<label>Kode Reservasi (optional)</label>
 			<div class="row">
 				<div class="col">
-					<input type="text" class="form-control rounded-pill" name="reservasi" id="reservasi">
+					<input type="text" class="form-control rounded-pill" name="kode_reservasi" id="kode_reservasi">
+					<input type="text" class="form-control rounded-pill" name="reservasi" id="reservasi" hidden>
 					<small class="ms-5" id="notif_reservasi"></small>
 				</div>
 				<div class="col-auto">
@@ -38,6 +39,7 @@
 			<div class="row">
 				<div class="col">
 					<select name="pengunjung" id="pengunjung" class="form-control rounded-pill">
+						<option></option>
 						<?php foreach ($pengunjung as $dt) { ?>
 							<option data-state="<?= $dt["statename"] ?>" data-country="<?= $dt["countryname"] ?>" value="<?= $dt["id"] ?>"><?= $dt["nama"] ?></option>
 						<?php } ?>
@@ -46,6 +48,7 @@
 				<div class="col">
 					<button class="btn btn-beji rounded-pill" id="add" data-bs-toggle="modal" data-bs-target="#newvisitor">Pengunjung Baru</button>
 				</div>
+				<input type="text" name="jumlah_pengunjung" id="jumlah_pengunjung" hidden>
 			</div>
 		</div>
 	</div>

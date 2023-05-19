@@ -153,8 +153,9 @@ class Reservasi extends CI_Controller
 		$data = json_decode($this->security->xss_clean($this->input->get('data')));
 		$guide = json_decode($this->security->xss_clean($this->input->get('guide')));
 		$pengayah = json_decode($this->security->xss_clean($this->input->get('pengayah')));
+		$jumlahpengunjung = json_decode($this->security->xss_clean($this->input->get('jumlahpengunjung')));
 		$DP = $this->security->xss_clean($this->input->post('dp'));
-		// $uploadbukti = $this->security->xss_clean($this->input->post('bukti_bayar'));
+
 
 		$url = '././assets/Bukti_Pembayaran/';
 		$buktiUpload = time() . '.png';
@@ -200,6 +201,7 @@ class Reservasi extends CI_Controller
 			"pengayah_id"	=> $pengayah_id,
 			"guide_id"		=> $guide_id,
 			"tanggal"		=> date("y-m-d H:i:s"),
+			"jml_tamu"		=> $jumlahpengunjung->jumlah_pengunjung,
 			"DP"			=> $DP,
 			"buktibayar"	=> $buktiUpload,
 			"is_proses"		=> "yes",

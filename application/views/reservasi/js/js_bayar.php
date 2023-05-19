@@ -2,10 +2,10 @@
     var data = JSON.parse(localStorage.getItem('dataSet'));
     var guide = JSON.parse(localStorage.getItem('guide'));
     var pengayah = JSON.parse(localStorage.getItem('pengayah'));
+    var jumlah_pengunjung = JSON.parse(localStorage.getItem('jumlah_pengunjung'));
     $("#guide").val(guide.namaguide);
     $("#pengayah").val(pengayah.namaguide);
 
-    console.log(data.length);
     var total = 0;
     for (var i = 0; i < data.length; i++) {
         console.log(data);
@@ -42,19 +42,26 @@
 
             $.ajax({
                 type: 'POST',
-                url: '<?= base_url() ?>reservasi/simpandata?data=' + JSON.stringify(data) + '&guide=' + JSON.stringify(guide) + '&pengayah=' + JSON.stringify(pengayah),
+                url: '<?= base_url() ?>reservasi/simpandata?data=' + JSON.stringify(data) + '&guide=' + JSON.stringify(guide) + '&pengayah=' + JSON.stringify(pengayah) + '&jumlahpengunjung=' + JSON.stringify(jumlah_pengunjung),
                 data: new FormData(this),
                 cache: false,
                 contentType: false,
                 processData: false,
                 success: function(response) {
+                    console.log(response);
                     if (response == 0) {
-                        //toast sukses
+                        // Toast
+                        $('#notifToast').toast("show");
+                        $('#message_toast').text("Data berhasil disimpan!");
+                        // Toast
+
                         localStorage.clear();
                         window.location.href = "<?= base_url() ?>reservasi";
-                        // console.log(response);
                     } else {
-                        // console.log(response);
+                        // Toast
+                        $('#notifToast').toast("show");
+                        $('#message_toast').text("Data gagal disimpan!");
+                        // Toast
                     }
                 },
             });
