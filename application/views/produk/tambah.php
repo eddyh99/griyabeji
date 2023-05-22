@@ -54,6 +54,17 @@
                                             </select>
                                         </div>
                                     </div>
+                                    <div class="form-group row my-5">
+                                        <label class="col-sm-3 col-form-label">Komisi Guide 2x?</label>
+                                        <div class="col-sm">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="yes" id="komisi" name="komisi">
+                                                <label class="form-check-label" for="komisi">
+                                                    Komisi Guide x2 untuk Internasional?
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-xl">
                                     <div class="card-body">

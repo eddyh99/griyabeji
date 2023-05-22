@@ -139,6 +139,7 @@ class Produk extends CI_Controller
 		$this->form_validation->set_rules('kiguide', 'Komisi Internasional Guide', 'trim|required');
 		$this->form_validation->set_rules('kdpangayahan', 'Komisi Domestik Pangayahan', 'trim|required');
 		$this->form_validation->set_rules('kipengayahan', 'Komisi Internasional Pengayahan', 'trim|required');
+		$this->form_validation->set_rules('komisi', 'Komisi x2', 'trim');
 
 		if ($this->form_validation->run() == FALSE) {
 			$this->session->set_flashdata('message', $this->message->error_msg(validation_errors()));
@@ -155,6 +156,11 @@ class Produk extends CI_Controller
 		$kiguide	= $this->security->xss_clean($this->input->post('kiguide'));
 		$kdpangayahan	= $this->security->xss_clean($this->input->post('kdpangayahan'));
 		$kipengayahan	= $this->security->xss_clean($this->input->post('kipengayahan'));
+		$komisi	= $this->security->xss_clean($this->input->post('komisi'));
+
+		if (empty($komisi)) {
+			$komisi = 'no';
+		}
 
 		$data		= array(
 			"namaproduk"    => $namaproduk,
@@ -163,6 +169,7 @@ class Produk extends CI_Controller
 
 		$harga		= array(
 			"tanggal"		=> date("Y-m-d H:i:s"),
+			"is_double"		=> $komisi,
 			"lokal"			=> $lokal,
 			"domestik"		=> $domestik,
 			"internasional" => $internasional,
@@ -279,6 +286,7 @@ class Produk extends CI_Controller
 		$this->form_validation->set_rules('kiguide', 'Komisi Internasional Guide', 'trim|required');
 		$this->form_validation->set_rules('kdpangayahan', 'Komisi Domestik Pangayahan', 'trim|required');
 		$this->form_validation->set_rules('kipengayahan', 'Komisi Internasional Pengayahan', 'trim|required');
+		$this->form_validation->set_rules('komisi', 'Komisi x2', 'trim');
 
 		if ($this->form_validation->run() == FALSE) {
 			$this->session->set_flashdata('message', $this->message->error_msg(validation_errors()));
@@ -296,6 +304,11 @@ class Produk extends CI_Controller
 		$kdpangayahan	= $this->security->xss_clean($this->input->post('kdpangayahan'));
 		$kipengayahan	= $this->security->xss_clean($this->input->post('kipengayahan'));
 		$id			    = $this->security->xss_clean($this->input->post('id'));
+		$komisi	= $this->security->xss_clean($this->input->post('komisi'));
+
+		if (empty($komisi)) {
+			$komisi = 'no';
+		}
 
 		$data		= array(
 			"namaproduk"    => $namaproduk,
@@ -305,6 +318,7 @@ class Produk extends CI_Controller
 		$harga		= array(
 			"id_produk"		=> $id,
 			"tanggal"		=> date("Y-m-d H:i:s"),
+			"is_double"		=> $komisi,
 			"lokal"			=> $lokal,
 			"domestik"		=> $domestik,
 			"internasional" => $internasional,

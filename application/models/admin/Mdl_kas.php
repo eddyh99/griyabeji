@@ -44,6 +44,10 @@ class Mdl_kas extends CI_Model
 		-- START ITEMS & NO RESERVASI
 		SELECT 
 		a.tanggal, 
+        a.pengayah_id,
+        a2.nama AS nama_pengayah,
+        a.guide_id,
+        a1.nama AS nama_guide,
 		b.id_produk, 
 		f.namaitem, 
 		c.jml, 
@@ -61,11 +65,20 @@ class Mdl_kas extends CI_Model
 			'INTERNASIONAL'
 			)
 		) as jns, 
+		y.lokal as is_double, 
 		y.lokal, 
 		y.domestik, 
-		y.internasional 
+		y.internasional,
+		y.komisi_guide_lokal,
+		y.komisi_guide_domestik,
+		y.komisi_guide_internasional,
+		y.komisi_pengayah_lokal,
+		y.komisi_pengayah_domestik,
+		y.komisi_pengayah_internasional
 		FROM 
 		penjualan a 
+		LEFT JOIN guide a1 ON a.guide_id = a1.id 
+		LEFT JOIN pengayah a2 ON a.pengayah_id = a2.id
 		INNER JOIN penjualan_detail b ON a.id = b.id_transaksi 
 		INNER JOIN penjualan_pengunjung c ON b.id = c.id_detail 
 		INNER JOIN pengunjung d ON c.id_pengunjung = d.id 
@@ -77,7 +90,13 @@ class Mdl_kas extends CI_Model
 			id_items, 
 			lokal, 
 			domestik, 
-			internasional 
+			internasional,
+			komisi_guide_lokal, 
+			komisi_guide_domestik, 
+			komisi_guide_internasional,
+			komisi_pengayah_lokal, 
+			komisi_pengayah_domestik, 
+			komisi_pengayah_internasional 
 			FROM 
 			items_harga a 
 			JOIN (
@@ -100,6 +119,10 @@ class Mdl_kas extends CI_Model
 		-- START ITEMS & ADD RESERVASI
 		SELECT 
 		a.tanggal, 
+        a.pengayah_id,
+        a2.nama AS nama_pengayah,
+        a.guide_id,
+        a1.nama AS nama_guide,
 		b.id_produk, 
 		f.namaitem, 
 		c.jml, 
@@ -117,11 +140,20 @@ class Mdl_kas extends CI_Model
 			'INTERNASIONAL'
 			)
 		) as jns, 
+		y.lokal as is_double, 
 		y.lokal, 
 		y.domestik, 
-		y.internasional 
+		y.internasional ,
+		y.komisi_guide_lokal,
+		y.komisi_guide_domestik,
+		y.komisi_guide_internasional,
+		y.komisi_pengayah_lokal,
+		y.komisi_pengayah_domestik,
+		y.komisi_pengayah_internasional
 		FROM 
 		penjualan a 
+		LEFT JOIN guide a1 ON a.guide_id = a1.id 
+		LEFT JOIN pengayah a2 ON a.pengayah_id = a2.id
 		INNER JOIN penjualan_detail b ON a.id = b.id_transaksi 
 		INNER JOIN penjualan_pengunjung c ON b.id = c.id_detail 
 		INNER JOIN pengunjung d ON c.id_pengunjung = d.id 
@@ -133,7 +165,13 @@ class Mdl_kas extends CI_Model
 			id_items, 
 			lokal, 
 			domestik, 
-			internasional 
+			internasional,
+			komisi_guide_lokal, 
+			komisi_guide_domestik, 
+			komisi_guide_internasional,
+			komisi_pengayah_lokal, 
+			komisi_pengayah_domestik, 
+			komisi_pengayah_internasional  
 			FROM 
 			items_harga a 
 			JOIN (
@@ -168,6 +206,10 @@ class Mdl_kas extends CI_Model
 
 		SELECT 
 		a.tanggal, 
+        a.pengayah_id,
+        a2.nama AS nama_pengayah,
+        a.guide_id,
+        a1.nama AS nama_guide,
 		b.id_produk, 
 		f.namaproduk, 
 		c.jml, 
@@ -185,11 +227,20 @@ class Mdl_kas extends CI_Model
 			'INTERNASIONAL'
 			)
 		) as jns, 
+		y.is_double, 
 		y.lokal, 
 		y.domestik, 
-		y.internasional 
+		y.internasional ,
+		y.komisi_guide_domestik as komisi_guide_lokal,
+		y.komisi_guide_domestik,
+		y.komisi_guide_internasional,
+		y.komisi_pengayah_domestik as komisi_pengayah_lokal,
+		y.komisi_pengayah_domestik,
+		y.komisi_pengayah_internasional
 		FROM 
 		penjualan a 
+		LEFT JOIN guide a1 ON a.guide_id = a1.id 
+		LEFT JOIN pengayah a2 ON a.pengayah_id = a2.id
 		INNER JOIN penjualan_detail b ON a.id = b.id_transaksi 
 		INNER JOIN penjualan_pengunjung c ON b.id = c.id_detail 
 		INNER JOIN pengunjung d ON c.id_pengunjung = d.id 
@@ -199,9 +250,14 @@ class Mdl_kas extends CI_Model
 		INNER JOIN (
 			SELECT 
 			id_produk, 
+			is_double,
 			lokal, 
 			domestik, 
-			internasional 
+			internasional , 
+			komisi_guide_domestik, 
+			komisi_guide_internasional,
+			komisi_pengayah_domestik, 
+			komisi_pengayah_internasional  
 			FROM 
 			produk_harga a 
 			JOIN (
@@ -226,6 +282,10 @@ class Mdl_kas extends CI_Model
 
 		SELECT 
 		a.tanggal, 
+        a.pengayah_id,
+        a2.nama AS nama_pengayah,
+        a.guide_id,
+        a1.nama AS nama_guide,
 		b.id_produk, 
 		f.namaproduk, 
 		c.jml, 
@@ -243,11 +303,20 @@ class Mdl_kas extends CI_Model
 			'INTERNASIONAL'
 			)
 		) as jns, 
+		y.is_double, 
 		y.lokal, 
 		y.domestik, 
-		y.internasional 
+		y.internasional,
+		y.komisi_guide_domestik as komisi_guide_lokal,
+		y.komisi_guide_domestik,
+		y.komisi_guide_internasional,
+		y.komisi_pengayah_domestik as komisi_pengayah_lokal,
+		y.komisi_pengayah_domestik,
+		y.komisi_pengayah_internasional
 		FROM 
 		penjualan a 
+		LEFT JOIN guide a1 ON a.guide_id = a1.id 
+		LEFT JOIN pengayah a2 ON a.pengayah_id = a2.id
 		INNER JOIN penjualan_detail b ON a.id = b.id_transaksi 
 		INNER JOIN penjualan_pengunjung c ON b.id = c.id_detail 
 		INNER JOIN pengunjung d ON c.id_pengunjung = d.id 
@@ -257,9 +326,14 @@ class Mdl_kas extends CI_Model
 		INNER JOIN (
 			SELECT 
 			id_produk, 
+			is_double,
 			lokal, 
 			domestik, 
-			internasional 
+			internasional,
+			komisi_guide_domestik, 
+			komisi_guide_internasional,
+			komisi_pengayah_domestik, 
+			komisi_pengayah_internasional  
 			FROM 
 			produk_harga a 
 			JOIN (
@@ -294,6 +368,10 @@ class Mdl_kas extends CI_Model
 
 		SELECT 
 		a.tanggal, 
+        a.pengayah_id,
+        a2.nama AS nama_pengayah,
+        a.guide_id,
+        a1.nama AS nama_guide,
 		b.id_produk, 
 		f.namapaket, 
 		c.jml, 
@@ -311,11 +389,20 @@ class Mdl_kas extends CI_Model
 			'INTERNASIONAL'
 			)
 		) as jns, 
+		y.is_double, 
 		y.lokal, 
 		y.domestik, 
-		y.internasional 
+		y.internasional,
+		y.komisi_guide_domestik as komisi_guide_lokal,
+		y.komisi_guide_domestik,
+		y.komisi_guide_internasional,
+		y.komisi_pengayah_domestik as komisi_pengayah_lokal,
+		y.komisi_pengayah_domestik,
+		y.komisi_pengayah_internasional
 		FROM 
 		penjualan a 
+		LEFT JOIN guide a1 ON a.guide_id = a1.id 
+		LEFT JOIN pengayah a2 ON a.pengayah_id = a2.id
 		INNER JOIN penjualan_detail b ON a.id = b.id_transaksi 
 		INNER JOIN penjualan_pengunjung c ON b.id = c.id_detail 
 		INNER JOIN pengunjung d ON c.id_pengunjung = d.id 
@@ -325,9 +412,14 @@ class Mdl_kas extends CI_Model
 		INNER JOIN (
 			SELECT 
 			id_paket, 
+			is_double,
 			lokal, 
 			domestik, 
-			internasional 
+			internasional,
+			komisi_guide_domestik, 
+			komisi_guide_internasional,
+			komisi_pengayah_domestik, 
+			komisi_pengayah_internasional  
 			FROM 
 			paket_harga a 
 			JOIN (
@@ -350,6 +442,10 @@ class Mdl_kas extends CI_Model
 		-- START PAKET & ADD RESERVASI
 		SELECT 
 		a.tanggal, 
+        a.pengayah_id,
+        a2.nama AS nama_pengayah,
+        a.guide_id,
+        a1.nama AS nama_guide,
 		b.id_produk, 
 		f.namapaket, 
 		c.jml, 
@@ -367,11 +463,20 @@ class Mdl_kas extends CI_Model
 			'INTERNASIONAL'
 			)
 		) as jns, 
+		y.is_double, 
 		y.lokal, 
 		y.domestik, 
-		y.internasional 
+		y.internasional,
+		y.komisi_guide_domestik as komisi_guide_lokal,
+		y.komisi_guide_domestik,
+		y.komisi_guide_internasional,
+		y.komisi_pengayah_domestik as komisi_pengayah_lokal,
+		y.komisi_pengayah_domestik,
+		y.komisi_pengayah_internasional 
 		FROM 
 		penjualan a 
+		LEFT JOIN guide a1 ON a.guide_id = a1.id 
+		LEFT JOIN pengayah a2 ON a.pengayah_id = a2.id
 		INNER JOIN penjualan_detail b ON a.id = b.id_transaksi 
 		INNER JOIN penjualan_pengunjung c ON b.id = c.id_detail 
 		INNER JOIN pengunjung d ON c.id_pengunjung = d.id 
@@ -381,9 +486,14 @@ class Mdl_kas extends CI_Model
 		INNER JOIN (
 			SELECT 
 			id_paket, 
+			is_double,
 			lokal, 
 			domestik, 
-			internasional 
+			internasional,
+			komisi_guide_domestik, 
+			komisi_guide_internasional,
+			komisi_pengayah_domestik, 
+			komisi_pengayah_internasional
 			FROM 
 			paket_harga a 
 			JOIN (

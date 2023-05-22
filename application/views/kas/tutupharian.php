@@ -16,7 +16,7 @@
 
                 <div class="card">
                     <div class="card-content">
-                        <form action="<?= base_url() ?>kas/tutupharian" method="get">
+                        <form action="<?= base_url() ?>kas/tutupharian/" method="get">
                             <?php /*?>
                             <?php if (($_SESSION["logged_status"]["role"]=="Office Manager")||($_SESSION["logged_status"]["role"]=="Office Staff")||($_SESSION["logged_status"]["role"]=="Owner")){?>
                             <div class="row ms-1 ms-md-10 my-5 mt-10 form-group">
@@ -69,11 +69,10 @@
                                         <label class="col-form-label pe-2 text-right"><b><?= number_format($card) ?></b></label>
                                     </div>
                                 </div>
-
                                 <div class="col-sm-12 my-5">
                                     <div class="d-flex col-6 flex-column">
                                         <div class="w-100 col-6 d-flex justify-content-between align-items-center px-2">
-                                            <label class="col-form-label col-5"><b>PENJUALAN ITEMS</b></label>
+                                            <label class="col-form-label col-5"><b>PENJUALAN SOUVENIR</b></label>
                                         </div>
                                         <?php
                                         $total_PJ_items = 0;
@@ -113,7 +112,7 @@
                                         }
                                         ?>
                                         <div class="w-100 col-6 d-flex justify-content-between align-items-center px-2">
-                                            <label class="col-form-label col-5"><b>TOTAL PENJUALAN ITEMS</b></label>
+                                            <label class="col-form-label col-5"><b>TOTAL PENJUALAN SOUVENIR</b></label>
                                             <label class="col-form-label pe-2 text-right"><b><?= number_format($total_PJ_items) ?></b></label>
                                         </div>
                                     </div>
@@ -217,6 +216,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="col-sm-12 my-5">
                                     <div class="d-flex col-6 flex-column">
                                         <?php

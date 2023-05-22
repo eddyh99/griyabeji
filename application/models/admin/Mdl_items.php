@@ -76,8 +76,10 @@ class Mdl_items extends CI_Model
 		x.lokal,
 		x.domestik, 
 		x.internasional,
+		x.komisi_guide_lokal, 
 		x.komisi_guide_domestik, 
 		x.komisi_guide_internasional, 
+		x.komisi_pengayah_lokal, 
 		x.komisi_pengayah_domestik, 
 		x.komisi_pengayah_internasional
 		FROM " . ITEMS . " a 
@@ -88,8 +90,10 @@ class Mdl_items extends CI_Model
 			a.domestik, 
 			a.hpp, 
 			a.id_items, 
+			a.komisi_guide_lokal, 
 			a.komisi_guide_domestik, 
 			a.komisi_guide_internasional, 
+			a.komisi_pengayah_lokal, 
 			a.komisi_pengayah_domestik, 
 			a.komisi_pengayah_internasional
 			FROM " . ITEMS_HARGA . " a 

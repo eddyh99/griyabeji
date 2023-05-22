@@ -1,5 +1,5 @@
 <!-- ====== Start Header ====== -->
-<div id="kt_app_header" class="app-header">
+<div id="kt_app_header" class="app-header <?= @$h_tc ?>">
 
     <!-- ====== Start Header container ====== -->
     <div class="app-container container-fluid bg-white d-flex align-items-stretch justify-content-between" id="kt_app_header_container">
@@ -106,7 +106,7 @@
                 <div class="menu menu-column menu-rounded menu-sub-indention fw-semibold px-3" id="#kt_app_sidebar_menu" data-kt-menu="true" data-kt-menu-expand="false">
 
                     <!-- ====== Start Name Login ===== -->
-                    <div data-kt-menu-trigger="click" class="menu-item menu-accordion menu-border-nama pb-3 mb-5">
+                    <div data-kt-menu-trigger="click" class="menu-item menu-accordion menu-border-nama pb-3 mb-5 <?= @$h_tc ?>">
 
                         <!-- ===== Start Menu Name login ===== -->
                         <span class="menu-link">
@@ -154,7 +154,7 @@
                     <!--====== Start ALL Side bar ===== -->
 
                     <!--====== Start Dashboard ===== -->
-                    <div class="menu-item menu-accordion">
+                    <div class="menu-item menu-accordion <?= @$h_tc ?>">
                         <a class="menu-link <?= @$mn_dash ?>" href="<?= base_url() ?>dashboard">
                             <span class="menu-icon">
                                 <span class="svg-icon svg-icon-2">
@@ -172,7 +172,7 @@
                     <!--====== End Dashboard ===== -->
 
                     <!--====== Start Master ===== -->
-                    <div data-kt-menu-trigger="click" class="menu-item menu-accordion <?= @$colmas ?>">
+                    <div data-kt-menu-trigger="click" class="menu-item menu-accordion <?= @$colmas ?> <?= @$h_tc ?>">
 
                         <!-- ===== Start Sub Link Master ===== -->
                         <span class="menu-link">
@@ -298,7 +298,7 @@
 
 
                     <!--====== Start Harga Items ===== -->
-                    <div class="menu-item menu-accordion">
+                    <div class="menu-item menu-accordion <?= @$h_tc ?>">
                         <a class="menu-link <?= @$side8 ?>" href="<?= base_url() ?>items/hargaitems">
                             <span class="menu-icon">
                                 <span class="svg-icon svg-icon-2">
@@ -315,7 +315,7 @@
                     <!--====== End Harga Items ===== -->
 
                     <!--====== Start Harga Produk ===== -->
-                    <div class="menu-item menu-accordion">
+                    <div class="menu-item menu-accordion <?= @$h_tc ?>">
                         <a class="menu-link <?= @$side9 ?>" href="<?= base_url() ?>produk/hargaproduk">
                             <span class="menu-icon">
                                 <span class="svg-icon svg-icon-2">
@@ -334,7 +334,7 @@
                     <!--====== End Harga Produk ===== -->
 
                     <!--====== Start Harga Paket ===== -->
-                    <div class="menu-item menu-accordion">
+                    <div class="menu-item menu-accordion <?= @$h_tc ?>">
                         <a class="menu-link <?= @$side10 ?>" href="<?= base_url() ?>paket/hargapaket">
                             <span class="menu-icon">
                                 <span class="svg-icon svg-icon-2">
@@ -351,7 +351,7 @@
                     <!--====== End Harga Paket ===== -->
 
                     <!--====== Start Penyesuaian ===== -->
-                    <div class="menu-item menu-accordion">
+                    <div class="menu-item menu-accordion <?= @$h_tc ?>">
                         <a class="menu-link <?= @$side11 ?>" href="<?= base_url() ?>penyesuaian">
                             <span class="menu-icon">
                                 <span class="svg-icon svg-icon-2">
@@ -384,7 +384,7 @@
 
 
                     <!--====== Start Approval Penyesuaian ===== -->
-                    <div class="menu-item menu-accordion">
+                    <div class="menu-item menu-accordion <?= @$h_tc ?>">
                         <a class="menu-link <?= @$side12 ?>" href="<?= base_url() ?>penyesuaian/approval">
                             <span class="menu-icon">
                                 <span class="svg-icon svg-icon-2">
@@ -401,7 +401,7 @@
                     <!--====== End Approval Penyesuaian ===== -->
 
                     <!--====== Start Kas ===== -->
-                    <div class="menu-item menu-accordion">
+                    <div class="menu-item menu-accordion <?= @$h_tc ?>">
                         <a class="menu-link <?= @$side13 ?>" href="<?= base_url() ?>kas">
                             <span class="menu-icon">
                                 <span class="svg-icon svg-icon-2">
@@ -420,7 +420,7 @@
                     <!--====== End Kas ===== -->
 
                     <!--====== Start Rekapan Harian ===== -->
-                    <div class="menu-item menu-accordion">
+                    <div class="menu-item menu-accordion <?= @$h_tc ?>">
                         <a class="menu-link <?= @$side14 ?>" href="<?= base_url() ?>kas/tutupharian">
                             <span class="menu-icon">
                                 <span class="svg-icon svg-icon-2">
@@ -435,6 +435,127 @@
                             </span>
                             <span class="menu-title">Rekapan Harian</span>
                         </a>
+                    </div>
+                    <!--====== END Rekapan Harian ===== -->
+
+                    <!--====== Start Rekapan Harian ===== -->
+                    <div class="menu-item menu-accordion <?= @$h_tc ?>">
+                        <a class="menu-link <?= @$side15 ?>" href="<?= base_url() ?>kas/tutupharianguide">
+                            <span class="menu-icon">
+                                <span class="svg-icon svg-icon-2">
+                                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M29.917 8H39C40.1046 8 41 8.89543 41 10V42C41 43.1046 40.1046 44 39 44H9C7.89543 44 7 43.1046 7 42V10C7 8.89543 7.89543 8 9 8H18.083C18.559 5.16229 21.027 3 24 3C26.973 3 29.441 5.16229 29.917 8ZM26 9C26 10.1046 25.1046 11 24 11C22.8954 11 22 10.1046 22 9C22 7.89543 22.8954 7 24 7C25.1046 7 26 7.89543 26 9ZM36.9142 19.4142L32.3284 24H27V20H30.6716L34.0858 16.5858L36.9142 19.4142ZM13 20H23V24H13V20ZM13 30H23V34H13V30ZM36.9142 29.4142L32.3284 34H27V30H30.6716L34.0858 26.5858L36.9142 29.4142Z" fill="currentcolor" />
+                                        <path d="M36.9142 19.4142L32.3284 24H27V20H30.6716L34.0858 16.5858L36.9142 19.4142Z" fill="#324558" />
+                                        <path d="M13 20H23V24H13V20Z" fill="#324558" />
+                                        <path d="M13 30H23V34H13V30Z" fill="#324558" />
+                                        <path d="M36.9142 29.4142L32.3284 34H27V30H30.6716L34.0858 26.5858L36.9142 29.4142Z" fill="#324558" />
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="menu-title">Rekapan Harian Guide</span>
+                        </a>
+                    </div>
+                    <!--====== END Rekapan Harian ===== -->
+
+                    <!--====== Start Rekapan Harian ===== -->
+                    <div class="menu-item menu-accordion <?= @$h_tc ?>">
+                        <a class="menu-link <?= @$side16 ?>" href="<?= base_url() ?>kas/tutupharianpengayah">
+                            <span class="menu-icon">
+                                <span class="svg-icon svg-icon-2">
+                                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M29.917 8H39C40.1046 8 41 8.89543 41 10V42C41 43.1046 40.1046 44 39 44H9C7.89543 44 7 43.1046 7 42V10C7 8.89543 7.89543 8 9 8H18.083C18.559 5.16229 21.027 3 24 3C26.973 3 29.441 5.16229 29.917 8ZM26 9C26 10.1046 25.1046 11 24 11C22.8954 11 22 10.1046 22 9C22 7.89543 22.8954 7 24 7C25.1046 7 26 7.89543 26 9ZM36.9142 19.4142L32.3284 24H27V20H30.6716L34.0858 16.5858L36.9142 19.4142ZM13 20H23V24H13V20ZM13 30H23V34H13V30ZM36.9142 29.4142L32.3284 34H27V30H30.6716L34.0858 26.5858L36.9142 29.4142Z" fill="currentcolor" />
+                                        <path d="M36.9142 19.4142L32.3284 24H27V20H30.6716L34.0858 16.5858L36.9142 19.4142Z" fill="#324558" />
+                                        <path d="M13 20H23V24H13V20Z" fill="#324558" />
+                                        <path d="M13 30H23V34H13V30Z" fill="#324558" />
+                                        <path d="M36.9142 29.4142L32.3284 34H27V30H30.6716L34.0858 26.5858L36.9142 29.4142Z" fill="#324558" />
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="menu-title">Rekapan Harian Pengayah</span>
+                        </a>
+                    </div>
+                    <!--====== END Rekapan Harian ===== -->
+
+                    <!--====== START Laporan ===== -->
+                    <div data-kt-menu-trigger="click" class="menu-item menu-accordion <?= @$colmas_lp ?> <?= @$h_tc ?>">
+
+                        <!-- ===== Start Sub Link Master ===== -->
+                        <span class="menu-link">
+                            <span class="menu-icon">
+                                <span class="svg-icon svg-icon-2">
+                                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M29.917 8H39C40.1046 8 41 8.89543 41 10V42C41 43.1046 40.1046 44 39 44H9C7.89543 44 7 43.1046 7 42V10C7 8.89543 7.89543 8 9 8H18.083C18.559 5.16229 21.027 3 24 3C26.973 3 29.441 5.16229 29.917 8ZM26 9C26 10.1046 25.1046 11 24 11C22.8954 11 22 10.1046 22 9C22 7.89543 22.8954 7 24 7C25.1046 7 26 7.89543 26 9ZM36.9142 19.4142L32.3284 24H27V20H30.6716L34.0858 16.5858L36.9142 19.4142ZM13 20H23V24H13V20ZM13 30H23V34H13V30ZM36.9142 29.4142L32.3284 34H27V30H30.6716L34.0858 26.5858L36.9142 29.4142Z" fill="currentcolor" />
+                                        <path d="M36.9142 19.4142L32.3284 24H27V20H30.6716L34.0858 16.5858L36.9142 19.4142Z" fill="#324558" />
+                                        <path d="M13 20H23V24H13V20Z" fill="#324558" />
+                                        <path d="M13 30H23V34H13V30Z" fill="#324558" />
+                                        <path d="M36.9142 29.4142L32.3284 34H27V30H30.6716L34.0858 26.5858L36.9142 29.4142Z" fill="#324558" />
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="menu-title">Laporan</span>
+                            <span class="menu-arrow"></span>
+                        </span>
+                        <!--===== End Sub Link Master  ===== -->
+
+                        <!-- ======  Start Sub Master  ====== -->
+                        <div class="menu-sub menu-sub-accordion">
+                            <!-- ======  Start Menu Guide ===== -->
+                            <div class="menu-item">
+                                <a class="menu-link <?= @$side15 ?>" href="<?= base_url() ?>laporan/guide">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">Komisi Guide</span>
+                                </a>
+                            </div>
+                            <!-- ======  End  Menu Guide ===== -->
+
+                            <!-- ======  Start Menu Pengayah ===== -->
+                            <div class="menu-item">
+                                <a class="menu-link <?= @$side16 ?>" href="<?= base_url() ?>laporan/pengayah">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">Komisi Pengayah</span>
+                                </a>
+                            </div>
+                            <!-- ======  Start Menu Pengayah ===== -->
+
+                            <!-- ======  Start Menu Penjualan ===== -->
+                            <div class="menu-item">
+                                <a class="menu-link <?= @$side17 ?>" href="<?= base_url() ?>laporan/penjualan">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">Penjualan</span>
+                                </a>
+                            </div>
+                            <!-- ======  Start Menu Penjualan ===== -->
+
+                            <!-- ======  Start Menu Kas ===== -->
+                            <div class="menu-item">
+                                <a class="menu-link <?= @$side17 ?>" href="<?= base_url() ?>laporan/kas">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">Kas</span>
+                                </a>
+                            </div>
+                            <!-- ======  Start Menu Kas ===== -->
+
+                            <!-- ======  Start Menu Untung Rugi ===== -->
+                            <div class="menu-item">
+                                <a class="menu-link <?= @$side17 ?>" href="<?= base_url() ?>laporan/untungrugi">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">Untung Rugi</span>
+                                </a>
+                            </div>
+                            <!-- ======  Start Menu Untung Rugi ===== -->
+
+                        </div>
+                        <!--======  End Sub Master  ====== -->
                     </div>
                     <!--====== End Rekapan Harian ===== -->
 
@@ -455,9 +576,28 @@
                         </a>
                     </div>
                     <!--====== End Transaksi ===== -->
+                    <?php if ($this->uri->segment(1) == "transaksi") { ?>
+                        <!--====== Start Data Transaksi ===== -->
+                        <div class="menu-item menu-accordion">
+                            <a class="menu-link " href="<?= base_url() ?>transaksi/listTransaksi">
+                                <span class="menu-icon">
+                                    <span class="svg-icon svg-icon-2">
+                                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M30.6249 11.0928C30.8674 10.4412 31 9.73605 31 8.99994C31 8.54193 30.9487 8.09591 30.8515 7.6673C39.0853 9.38616 45 14.4744 45 23.4999C45 27.9957 42.7116 32.0715 39 35.0475V40.9999C39 42.1045 38.1046 42.9999 37 42.9999H33.0616C32.1438 42.9999 31.3439 42.3753 31.1213 41.485L30.5457 39.1826C28.4858 39.713 26.2856 39.9999 24 39.9999C22.0601 39.9999 20.1817 39.7932 18.3984 39.4064L17.8787 41.485C17.6561 42.3753 16.8562 42.9999 15.9384 42.9999H12C10.8954 42.9999 10 42.1045 10 40.9999V35.7985C9.57039 35.4964 9.1567 35.1806 8.76005 34.8519C4.85543 34.3117 0 29.7841 0 27.9049V23.9049C0 22.8031 0.890908 21.9095 1.99162 21.9049H1.73096C2.14333 21.9049 2.83715 21.7873 3.21057 20.7744C3.61913 18.2811 4.66275 15.9666 6.68906 14.0218L5.22176 11.7665C4.57061 10.7657 4.96377 9.46175 6.13574 9.23335C7.67875 8.93265 9.96119 8.79979 12.66 9.61005C14.6396 8.61025 16.8468 7.86457 19.207 7.43164C19.072 7.93156 19 8.45734 19 8.99994C19 9.66089 19.1069 10.2969 19.3043 10.8916C20.8218 10.6346 22.393 10.4999 24 10.4999C26.2859 10.4999 28.5138 10.6919 30.6249 11.0928ZM11 22.9999C12.1046 22.9999 13 22.1045 13 20.9999C13 19.8953 12.1046 18.9999 11 18.9999C9.89543 18.9999 9 19.8953 9 20.9999C9 22.1045 9.89543 22.9999 11 22.9999Z" fill="currentcolor" />
+                                            <path d="M31 9C31 9.73611 30.8674 10.4413 30.6249 11.0929C28.5138 10.692 26.2859 10.5 24 10.5C22.393 10.5 20.8218 10.6346 19.3043 10.8916C19.1069 10.2969 19 9.66095 19 9C19 5.68629 21.6863 3 25 3C28.3137 3 31 5.68629 31 9Z" fill="#324558" />
+                                            <path d="M44.7212 20.251C44.5115 19.0842 44.1866 17.9989 43.7577 16.9934C44.2623 16.3368 44.4999 15.6523 44.4999 14.9999C44.4999 13.7899 43.5622 12.7684 42.5256 12.4229C41.7397 12.1609 41.3149 11.3115 41.5769 10.5255C41.8389 9.73966 42.6883 9.31492 43.4743 9.57689C45.4376 10.2313 47.4999 12.2098 47.4999 14.9999C47.4999 17.126 46.3599 18.9306 44.7212 20.251Z" fill="#324558" />
+                                            <path d="M13 21C13 22.1046 12.1046 23 11 23C9.89543 23 9 22.1046 9 21C9 19.8954 9.89543 19 11 19C12.1046 19 13 19.8954 13 21Z" fill="#324558" />
+                                        </svg>
+                                    </span>
+                                </span>
+                                <span class="menu-title">Data Transaksi</span>
+                            </a>
+                        </div>
+                        <!--====== End Data Transaksi ===== -->
+                    <?php } ?>
 
                     <!--====== Start Reservasi ===== -->
-                    <div class="menu-item menu-accordion">
+                    <div class="menu-item menu-accordion <?= @$h_tc ?>">
                         <a class="menu-link " href="<?= base_url() ?>reservasi">
                             <span class="menu-icon">
                                 <span class="svg-icon svg-icon-2">
@@ -472,7 +612,7 @@
                     <!--====== End Reservasi ===== -->
 
                     <!--====== Start Laundry ===== -->
-                    <div class="menu-item menu-accordion">
+                    <div class="menu-item menu-accordion <?= @$h_tc ?>">
                         <a class="menu-link <?= @$side17 ?>" href="<?= base_url() ?>laundry">
                             <span class="menu-icon">
                                 <span class="svg-icon svg-icon-2">

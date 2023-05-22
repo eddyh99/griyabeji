@@ -248,7 +248,6 @@ class Kas extends CI_Controller
 
 
 	// ====== START REKAPAN HARIAN =====
-
 	public function tutupharian()
 	{
 		if (@!isset($_GET["tgl"])) {
@@ -322,7 +321,8 @@ class Kas extends CI_Controller
 			'content'	 => 'kas/tutupharian',
 			'extra'		 => 'kas/js/js_tutupharian',
 			'side14'	 => 'active',
-			'breadcrumb' => '/ Rekapan Harian',
+			// 'colmas_lp'	 => 'hover show',
+			'breadcrumb' => 'Rekapan Harian /',
 			'penjualan'  => $result,
 			'tgl'        => $tgl,
 			'store'        => $store,
@@ -336,6 +336,80 @@ class Kas extends CI_Controller
 		$this->load->view('layout/wrapper', $data);
 	}
 	// ====== END REKAPAN HARIAN =====
+
+	// ====== START REKAPAN HARIAN GUIDE =====
+	public function tutupharianguide()
+	{
+		if (@!isset($_GET["tgl"])) {
+			$tgl = date("d M Y");
+			$tglcari = date("Y-m-d");
+		} else {
+			$tgl     = $this->security->xss_clean($_GET["tgl"]);
+			$tglcari = date_format(date_create($tgl), "Y-m-d");
+		}
+
+		$result = $this->kas->laporanHarian($tglcari);
+
+		$uniqueguide = array();
+
+		foreach ($result as $byMehtod) {
+			if ($byMehtod['guide_id'] != NULL) {
+				$uniqueguide[$byMehtod['guide_id']] = $byMehtod;
+			}
+		}
+
+		$guide = array_values($uniqueguide);
+
+		$data	= array(
+			'title'		 => 'Rekapan Harian Guide',
+			'content'	 => 'kas/tutupharian-guide',
+			'extra'		 => 'kas/js/js_tutupharian',
+			'side15'	 => 'active',
+			'breadcrumb' => 'Rekapan Harian Guide/',
+			'penjualan'  => $result,
+			'tgl'        => $tgl,
+			'guide'        => $guide,
+		);
+		$this->load->view('layout/wrapper', $data);
+	}
+	// ====== END REKAPAN HARIAN GUIDE =====
+
+	// ====== START REKAPAN HARIAN PENGAYAH =====
+	public function tutupharianpengayah()
+	{
+		if (@!isset($_GET["tgl"])) {
+			$tgl = date("d M Y");
+			$tglcari = date("Y-m-d");
+		} else {
+			$tgl     = $this->security->xss_clean($_GET["tgl"]);
+			$tglcari = date_format(date_create($tgl), "Y-m-d");
+		}
+
+		$result = $this->kas->laporanHarian($tglcari);
+
+		$uniquepengayah = array();
+
+		foreach ($result as $byMehtod) {
+			if ($byMehtod['pengayah_id'] != NULL) {
+				$uniquepengayah[$byMehtod['pengayah_id']] = $byMehtod;
+			}
+		}
+
+		$pengayah = array_values($uniquepengayah);
+
+		$data	= array(
+			'title'		 => 'Rekapan Harian Pengayah',
+			'content'	 => 'kas/tutupharian-pengayah',
+			'extra'		 => 'kas/js/js_tutupharian',
+			'side16'	 => 'active',
+			'breadcrumb' => 'Rekapan Harian Pengayah/',
+			'penjualan'  => $result,
+			'tgl'        => $tgl,
+			'pengayah'        => $pengayah,
+		);
+		$this->load->view('layout/wrapper', $data);
+	}
+	// ====== END REKAPAN HARIAN PENGAYAH =====
 
 	public function testing()
 	{

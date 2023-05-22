@@ -55,6 +55,13 @@
                                 </div>
                                 <div class="col-xl">
                                     <div class="form-group row my-5">
+                                        <label class="col-sm-3 col-form-label">Komisi Guide Lokal</label>
+                                        <div class="col-sm d-flex align-items-center">
+                                            <span class="me-3">Rp. </span>
+                                            <input type="text" class="form-control rupiah typeMoney" id="kdguide" name="klguide" maxlength="35" autocomplete="off" value="<?= $detail['komisi_guide_lokal']; ?>">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row my-5">
                                         <label class="col-sm-3 col-form-label">Komisi Guide Domestik</label>
                                         <div class="col-sm d-flex align-items-center">
                                             <span class="me-3">Rp. </span>
@@ -66,6 +73,13 @@
                                         <div class="col-sm d-flex align-items-center">
                                             <span class="me-3">Rp. </span>
                                             <input type="text" class="form-control rupiah typeMoney" id="kiguide" name="kiguide" maxlength="35" autocomplete="off" value="<?= $detail['komisi_guide_internasional']; ?>">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row my-5">
+                                        <label class="col-sm-3 col-form-label">Komisi Pengayah Lokal</label>
+                                        <div class="col-sm d-flex align-items-center">
+                                            <span class="me-3">Rp. </span>
+                                            <input type="text" class="form-control rupiah typeMoney" id="klpangayahan" name="klpangayahan" maxlength="35" autocomplete="off" value="<?= $detail['komisi_pengayah_lokal']; ?>">
                                         </div>
                                     </div>
                                     <div class="form-group row my-5">
