@@ -293,14 +293,23 @@ class Kas extends CI_Controller
 				}
 			}
 
-			if ($byMehtod['jenis'] == 'items') {
+			if ($byMehtod['jenis'] == 'items' && $byMehtod['id_reservasi'] == NULL) {
 				$uniqueitems[$byMehtod['id_produk']] = $byMehtod;
 			}
-			if ($byMehtod['jenis'] == 'produk') {
+			if ($byMehtod['jenis'] == 'items' && $byMehtod['id_reservasi'] != NULL) {
+				$uniqueitems[$byMehtod['id_produk'] . $byMehtod['id_reservasi']] = $byMehtod;
+			}
+			if ($byMehtod['jenis'] == 'produk' && $byMehtod['id_reservasi'] == NULL) {
 				$uniqueproduk[$byMehtod['id_produk']] = $byMehtod;
 			}
-			if ($byMehtod['jenis'] == 'paket') {
+			if ($byMehtod['jenis'] == 'produk' && $byMehtod['id_reservasi'] != NULL) {
+				$uniqueproduk[$byMehtod['id_produk'] . $byMehtod['id_reservasi']] = $byMehtod;
+			}
+			if ($byMehtod['jenis'] == 'paket' && $byMehtod['id_reservasi'] == NULL) {
 				$uniquepaket[$byMehtod['id_produk']] = $byMehtod;
+			}
+			if ($byMehtod['jenis'] == 'paket' && $byMehtod['id_reservasi'] != NULL) {
+				$uniquepaket[$byMehtod['id_produk'] . $byMehtod['id_reservasi']] = $byMehtod;
 			}
 		}
 
@@ -338,74 +347,153 @@ class Kas extends CI_Controller
 	// ====== END REKAPAN HARIAN =====
 
 	// ====== START REKAPAN HARIAN GUIDE =====
-	public function tutupharianguide()
+	public function komisiguide()
 	{
-		if (@!isset($_GET["tgl"])) {
-			$tgl = date("d M Y");
-			$tglcari = date("Y-m-d");
+		if (@!isset($_GET["tanggal"])) {
+			$tanggal_awal       = date("Y-m-d", strtotime("first day of 0 month"));
+			$tanggal_akhir      = date("Y-m-d", strtotime("last day of 0 month"));
+
+			$tglShow = date("d M Y", strtotime("$tanggal_awal")) . ' - ' . date("d M Y", strtotime("$tanggal_akhir"));
 		} else {
-			$tgl     = $this->security->xss_clean($_GET["tgl"]);
-			$tglcari = date_format(date_create($tgl), "Y-m-d");
+			$tgl     = $this->security->xss_clean($_GET["tanggal"]);
+			$tanggal		= explode("-", $tgl);
+			$tanggal_awal       = date_format(date_create($tanggal[0]), "Y-m-d");
+			$tanggal_akhir      = date_format(date_create($tanggal[1]), "Y-m-d");
+
+			if ($tanggal_awal == $tanggal_akhir) {
+				$tglShow = $tanggal[0];
+			} else {
+				$tglShow = $tgl;
+			}
 		}
 
-		$result = $this->kas->laporanHarian($tglcari);
+		$result = $this->kas->laporanHarian($tanggal_awal);
+		// print("<pre>" . print_r($result, true) . "</pre>");
+		// die;
 
 		$uniqueguide = array();
+		$uniquebarang = array();
 
 		foreach ($result as $byMehtod) {
 			if ($byMehtod['guide_id'] != NULL) {
 				$uniqueguide[$byMehtod['guide_id']] = $byMehtod;
 			}
+
+			if ($byMehtod['id_reservasi'] == NULL && $byMehtod['guide_id'] != NULL && $byMehtod['jenis'] == 'items') {
+				$uniquebarang[$byMehtod['id_produk'] . $byMehtod['guide_id'] . '1'] = $byMehtod;
+			}
+			if ($byMehtod['id_reservasi'] != NULL && $byMehtod['guide_id'] != NULL && $byMehtod['jenis'] == 'items') {
+				$uniquebarang[$byMehtod['id_produk'] . $byMehtod['guide_id'] . $byMehtod['id_reservasi'] . '1'] = $byMehtod;
+			}
+			if ($byMehtod['id_reservasi'] == NULL && $byMehtod['guide_id'] != NULL && $byMehtod['jenis'] == 'produk') {
+				$uniquebarang[$byMehtod['id_produk'] . $byMehtod['guide_id'] . '2'] = $byMehtod;
+			}
+			if ($byMehtod['id_reservasi'] != NULL && $byMehtod['guide_id'] != NULL && $byMehtod['jenis'] == 'produk') {
+				$uniquebarang[$byMehtod['id_produk'] . $byMehtod['guide_id'] . $byMehtod['id_reservasi'] . '2'] = $byMehtod;
+			}
+			if ($byMehtod['id_reservasi'] == NULL && $byMehtod['guide_id'] != NULL && $byMehtod['jenis'] == 'paket') {
+				$uniquebarang[$byMehtod['id_produk'] . $byMehtod['guide_id'] . '3'] = $byMehtod;
+			}
+			if ($byMehtod['id_reservasi'] != NULL && $byMehtod['guide_id'] != NULL && $byMehtod['jenis'] == 'paket') {
+				$uniquebarang[$byMehtod['id_produk'] . $byMehtod['guide_id'] . $byMehtod['id_reservasi'] . '3'] = $byMehtod;
+			}
 		}
 
 		$guide = array_values($uniqueguide);
+		$barang = array_values($uniquebarang);
+
+
 
 		$data	= array(
-			'title'		 => 'Rekapan Harian Guide',
-			'content'	 => 'kas/tutupharian-guide',
-			'extra'		 => 'kas/js/js_tutupharian',
+			'title'		 => 'Komisi Guide',
+			'content'	 => 'kas/komisi-guide',
+			'extra'		 => 'kas/js/js_komisi',
 			'side15'	 => 'active',
+			'colmas_lp'	 => 'show hover',
 			'breadcrumb' => 'Rekapan Harian Guide/',
 			'penjualan'  => $result,
-			'tgl'        => $tgl,
+			'tgl'        => @$tgl,
+			'tglShow'        => @$tglShow,
+			'tanggal_awal'        => @$tanggal_awal,
+			'tanggal_akhir'        => @$tanggal_akhir,
 			'guide'        => $guide,
+			'barang'        => $barang,
 		);
 		$this->load->view('layout/wrapper', $data);
 	}
 	// ====== END REKAPAN HARIAN GUIDE =====
 
 	// ====== START REKAPAN HARIAN PENGAYAH =====
-	public function tutupharianpengayah()
+	public function komisipengayah()
 	{
-		if (@!isset($_GET["tgl"])) {
-			$tgl = date("d M Y");
-			$tglcari = date("Y-m-d");
+		if (@!isset($_GET["tanggal"])) {
+			$tanggal_awal       = date("Y-m-d", strtotime("first day of 0 month"));
+			$tanggal_akhir      = date("Y-m-d", strtotime("last day of 0 month"));
+
+			$tglShow = date("d M Y", strtotime("$tanggal_awal")) . ' - ' . date("d M Y", strtotime("$tanggal_akhir"));
 		} else {
-			$tgl     = $this->security->xss_clean($_GET["tgl"]);
-			$tglcari = date_format(date_create($tgl), "Y-m-d");
+			$tgl     = $this->security->xss_clean($_GET["tanggal"]);
+			$tanggal		= explode("-", $tgl);
+			$tanggal_awal       = date_format(date_create($tanggal[0]), "Y-m-d");
+			$tanggal_akhir      = date_format(date_create($tanggal[1]), "Y-m-d");
+
+			if ($tanggal_awal == $tanggal_akhir) {
+				$tglShow = $tanggal[0];
+			} else {
+				$tglShow = $tgl;
+			}
 		}
 
-		$result = $this->kas->laporanHarian($tglcari);
+		$result = $this->kas->laporanHarian($tanggal_awal);
 
 		$uniquepengayah = array();
+		$uniquebarang = array();
 
 		foreach ($result as $byMehtod) {
 			if ($byMehtod['pengayah_id'] != NULL) {
 				$uniquepengayah[$byMehtod['pengayah_id']] = $byMehtod;
 			}
+
+			if ($byMehtod['id_reservasi'] == NULL && $byMehtod['pengayah_id'] != NULL && $byMehtod['jenis'] == 'items') {
+				$uniquebarang[$byMehtod['id_produk'] . $byMehtod['pengayah_id'] . '1'] = $byMehtod;
+			}
+			if ($byMehtod['id_reservasi'] != NULL && $byMehtod['pengayah_id'] != NULL && $byMehtod['jenis'] == 'items') {
+				$uniquebarang[$byMehtod['id_produk'] . $byMehtod['pengayah_id'] . $byMehtod['id_reservasi'] . '1'] = $byMehtod;
+			}
+			if ($byMehtod['id_reservasi'] == NULL && $byMehtod['pengayah_id'] != NULL && $byMehtod['jenis'] == 'produk') {
+				$uniquebarang[$byMehtod['id_produk'] . $byMehtod['pengayah_id'] . '2'] = $byMehtod;
+			}
+			if ($byMehtod['id_reservasi'] != NULL && $byMehtod['pengayah_id'] != NULL && $byMehtod['jenis'] == 'produk') {
+				$uniquebarang[$byMehtod['id_produk'] . $byMehtod['pengayah_id'] . $byMehtod['id_reservasi'] . '2'] = $byMehtod;
+			}
+			if ($byMehtod['id_reservasi'] == NULL && $byMehtod['pengayah_id'] != NULL && $byMehtod['jenis'] == 'paket') {
+				$uniquebarang[$byMehtod['id_produk'] . $byMehtod['pengayah_id'] . '3'] = $byMehtod;
+			}
+			if ($byMehtod['id_reservasi'] != NULL && $byMehtod['pengayah_id'] != NULL && $byMehtod['jenis'] == 'paket') {
+				$uniquebarang[$byMehtod['id_produk'] . $byMehtod['pengayah_id'] . $byMehtod['id_reservasi'] . '3'] = $byMehtod;
+			}
 		}
 
 		$pengayah = array_values($uniquepengayah);
+		$barang = array_values($uniquebarang);
+
+		// print("<pre>" . print_r($result, true) . "</pre>");
+		// die;
 
 		$data	= array(
-			'title'		 => 'Rekapan Harian Pengayah',
-			'content'	 => 'kas/tutupharian-pengayah',
-			'extra'		 => 'kas/js/js_tutupharian',
+			'title'		 => 'Komisi Pengayah',
+			'content'	 => 'kas/komisi-pengayah',
+			'extra'		 => 'kas/js/js_komisi',
 			'side16'	 => 'active',
+			'colmas_lp'	 => 'show hover',
 			'breadcrumb' => 'Rekapan Harian Pengayah/',
 			'penjualan'  => $result,
-			'tgl'        => $tgl,
+			'tgl'        => @$tgl,
+			'tglShow'        => @$tglShow,
+			'tanggal_awal'        => @$tanggal_awal,
+			'tanggal_akhir'        => @$tanggal_akhir,
 			'pengayah'        => $pengayah,
+			'barang'        => $barang,
 		);
 		$this->load->view('layout/wrapper', $data);
 	}

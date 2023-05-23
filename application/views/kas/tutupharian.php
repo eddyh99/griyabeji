@@ -15,24 +15,9 @@
                 <?php } ?>
 
                 <div class="card">
-                    <div class="card-content">
+                    <div class="card-body">
                         <form action="<?= base_url() ?>kas/tutupharian/" method="get">
-                            <?php /*?>
-                            <?php if (($_SESSION["logged_status"]["role"]=="Office Manager")||($_SESSION["logged_status"]["role"]=="Office Staff")||($_SESSION["logged_status"]["role"]=="Owner")){?>
-                            <div class="row ms-1 ms-md-10 my-5 mt-10 form-group">
-                                <label class="col-form-label col-sm-1">Store</label>
-                                <div class="col-sm-3">
-                                    <select class="form-control" name="store" id="store">
-                                        <?php foreach($store as $dt){?>
-                                                <option value="<?=$dt["storeid"]?>" <?php echo ($dt["storeid"]==$storeid) ? "selected":"" ?>><?=$dt["store"]?></option>
-                                        <?php }?>
-                                    </select>
-                                </div>
-                            </div>
-                            <?php }?>
-                            <?php */ ?>
-
-                            <div class="row ms-1 ms-md-10 my-5 form-group">
+                            <div class="row my-5 form-group">
                                 <label class="col-form-label col-sm-1">Tanggal</label>
                                 <div class="col-sm-3">
                                     <input type="text" id="tgl" name="tgl" class="form-control" value="<?= $tgl ?>" autocomplete="off">
@@ -43,7 +28,7 @@
                             </div>
                         </form>
 
-                        <div class="row ms-1 ms-md-10 my-20" id="printarea">
+                        <div class="row mt-20" id="printarea">
                             <d iv class="col-sm-12 col-md-6 text-start">
                                 <h3>Laporan Penjualan Harian</h3>
                             </d>
@@ -86,7 +71,7 @@
                                                     $jml = $dt['jml'];
                                                 }
 
-                                                if ($dt['id_produk'] == $byBarang['id_produk'] && $dt['jenis'] == $byBarang['jenis']) {
+                                                if ($dt['id_produk'] == $byBarang['id_produk'] && $dt['jenis'] == $byBarang['jenis'] && $dt['id_reservasi'] == $byBarang['id_reservasi']) {
                                                     $jmlBarang += $jml;
                                                 }
                                             }
@@ -103,12 +88,21 @@
                                                 }
                                             }
                                             $total_PJ_items += $totalHargaBarang;
+                                            if ($byBarang['id_reservasi'] == NULL) {
                                         ?>
-                                            <div class="w-100 col-6 d-flex justify-content-between align-items-center px-2 ">
-                                                <label class="col-form-label col-5"> - <?= $byBarang['namaitem'] ?> x <?= $jmlBarang ?></label>
-                                                <label class="col-form-label pe-2 text-right"><?= number_format($totalHargaBarang) ?></label>
-                                            </div>
+                                                <div class="w-100 col-6 d-flex justify-content-between align-items-center px-2 ">
+                                                    <label class="col-form-label col-5"> - <?= $byBarang['namaitem'] ?> x <?= $jmlBarang ?></label>
+                                                    <label class="col-form-label pe-2 text-right"><?= number_format($totalHargaBarang) ?></label>
+                                                </div>
+                                            <?php
+                                            } else {
+                                            ?>
+                                                <div class="w-100 col-6 d-flex justify-content-between align-items-center px-2 ">
+                                                    <label class="col-form-label col-5"> - <?= $byBarang['namaitem'] ?> x <?= $jmlBarang ?></label>
+                                                    <label class="col-form-label pe-2 text-right"><?= number_format($totalHargaBarang) ?></label>
+                                                </div>
                                         <?php
+                                            }
                                         }
                                         ?>
                                         <div class="w-100 col-6 d-flex justify-content-between align-items-center px-2">
@@ -135,7 +129,7 @@
                                                     $jml = $dt['jml'];
                                                 }
 
-                                                if ($dt['id_produk'] == $byBarang['id_produk'] && $dt['jenis'] == $byBarang['jenis']) {
+                                                if ($dt['id_produk'] == $byBarang['id_produk'] && $dt['jenis'] == $byBarang['jenis'] && $dt['id_reservasi'] == $byBarang['id_reservasi']) {
                                                     $jmlBarang += $jml;
                                                 }
                                             }
@@ -152,12 +146,21 @@
                                                 }
                                             }
                                             $total_PJ_Produk += $totalHargaBarang;
+                                            if ($byBarang['id_reservasi'] == NULL) {
                                         ?>
-                                            <div class="w-100 col-6 d-flex justify-content-between align-items-center px-2 ">
-                                                <label class="col-form-label col-5"> - <?= $byBarang['namaitem'] ?> x <?= $jmlBarang ?></label>
-                                                <label class="col-form-label pe-2 text-right"><?= number_format($totalHargaBarang) ?></label>
-                                            </div>
+                                                <div class="w-100 col-6 d-flex justify-content-between align-items-center px-2 ">
+                                                    <label class="col-form-label col-5"> - <?= $byBarang['namaitem'] ?> x <?= $jmlBarang ?></label>
+                                                    <label class="col-form-label pe-2 text-right"><?= number_format($totalHargaBarang) ?></label>
+                                                </div>
+                                            <?php
+                                            } else {
+                                            ?>
+                                                <div class="w-100 col-6 d-flex justify-content-between align-items-center px-2 ">
+                                                    <label class="col-form-label col-5"> - <?= $byBarang['namaitem'] ?> x <?= $jmlBarang ?></label>
+                                                    <label class="col-form-label pe-2 text-right"><?= number_format($totalHargaBarang) ?></label>
+                                                </div>
                                         <?php
+                                            }
                                         }
                                         ?>
                                         <div class="w-100 col-6 d-flex justify-content-between align-items-center px-2">
@@ -184,7 +187,7 @@
                                                     $jml = $dt['jml'];
                                                 }
 
-                                                if ($dt['id_produk'] == $byBarang['id_produk'] && $dt['jenis'] == $byBarang['jenis']) {
+                                                if ($dt['id_produk'] == $byBarang['id_produk'] && $dt['jenis'] == $byBarang['jenis'] && $dt['id_reservasi'] == $byBarang['id_reservasi']) {
                                                     $jmlBarang += $jml;
                                                 }
                                             }
@@ -202,12 +205,21 @@
                                             }
 
                                             $total_PJ_Paket += $totalHargaBarang;
+                                            if ($byBarang['id_reservasi'] == NULL) {
                                         ?>
-                                            <div class="w-100 col-6 d-flex justify-content-between align-items-center px-2 ">
-                                                <label class="col-form-label col-5"> - <?= $byBarang['namaitem'] ?> x <?= $jmlBarang ?></label>
-                                                <label class="col-form-label pe-2 text-right"><?= number_format($totalHargaBarang) ?></label>
-                                            </div>
+                                                <div class="w-100 col-6 d-flex justify-content-between align-items-center px-2 ">
+                                                    <label class="col-form-label col-5"> - <?= $byBarang['namaitem'] ?> x <?= $jmlBarang ?></label>
+                                                    <label class="col-form-label pe-2 text-right"><?= number_format($totalHargaBarang) ?></label>
+                                                </div>
+                                            <?php
+                                            } else {
+                                            ?>
+                                                <div class="w-100 col-6 d-flex justify-content-between align-items-center px-2 ">
+                                                    <label class="col-form-label col-5"> - <?= $byBarang['namaitem'] ?> x <?= $jmlBarang ?></label>
+                                                    <label class="col-form-label pe-2 text-right"><?= number_format($totalHargaBarang) ?></label>
+                                                </div>
                                         <?php
+                                            }
                                         }
                                         ?>
                                         <div class="w-100 col-6 d-flex justify-content-between align-items-center px-2">

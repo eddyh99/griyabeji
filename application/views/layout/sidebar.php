@@ -439,7 +439,7 @@
                     <!--====== END Rekapan Harian ===== -->
 
                     <!--====== Start Rekapan Harian ===== -->
-                    <div class="menu-item menu-accordion <?= @$h_tc ?>">
+                    <!-- <div class="menu-item menu-accordion <?= @$h_tc ?>">
                         <a class="menu-link <?= @$side15 ?>" href="<?= base_url() ?>kas/tutupharianguide">
                             <span class="menu-icon">
                                 <span class="svg-icon svg-icon-2">
@@ -452,13 +452,13 @@
                                     </svg>
                                 </span>
                             </span>
-                            <span class="menu-title">Rekapan Harian Guide</span>
+                            <span class="menu-title">Komisi Guide</span>
                         </a>
-                    </div>
+                    </div> -->
                     <!--====== END Rekapan Harian ===== -->
 
                     <!--====== Start Rekapan Harian ===== -->
-                    <div class="menu-item menu-accordion <?= @$h_tc ?>">
+                    <!-- <div class="menu-item menu-accordion <?= @$h_tc ?>">
                         <a class="menu-link <?= @$side16 ?>" href="<?= base_url() ?>kas/tutupharianpengayah">
                             <span class="menu-icon">
                                 <span class="svg-icon svg-icon-2">
@@ -471,9 +471,9 @@
                                     </svg>
                                 </span>
                             </span>
-                            <span class="menu-title">Rekapan Harian Pengayah</span>
+                            <span class="menu-title">Komisi Pengayah</span>
                         </a>
-                    </div>
+                    </div> -->
                     <!--====== END Rekapan Harian ===== -->
 
                     <!--====== START Laporan ===== -->
@@ -501,7 +501,7 @@
                         <div class="menu-sub menu-sub-accordion">
                             <!-- ======  Start Menu Guide ===== -->
                             <div class="menu-item">
-                                <a class="menu-link <?= @$side15 ?>" href="<?= base_url() ?>laporan/guide">
+                                <a class="menu-link <?= @$side15 ?>" href="<?= base_url() ?>kas/komisiguide">
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
@@ -512,7 +512,7 @@
 
                             <!-- ======  Start Menu Pengayah ===== -->
                             <div class="menu-item">
-                                <a class="menu-link <?= @$side16 ?>" href="<?= base_url() ?>laporan/pengayah">
+                                <a class="menu-link <?= @$side16 ?>" href="<?= base_url() ?>kas/komisipengayah">
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
