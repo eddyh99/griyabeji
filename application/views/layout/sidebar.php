@@ -523,7 +523,7 @@
 
                             <!-- ======  Start Menu Penjualan ===== -->
                             <div class="menu-item">
-                                <a class="menu-link <?= @$side17 ?>" href="<?= base_url() ?>laporan/penjualan">
+                                <a class="menu-link <?= @$side18 ?>" href="<?= base_url() ?>laporan/penjualan">
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>

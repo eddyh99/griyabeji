@@ -261,6 +261,10 @@ class Kas extends CI_Controller
 		$result = $this->kas->laporanHarian($tglcari);
 		$store = $this->kas->listKasByDate($tglcari);
 
+		// print("<pre>" . print_r($result, true) . "</pre>");
+		// die;
+
+
 		$cash = 0;
 		$card = 0;
 
@@ -294,22 +298,22 @@ class Kas extends CI_Controller
 			}
 
 			if ($byMehtod['jenis'] == 'items' && $byMehtod['id_reservasi'] == NULL) {
-				$uniqueitems[$byMehtod['id_produk']] = $byMehtod;
+				$uniqueitems[$byMehtod['id_barang']] = $byMehtod;
 			}
 			if ($byMehtod['jenis'] == 'items' && $byMehtod['id_reservasi'] != NULL) {
-				$uniqueitems[$byMehtod['id_produk'] . $byMehtod['id_reservasi']] = $byMehtod;
+				$uniqueitems[$byMehtod['id_barang'] . $byMehtod['id_reservasi']] = $byMehtod;
 			}
 			if ($byMehtod['jenis'] == 'produk' && $byMehtod['id_reservasi'] == NULL) {
-				$uniqueproduk[$byMehtod['id_produk']] = $byMehtod;
+				$uniqueproduk[$byMehtod['id_barang']] = $byMehtod;
 			}
 			if ($byMehtod['jenis'] == 'produk' && $byMehtod['id_reservasi'] != NULL) {
-				$uniqueproduk[$byMehtod['id_produk'] . $byMehtod['id_reservasi']] = $byMehtod;
+				$uniqueproduk[$byMehtod['id_barang'] . $byMehtod['id_reservasi']] = $byMehtod;
 			}
 			if ($byMehtod['jenis'] == 'paket' && $byMehtod['id_reservasi'] == NULL) {
-				$uniquepaket[$byMehtod['id_produk']] = $byMehtod;
+				$uniquepaket[$byMehtod['id_barang']] = $byMehtod;
 			}
 			if ($byMehtod['jenis'] == 'paket' && $byMehtod['id_reservasi'] != NULL) {
-				$uniquepaket[$byMehtod['id_produk'] . $byMehtod['id_reservasi']] = $byMehtod;
+				$uniquepaket[$byMehtod['id_barang'] . $byMehtod['id_reservasi']] = $byMehtod;
 			}
 		}
 
@@ -346,7 +350,7 @@ class Kas extends CI_Controller
 	}
 	// ====== END REKAPAN HARIAN =====
 
-	// ====== START REKAPAN HARIAN GUIDE =====
+	// ====== START REKAPAN GUIDE =====
 	public function komisiguide()
 	{
 		if (@!isset($_GET["tanggal"])) {
@@ -367,7 +371,8 @@ class Kas extends CI_Controller
 			}
 		}
 
-		$result = $this->kas->laporanHarian($tanggal_awal);
+		// $result = $this->kas->laporanHarian($tanggal_awal);
+		$result = $this->kas->getpenjualan($tanggal_awal, $tanggal_akhir);
 		// print("<pre>" . print_r($result, true) . "</pre>");
 		// die;
 
@@ -380,29 +385,77 @@ class Kas extends CI_Controller
 			}
 
 			if ($byMehtod['id_reservasi'] == NULL && $byMehtod['guide_id'] != NULL && $byMehtod['jenis'] == 'items') {
-				$uniquebarang[$byMehtod['id_produk'] . $byMehtod['guide_id'] . '1'] = $byMehtod;
+				if ($byMehtod['jns'] == 'LOKAL') {
+					$uniquebarang[$byMehtod['id_barang'] . $byMehtod['guide_id'] . '1' . '4'] = $byMehtod;
+				}
+				if ($byMehtod['jns'] == 'DOMESTIK') {
+					$uniquebarang[$byMehtod['id_barang'] . $byMehtod['guide_id'] . '1' . '5'] = $byMehtod;
+				}
+				if ($byMehtod['jns'] == 'INTERNASIONAL') {
+					$uniquebarang[$byMehtod['id_barang'] . $byMehtod['guide_id'] . '1' . '6'] = $byMehtod;
+				}
 			}
 			if ($byMehtod['id_reservasi'] != NULL && $byMehtod['guide_id'] != NULL && $byMehtod['jenis'] == 'items') {
-				$uniquebarang[$byMehtod['id_produk'] . $byMehtod['guide_id'] . $byMehtod['id_reservasi'] . '1'] = $byMehtod;
+				if ($byMehtod['jns'] == 'LOKAL') {
+					$uniquebarang[$byMehtod['id_barang'] . $byMehtod['guide_id'] . $byMehtod['id_reservasi'] . '1' . '4'] = $byMehtod;
+				}
+				if ($byMehtod['jns'] == 'DOMESTIK') {
+					$uniquebarang[$byMehtod['id_barang'] . $byMehtod['guide_id'] . $byMehtod['id_reservasi'] . '1' . '5'] = $byMehtod;
+				}
+				if ($byMehtod['jns'] == 'INTERNASIONAL') {
+					$uniquebarang[$byMehtod['id_barang'] . $byMehtod['guide_id'] . $byMehtod['id_reservasi'] . '1' . '6'] = $byMehtod;
+				}
 			}
 			if ($byMehtod['id_reservasi'] == NULL && $byMehtod['guide_id'] != NULL && $byMehtod['jenis'] == 'produk') {
-				$uniquebarang[$byMehtod['id_produk'] . $byMehtod['guide_id'] . '2'] = $byMehtod;
+				if ($byMehtod['jns'] == 'LOKAL') {
+					$uniquebarang[$byMehtod['id_barang'] . $byMehtod['guide_id'] . '2' . '4'] = $byMehtod;
+				}
+				if ($byMehtod['jns'] == 'DOMESTIK') {
+					$uniquebarang[$byMehtod['id_barang'] . $byMehtod['guide_id'] . '2' . '5'] = $byMehtod;
+				}
+				if ($byMehtod['jns'] == 'INTERNASIONAL') {
+					$uniquebarang[$byMehtod['id_barang'] . $byMehtod['guide_id'] . '2' . '6'] = $byMehtod;
+				}
 			}
 			if ($byMehtod['id_reservasi'] != NULL && $byMehtod['guide_id'] != NULL && $byMehtod['jenis'] == 'produk') {
-				$uniquebarang[$byMehtod['id_produk'] . $byMehtod['guide_id'] . $byMehtod['id_reservasi'] . '2'] = $byMehtod;
+
+				if ($byMehtod['jns'] == 'LOKAL') {
+					$uniquebarang[$byMehtod['id_barang'] . $byMehtod['guide_id'] . $byMehtod['id_reservasi'] . '2' . '4'] = $byMehtod;
+				}
+				if ($byMehtod['jns'] == 'DOMESTIK') {
+					$uniquebarang[$byMehtod['id_barang'] . $byMehtod['guide_id'] . $byMehtod['id_reservasi'] . '2' . '5'] = $byMehtod;
+				}
+				if ($byMehtod['jns'] == 'INTERNASIONAL') {
+					$uniquebarang[$byMehtod['id_barang'] . $byMehtod['guide_id'] . $byMehtod['id_reservasi'] . '2' . '6'] = $byMehtod;
+				}
 			}
 			if ($byMehtod['id_reservasi'] == NULL && $byMehtod['guide_id'] != NULL && $byMehtod['jenis'] == 'paket') {
-				$uniquebarang[$byMehtod['id_produk'] . $byMehtod['guide_id'] . '3'] = $byMehtod;
+
+				if ($byMehtod['jns'] == 'LOKAL') {
+					$uniquebarang[$byMehtod['id_barang'] . $byMehtod['guide_id'] . '3' . '4'] = $byMehtod;
+				}
+				if ($byMehtod['jns'] == 'DOMESTIK') {
+					$uniquebarang[$byMehtod['id_barang'] . $byMehtod['guide_id'] . '3' . '5'] = $byMehtod;
+				}
+				if ($byMehtod['jns'] == 'INTERNASIONAL') {
+					$uniquebarang[$byMehtod['id_barang'] . $byMehtod['guide_id'] . '3' . '6'] = $byMehtod;
+				}
 			}
 			if ($byMehtod['id_reservasi'] != NULL && $byMehtod['guide_id'] != NULL && $byMehtod['jenis'] == 'paket') {
-				$uniquebarang[$byMehtod['id_produk'] . $byMehtod['guide_id'] . $byMehtod['id_reservasi'] . '3'] = $byMehtod;
+				if ($byMehtod['jns'] == 'LOKAL') {
+					$uniquebarang[$byMehtod['id_barang'] . $byMehtod['guide_id'] . $byMehtod['id_reservasi'] . '3' . '4'] = $byMehtod;
+				}
+				if ($byMehtod['jns'] == 'DOMESTIK') {
+					$uniquebarang[$byMehtod['id_barang'] . $byMehtod['guide_id'] . $byMehtod['id_reservasi'] . '3' . '5'] = $byMehtod;
+				}
+				if ($byMehtod['jns'] == 'INTERNASIONAL') {
+					$uniquebarang[$byMehtod['id_barang'] . $byMehtod['guide_id'] . $byMehtod['id_reservasi'] . '3' . '6'] = $byMehtod;
+				}
 			}
 		}
 
 		$guide = array_values($uniqueguide);
 		$barang = array_values($uniquebarang);
-
-
 
 		$data	= array(
 			'title'		 => 'Komisi Guide',
@@ -410,7 +463,7 @@ class Kas extends CI_Controller
 			'extra'		 => 'kas/js/js_komisi',
 			'side15'	 => 'active',
 			'colmas_lp'	 => 'show hover',
-			'breadcrumb' => 'Rekapan Harian Guide/',
+			'breadcrumb' => 'Komisi Guide/',
 			'penjualan'  => $result,
 			'tgl'        => @$tgl,
 			'tglShow'        => @$tglShow,
@@ -421,9 +474,9 @@ class Kas extends CI_Controller
 		);
 		$this->load->view('layout/wrapper', $data);
 	}
-	// ====== END REKAPAN HARIAN GUIDE =====
+	// ====== END REKAPAN GUIDE =====
 
-	// ====== START REKAPAN HARIAN PENGAYAH =====
+	// ====== START REKAPAN PENGAYAH =====
 	public function komisipengayah()
 	{
 		if (@!isset($_GET["tanggal"])) {
@@ -455,22 +508,72 @@ class Kas extends CI_Controller
 			}
 
 			if ($byMehtod['id_reservasi'] == NULL && $byMehtod['pengayah_id'] != NULL && $byMehtod['jenis'] == 'items') {
-				$uniquebarang[$byMehtod['id_produk'] . $byMehtod['pengayah_id'] . '1'] = $byMehtod;
+				if ($byMehtod['jns'] == 'LOKAL') {
+					$uniquebarang[$byMehtod['id_barang'] . $byMehtod['pengayah_id'] . '1' . '4'] = $byMehtod;
+				}
+				if ($byMehtod['jns'] == 'DOMESTIK') {
+					$uniquebarang[$byMehtod['id_barang'] . $byMehtod['pengayah_id'] . '1' . '5'] = $byMehtod;
+				}
+				if ($byMehtod['jns'] == 'INTERNASIONAL') {
+					$uniquebarang[$byMehtod['id_barang'] . $byMehtod['pengayah_id'] . '1' . '6'] = $byMehtod;
+				}
 			}
 			if ($byMehtod['id_reservasi'] != NULL && $byMehtod['pengayah_id'] != NULL && $byMehtod['jenis'] == 'items') {
-				$uniquebarang[$byMehtod['id_produk'] . $byMehtod['pengayah_id'] . $byMehtod['id_reservasi'] . '1'] = $byMehtod;
+				if ($byMehtod['jns'] == 'LOKAL') {
+					$uniquebarang[$byMehtod['id_barang'] . $byMehtod['pengayah_id'] . $byMehtod['id_reservasi'] . '1' . '4'] = $byMehtod;
+				}
+				if ($byMehtod['jns'] == 'DOMESTIK') {
+					$uniquebarang[$byMehtod['id_barang'] . $byMehtod['pengayah_id'] . $byMehtod['id_reservasi'] . '1' . '5'] = $byMehtod;
+				}
+				if ($byMehtod['jns'] == 'INTERNASIONAL') {
+					$uniquebarang[$byMehtod['id_barang'] . $byMehtod['pengayah_id'] . $byMehtod['id_reservasi'] . '1' . '6'] = $byMehtod;
+				}
 			}
 			if ($byMehtod['id_reservasi'] == NULL && $byMehtod['pengayah_id'] != NULL && $byMehtod['jenis'] == 'produk') {
-				$uniquebarang[$byMehtod['id_produk'] . $byMehtod['pengayah_id'] . '2'] = $byMehtod;
+				if ($byMehtod['jns'] == 'LOKAL') {
+					$uniquebarang[$byMehtod['id_barang'] . $byMehtod['pengayah_id'] . '2' . '4'] = $byMehtod;
+				}
+				if ($byMehtod['jns'] == 'DOMESTIK') {
+					$uniquebarang[$byMehtod['id_barang'] . $byMehtod['pengayah_id'] . '2' . '5'] = $byMehtod;
+				}
+				if ($byMehtod['jns'] == 'INTERNASIONAL') {
+					$uniquebarang[$byMehtod['id_barang'] . $byMehtod['pengayah_id'] . '2' . '6'] = $byMehtod;
+				}
 			}
 			if ($byMehtod['id_reservasi'] != NULL && $byMehtod['pengayah_id'] != NULL && $byMehtod['jenis'] == 'produk') {
-				$uniquebarang[$byMehtod['id_produk'] . $byMehtod['pengayah_id'] . $byMehtod['id_reservasi'] . '2'] = $byMehtod;
+
+				if ($byMehtod['jns'] == 'LOKAL') {
+					$uniquebarang[$byMehtod['id_barang'] . $byMehtod['pengayah_id'] . $byMehtod['id_reservasi'] . '2' . '4'] = $byMehtod;
+				}
+				if ($byMehtod['jns'] == 'DOMESTIK') {
+					$uniquebarang[$byMehtod['id_barang'] . $byMehtod['pengayah_id'] . $byMehtod['id_reservasi'] . '2' . '5'] = $byMehtod;
+				}
+				if ($byMehtod['jns'] == 'INTERNASIONAL') {
+					$uniquebarang[$byMehtod['id_barang'] . $byMehtod['pengayah_id'] . $byMehtod['id_reservasi'] . '2' . '6'] = $byMehtod;
+				}
 			}
 			if ($byMehtod['id_reservasi'] == NULL && $byMehtod['pengayah_id'] != NULL && $byMehtod['jenis'] == 'paket') {
-				$uniquebarang[$byMehtod['id_produk'] . $byMehtod['pengayah_id'] . '3'] = $byMehtod;
+
+				if ($byMehtod['jns'] == 'LOKAL') {
+					$uniquebarang[$byMehtod['id_barang'] . $byMehtod['pengayah_id'] . '3' . '4'] = $byMehtod;
+				}
+				if ($byMehtod['jns'] == 'DOMESTIK') {
+					$uniquebarang[$byMehtod['id_barang'] . $byMehtod['pengayah_id'] . '3' . '5'] = $byMehtod;
+				}
+				if ($byMehtod['jns'] == 'INTERNASIONAL') {
+					$uniquebarang[$byMehtod['id_barang'] . $byMehtod['pengayah_id'] . '3' . '6'] = $byMehtod;
+				}
 			}
 			if ($byMehtod['id_reservasi'] != NULL && $byMehtod['pengayah_id'] != NULL && $byMehtod['jenis'] == 'paket') {
-				$uniquebarang[$byMehtod['id_produk'] . $byMehtod['pengayah_id'] . $byMehtod['id_reservasi'] . '3'] = $byMehtod;
+				if ($byMehtod['jns'] == 'LOKAL') {
+					$uniquebarang[$byMehtod['id_barang'] . $byMehtod['pengayah_id'] . $byMehtod['id_reservasi'] . '3' . '4'] = $byMehtod;
+				}
+				if ($byMehtod['jns'] == 'DOMESTIK') {
+					$uniquebarang[$byMehtod['id_barang'] . $byMehtod['pengayah_id'] . $byMehtod['id_reservasi'] . '3' . '5'] = $byMehtod;
+				}
+				if ($byMehtod['jns'] == 'INTERNASIONAL') {
+					$uniquebarang[$byMehtod['id_barang'] . $byMehtod['pengayah_id'] . $byMehtod['id_reservasi'] . '3' . '6'] = $byMehtod;
+				}
 			}
 		}
 
@@ -486,7 +589,7 @@ class Kas extends CI_Controller
 			'extra'		 => 'kas/js/js_komisi',
 			'side16'	 => 'active',
 			'colmas_lp'	 => 'show hover',
-			'breadcrumb' => 'Rekapan Harian Pengayah/',
+			'breadcrumb' => 'Komisi Pengayah/',
 			'penjualan'  => $result,
 			'tgl'        => @$tgl,
 			'tglShow'        => @$tglShow,
@@ -497,170 +600,6 @@ class Kas extends CI_Controller
 		);
 		$this->load->view('layout/wrapper', $data);
 	}
-	// ====== END REKAPAN HARIAN PENGAYAH =====
+	// ====== END REKAPAN PENGAYAH =====
 
-	public function testing()
-	{
-		if (@!isset($_GET["tgl"])) {
-			$tgl = date("d M Y");
-			$tglcari = date("Y-m-d");
-		} else {
-			$tgl     = $this->security->xss_clean($_GET["tgl"]);
-			$tglcari = date_format(date_create($tgl), "Y-m-d");
-		}
-
-		$result = $this->kas->laporanHarian("2023-05-17");
-
-		$cash = 0;
-		$card = 0;
-
-		$uniqueitems = array();
-		$uniqueproduk = array();
-		$uniquepaket = array();
-
-		foreach ($result as $byMehtod) {
-			if ($byMehtod['jml'] == '0') {
-				$jmlBarang = 1;
-			} else {
-				$jmlBarang = $byMehtod['jml'];
-			}
-
-			if ($byMehtod['method'] == 'cash') {
-				if ($byMehtod['jns'] == 'LOKAL') {
-					$cash += ($byMehtod['lokal'] * $jmlBarang);
-				} elseif ($byMehtod['jns'] == 'DOMESTIK') {
-					$cash += ($byMehtod['domestik'] * $jmlBarang);
-				} else {
-					$cash += ($byMehtod['internasional'] * $jmlBarang);
-				}
-			} else {
-				if ($byMehtod['jns'] == 'LOKAL') {
-					$card += ($byMehtod['lokal'] * $jmlBarang);
-				} elseif ($byMehtod['jns'] == 'DOMESTIK') {
-					$card += ($byMehtod['domestik'] * $jmlBarang);
-				} else {
-					$card += ($byMehtod['internasional'] * $jmlBarang);
-				}
-			}
-
-			if ($byMehtod['jenis'] == 'items') {
-				$uniqueitems[$byMehtod['id_produk']] = $byMehtod;
-			}
-			if ($byMehtod['jenis'] == 'produk') {
-				$uniqueproduk[$byMehtod['id_produk']] = $byMehtod;
-			}
-			if ($byMehtod['jenis'] == 'paket') {
-				$uniquepaket[$byMehtod['id_produk']] = $byMehtod;
-			}
-		}
-
-		$items = array_values($uniqueitems);
-		$produk = array_values($uniqueproduk);
-		$paket = array_values($uniquepaket);
-
-		// echo "<br>";
-		// echo "Penjualan Items <br>";
-		// $total_PJ_items = 0;
-		// foreach ($items as $byBarang) {
-		//     $jmlBarang = 0;
-		//     $totalHargaBarang = 0;
-		//     foreach ($result as $dt) {
-		//         if ($dt['jml'] == '0') {
-		//             $jml = 1;
-		//         } else {
-		//             $jml = $dt['jml'];
-		//         }
-
-		//         if ($dt['id_produk'] == $byBarang['id_produk'] && $dt['jenis'] == $byBarang['jenis']) {
-		//             $jmlBarang += $jml;
-		//         }
-		//     }
-
-		//     foreach ($result as $dt) {
-		//         if ($dt['id_produk'] == $byBarang['id_produk'] && $dt['jenis'] == $byBarang['jenis']) {
-		//             if ($dt['jns'] == 'LOKAL') {
-		//                 $totalHargaBarang += $dt['lokal'];
-		//             } elseif ($dt['jns'] == 'DOMESTIK') {
-		//                 $totalHargaBarang += $dt['domestik'];
-		//             } else {
-		//                 $totalHargaBarang += $dt['internasional'];
-		//             }
-		//         }
-		//     }
-
-		//     echo $byBarang['namaitem'] . " x " . $jmlBarang . " = " . $totalHargaBarang . "<br>";
-		//     $total_PJ_items += $totalHargaBarang;
-		// }
-		// echo "Total Penjualan Items = " . $total_PJ_items . "<br>";
-
-		// echo "<br>";
-		// echo "Penjualan Produk <br>";
-		// $total_PJ_Produk = 0;
-		// foreach ($produk as $byBarang) {
-		//     $jmlBarang = 0;
-		//     $totalHargaBarang = 0;
-		//     foreach ($result as $dt) {
-		//         if ($dt['jml'] == '0') {
-		//             $jml = 1;
-		//         } else {
-		//             $jml = $dt['jml'];
-		//         }
-
-		//         if ($dt['id_produk'] == $byBarang['id_produk'] && $dt['jenis'] == $byBarang['jenis']) {
-		//             $jmlBarang += $jml;
-		//         }
-		//     }
-
-		//     foreach ($result as $dt) {
-		//         if ($dt['id_produk'] == $byBarang['id_produk'] && $dt['jenis'] == $byBarang['jenis']) {
-		//             if ($dt['jns'] == 'LOKAL') {
-		//                 $totalHargaBarang += $dt['lokal'];
-		//             } elseif ($dt['jns'] == 'DOMESTIK') {
-		//                 $totalHargaBarang += $dt['domestik'];
-		//             } else {
-		//                 $totalHargaBarang += $dt['internasional'];
-		//             }
-		//         }
-		//     }
-
-		//     echo $byBarang['namaitem'] . " x " . $jmlBarang . " = " . $totalHargaBarang . "<br>";
-		//     $total_PJ_Produk += $totalHargaBarang;
-		// }
-		// echo "Total Penjualan Produk = " . $total_PJ_Produk . "<br>";
-
-		// echo "<br>";
-		// echo "Penjualan Paket <br>";
-		// $total_PJ_Paket = 0;
-		// foreach ($paket as $byBarang) {
-		//     $jmlBarang = 0;
-		//     $totalHargaBarang = 0;
-		//     foreach ($result as $dt) {
-		//         if ($dt['jml'] == '0') {
-		//             $jml = 1;
-		//         } else {
-		//             $jml = $dt['jml'];
-		//         }
-
-		//         if ($dt['id_produk'] == $byBarang['id_produk'] && $dt['jenis'] == $byBarang['jenis']) {
-		//             $jmlBarang += $jml;
-		//         }
-		//     }
-
-		//     foreach ($result as $dt) {
-		//         if ($dt['id_produk'] == $byBarang['id_produk'] && $dt['jenis'] == $byBarang['jenis']) {
-		//             if ($dt['jns'] == 'LOKAL') {
-		//                 $totalHargaBarang += $dt['lokal'];
-		//             } elseif ($dt['jns'] == 'DOMESTIK') {
-		//                 $totalHargaBarang += $dt['domestik'];
-		//             } else {
-		//                 $totalHargaBarang += $dt['internasional'];
-		//             }
-		//         }
-		//     }
-
-		//     echo $byBarang['namaitem'] . " x " . $jmlBarang . " = " . $totalHargaBarang . "<br>";
-		//     $total_PJ_Paket += $totalHargaBarang;
-		// }
-		// echo "Total Penjualan Paket = " . $total_PJ_Paket . "<br>";
-	}
 }

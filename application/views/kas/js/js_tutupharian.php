@@ -12,6 +12,10 @@
     maxYear: parseInt(moment().format('YYYY'), 10),
     locale: {
       format: 'DD MMM YYYY'
+    },
+    ranges: {
+      'Today': [moment()],
+      'Yesterday': [moment().subtract(1, 'days')],
     }
   });
 
