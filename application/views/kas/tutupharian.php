@@ -281,30 +281,126 @@
                                     </div>
                                 </div>
 
-                                <div class="col-sm-12 my-5">
-                                    <div class="d-flex flex-column">
-                                        <?php
-                                        foreach ($storeUniq as $showStore) {
-                                            $totalKasStore = 0;
-                                            foreach ($store as $dtKas) {
-                                                if ($dtKas['store_id'] == $showStore['store_id']) {
-                                                    if ($dtKas['jenis'] == 'Kas Awal' || $dtKas['jenis'] == 'Masuk') {
-                                                        $totalKasStore += $dtKas['nominal'];
-                                                    } elseif ($dtKas['jenis'] == 'Keluar') {
-                                                        $totalKasStore -= $dtKas['nominal'];
+                                <?php if (!empty($storeUniq)) { ?>
+                                    <div class="col-sm-12 my-5">
+                                        <div class="d-flex flex-column">
+                                            <?php
+                                            foreach ($storeUniq as $showStore) {
+                                                $totalKasStore = 0;
+                                                foreach ($store as $dtKas) {
+                                                    if ($dtKas['store_id'] == $showStore['store_id']) {
+                                                        if ($dtKas['jenis'] == 'Kas Awal' || $dtKas['jenis'] == 'Masuk') {
+                                                            $totalKasStore += $dtKas['nominal'];
+                                                        } elseif ($dtKas['jenis'] == 'Keluar') {
+                                                            $totalKasStore -= $dtKas['nominal'];
+                                                        }
                                                     }
                                                 }
+                                            ?>
+                                                <div class="w-100 d-flex justify-content-between align-items-center px-2 ">
+                                                    <label class="col-form-label col-5 text-uppercase"><b><?= $showStore['store'] ?></b></label>
+                                                    <label class="col-form-label pe-2 text-right"><?= number_format($totalKasStore) ?></label>
+                                                </div>
+                                            <?php
                                             }
-                                        ?>
-                                            <div class="w-100 d-flex justify-content-between align-items-center px-2 ">
-                                                <label class="col-form-label col-5 text-uppercase"><b><?= $showStore['store'] ?></b></label>
-                                                <label class="col-form-label pe-2 text-right"><?= number_format($totalKasStore) ?></label>
-                                            </div>
-                                        <?php
-                                        }
-                                        ?>
+                                            ?>
+                                        </div>
                                     </div>
-                                </div>
+                                <?php } ?>
+
+                                <?php if (!empty($guide)) { ?>
+                                    <div class="col-sm-12 my-5">
+                                        <div class="d-flex flex-column">
+                                            <div class="w-100 d-flex justify-content-between align-items-center px-2">
+                                                <label class="col-form-label col-5"><b>KOMISI GUIDE</b></label>
+                                            </div>
+                                            <?php
+                                            $total_komisi_guide = 0;
+                                            foreach ($guide as $dtguide) {
+                                                $komisi = 0;
+                                                foreach ($penjualan as $dt) {
+                                                    $jmlBarang = ($dt['jml'] == 0) ? 1 : $dt['jml'];
+                                                    if ($dtguide['guide_id'] == $dt['guide_id']) {
+                                                        if ($dt['jns'] == 'LOKAL') {
+                                                            $komisi += ($dt['komisi_guide_lokal'] * $jmlBarang);
+                                                        } elseif ($dt['jns'] == 'DOMESTIK') {
+                                                            $komisi += ($dt['komisi_guide_domestik'] * $jmlBarang);
+                                                        } else {
+                                                            if ($dt['jenis'] == 'produk' || $dt['jenis'] == 'paket') {
+                                                                if ($dt['pengayah_id'] == NULL) {
+                                                                    if ($dt['is_double'] == 'yes') {
+                                                                        $komisi += (($dt['komisi_guide_internasional'] * 2) * $jmlBarang);
+                                                                    } else {
+                                                                        $komisi += ($dt['komisi_guide_internasional'] * $jmlBarang);
+                                                                    }
+                                                                } else {
+                                                                    $komisi += ($dt['komisi_guide_internasional'] * $jmlBarang);
+                                                                }
+                                                            } else {
+                                                                $komisi += ($dt['komisi_guide_internasional'] * $jmlBarang);
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                                if ($komisi != 0) {
+                                            ?>
+                                                    <div class="w-100 col-6 d-flex justify-content-between align-items-center px-2">
+                                                        <label class="col-form-label col-5">- <?= $dtguide['nama_guide'] ?></label>
+                                                        <label class="col-form-label pe-2 text-right"><?= number_format($komisi) ?></label>
+                                                    </div>
+                                            <?php
+                                                }
+                                                $total_komisi_guide += $komisi;
+                                            }
+                                            ?>
+                                            <div class="w-100 d-flex justify-content-between align-items-center px-2">
+                                                <label class="col-form-label col-5"><b>TOTAL KOMISI GUIDE</b></label>
+                                                <label class="col-form-label pe-2 text-right"><b><?= number_format($total_komisi_guide) ?></b></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php } ?>
+                                <?php if (!empty($pengayah)) { ?>
+                                    <div class="col-sm-12 my-5">
+                                        <div class="d-flex flex-column">
+                                            <div class="w-100 d-flex justify-content-between align-items-center px-2">
+                                                <label class="col-form-label col-5"><b>KOMISI PENGAYAH</b></label>
+                                            </div>
+                                            <?php
+                                            $total_komisi_pengayah = 0;
+                                            foreach ($pengayah as $dtpengayah) {
+                                                $komisi = 0;
+                                                foreach ($penjualan as $dt) {
+                                                    $jmlBarang = ($dt['jml'] == 0) ? 1 : $dt['jml'];
+                                                    if ($dtpengayah['pengayah_id'] == $dt['pengayah_id']) {
+                                                        if ($dt['jns'] == 'LOKAL') {
+                                                            $komisi += ($dt['komisi_pengayah_lokal'] * $jmlBarang);
+                                                        } elseif ($dt['jns'] == 'DOMESTIK') {
+                                                            $komisi += ($dt['komisi_pengayah_domestik'] * $jmlBarang);
+                                                        } else {
+                                                            $komisi += ($dt['komisi_pengayah_internasional'] * $jmlBarang);
+                                                        }
+                                                    }
+                                                }
+                                                if ($komisi != 0) {
+                                            ?>
+                                                    <div class="w-100 col-6 d-flex justify-content-between align-items-center px-2">
+                                                        <label class="col-form-label col-5">- <?= $dtpengayah['nama_pengayah'] ?></label>
+                                                        <label class="col-form-label pe-2 text-right"><?= number_format($komisi) ?></label>
+                                                    </div>
+                                            <?php
+                                                }
+                                                $total_komisi_pengayah += $komisi;
+                                            }
+                                            ?>
+
+                                            <div class="w-100 d-flex justify-content-between align-items-center px-2">
+                                                <label class="col-form-label col-5"><b>TOTALKOMISI PENGAYAH</b></label>
+                                                <label class="col-form-label pe-2 text-right"><b><?= number_format($total_komisi_pengayah) ?></b></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php } ?>
                             </div>
                         </div>
                     </div>

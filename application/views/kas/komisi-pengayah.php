@@ -63,11 +63,11 @@
                                             foreach ($penjualan as $dt) {
                                                 if ($dtpengayah['pengayah_id'] == $dt['pengayah_id']) {
                                                     if ($dt['jns'] == 'LOKAL') {
-                                                        $komisi += $dt['komisi_pengayah_lokal'];
+                                                        $komisi += ($dt['komisi_pengayah_lokal'] * $jmlBarang);
                                                     } elseif ($dt['jns'] == 'DOMESTIK') {
-                                                        $komisi += $dt['komisi_pengayah_domestik'];
+                                                        $komisi += ($dt['komisi_pengayah_domestik'] * $jmlBarang);
                                                     } else {
-                                                        $komisi += $dt['komisi_pengayah_internasional'];
+                                                        $komisi += ($dt['komisi_pengayah_internasional'] * $jmlBarang);
                                                     }
                                                 }
                                             }

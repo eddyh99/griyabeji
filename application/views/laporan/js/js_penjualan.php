@@ -20,4 +20,25 @@
       }
     });
   });
+
+  $('#penjualan').DataTable({
+    bFilter: false,
+    bInfo: false,
+    dom: 'Bfrtip',
+    buttons: [{
+        extend: 'excelHtml5',
+        footer: true,
+        exportOptions: {
+          columns: [0, 1, 2, 3, 4]
+        }
+      },
+      {
+        extend: 'pdfHtml5',
+        footer: true,
+        exportOptions: {
+          columns: [0, 1, 2, 3, 4]
+        }
+      }
+    ]
+  });
 </script>

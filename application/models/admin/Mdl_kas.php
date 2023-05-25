@@ -16,6 +16,38 @@ class Mdl_kas extends CI_Model
 		}
 	}
 
+	public function ListkasByDateAndStore($awal, $akhir, $id)
+	{
+		$sql = "SELECT a.id, tanggal, nominal,jenis, keterangan, storename as store FROM `kas` a INNER JOIN `store` b ON a.store_id=b.id WHERE DATE(tanggal) BETWEEN ? AND ? AND a.store_id = ?;";
+		$query = $this->db->query($sql, array($awal, $akhir, $id));
+
+		if ($query) {
+			return $query->result_array();
+		} else {
+			return $this->db->error();
+		}
+	}
+
+	public function saldoKas($sblm, $id)
+	{
+		$sql = "
+		SELECT
+		SUM(CASE 
+			WHEN jenis = 'Kas Awal' OR jenis = 'Masuk'
+			THEN nominal
+			ELSE -nominal 
+		END) AS saldo
+		FROM `kas`
+		WHERE DATE(tanggal) < ? AND store_id=?;";
+		$query = $this->db->query($sql, array($sblm, $id));
+
+		if ($query) {
+			return (array)$query->row();
+		} else {
+			return $this->db->error();
+		}
+	}
+
 	public function listKasByDate($date)
 	{
 		$sql = "SELECT a.id, a.store_id, tanggal,jenis, nominal, keterangan, storename as store FROM " . KAS . " a INNER JOIN " . STORE . " b ON a.store_id=b.id WHERE DATE(tanggal)=?";
@@ -43,6 +75,7 @@ class Mdl_kas extends CI_Model
 		$sql = "
 		-- START ITEMS & NO RESERVASI
 		SELECT
+			a.id,
 			a.tanggal,
 			a.pengayah_id,
 			a2.nama AS nama_pengayah,
@@ -126,6 +159,7 @@ class Mdl_kas extends CI_Model
 
 		-- START ITEMS & ADD RESERVASI
 		SELECT
+			a.id,
 			a.tanggal,
 			a.pengayah_id,
 			a2.nama AS nama_pengayah,
@@ -226,6 +260,7 @@ class Mdl_kas extends CI_Model
 
 		-- START PRODUK & NO RESERVASI
 		SELECT
+			a.id,
 			a.tanggal, 
 			a.pengayah_id,
 			a2.nama AS nama_pengayah,
@@ -310,6 +345,7 @@ class Mdl_kas extends CI_Model
 
 		-- START PRODUK & ADD RESERVASI
 		SELECT
+			a.id,
 			a.tanggal, 
 			a.pengayah_id,
 			a2.nama AS nama_pengayah,
@@ -410,6 +446,7 @@ class Mdl_kas extends CI_Model
 
 		-- START PAKET & NO RESERVASI
 		SELECT
+			a.id,
 			a.tanggal, 
 			a.pengayah_id,
 			a2.nama AS nama_pengayah,
@@ -494,6 +531,7 @@ class Mdl_kas extends CI_Model
 
 		-- START PAKET & ADD RESERVASI
 		SELECT
+			a.id,
 			a.tanggal, 
 			a.pengayah_id,
 			a2.nama AS nama_pengayah,
@@ -642,9 +680,101 @@ class Mdl_kas extends CI_Model
 		INNER JOIN items f ON
 			b.id_produk = f.id
 		WHERE
+			b.jenis = 'items' AND
+			DATE(a.tanggal) BETWEEN ? AND ?
+
+		UNION ALL
+
+		SELECT
+			a.id,
+			a.tanggal,
+			a.pengayah_id,
+			a2.nama AS nama_pengayah,
+			a.guide_id,
+			a1.nama AS nama_guide,
+			b.id_produk AS id_barang,
+			f.namaproduk AS namabarang,
+			c.jml,
+			c.id_reservasi,
+			d.id AS id_pengunjung,
+			d.nama AS nama_pengunjung,
+			a.method,
+			b.jenis,
+			IF(
+				e.state_name = 'BALI',
+				'LOKAL',
+				IF(
+					e.state_name != 'BALI' AND e.country_code = 'ID',
+					'DOMESTIK',
+					'INTERNASIONAL'
+				)
+			) AS jns
+		FROM
+			penjualan a
+		LEFT JOIN guide a1 ON
+			a.guide_id = a1.id
+		LEFT JOIN pengayah a2 ON
+			a.pengayah_id = a2.id
+		INNER JOIN penjualan_detail b ON
+			a.id = b.id_transaksi
+		INNER JOIN penjualan_pengunjung c ON
+			b.id = c.id_detail
+		INNER JOIN pengunjung d ON
+			c.id_pengunjung = d.id
+		INNER JOIN tbl_state e ON
+			d.state_id = e.state_code AND d.country_code = e.country_code
+		INNER JOIN produk f ON
+			b.id_produk = f.id
+		WHERE
+			b.jenis = 'produk' AND
+			DATE(a.tanggal) BETWEEN ? AND ?
+
+		UNION ALL
+		SELECT
+			a.id,
+			a.tanggal,
+			a.pengayah_id,
+			a2.nama AS nama_pengayah,
+			a.guide_id,
+			a1.nama AS nama_guide,
+			b.id_produk AS id_barang,
+			f.namapaket AS namabarang,
+			c.jml,
+			c.id_reservasi,
+			d.id AS id_pengunjung,
+			d.nama AS nama_pengunjung,
+			a.method,
+			b.jenis,
+			IF(
+				e.state_name = 'BALI',
+				'LOKAL',
+				IF(
+					e.state_name != 'BALI' AND e.country_code = 'ID',
+					'DOMESTIK',
+					'INTERNASIONAL'
+				)
+			) AS jns
+		FROM
+			penjualan a
+		LEFT JOIN guide a1 ON
+			a.guide_id = a1.id
+		LEFT JOIN pengayah a2 ON
+			a.pengayah_id = a2.id
+		INNER JOIN penjualan_detail b ON
+			a.id = b.id_transaksi
+		INNER JOIN penjualan_pengunjung c ON
+			b.id = c.id_detail
+		INNER JOIN pengunjung d ON
+			c.id_pengunjung = d.id
+		INNER JOIN tbl_state e ON
+			d.state_id = e.state_code AND d.country_code = e.country_code
+		INNER JOIN paket f ON
+			b.id_produk = f.id
+		WHERE
+			b.jenis = 'paket' AND
 			DATE(a.tanggal) BETWEEN ? AND ?
 		";
-		$query = $this->db->query($sql, array($awal, $akhir));
+		$query = $this->db->query($sql, array($awal, $akhir, $awal, $akhir, $awal, $akhir));
 		$penjualan = $query->result_array();
 
 		$mdata = array();

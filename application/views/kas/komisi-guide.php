@@ -62,22 +62,25 @@
                                         foreach ($guide as $dtguide) {
                                             $komisi = 0;
                                             foreach ($penjualan as $dt) {
+                                                $jmlBarang = ($dt['jml'] == 0) ? 1 : $dt['jml'];
                                                 if ($dtguide['guide_id'] == $dt['guide_id']) {
                                                     if ($dt['jns'] == 'LOKAL') {
-                                                        $komisi += $dt['komisi_guide_lokal'];
+                                                        $komisi += ($dt['komisi_guide_lokal'] * $jmlBarang);
                                                     } elseif ($dt['jns'] == 'DOMESTIK') {
-                                                        $komisi += $dt['komisi_guide_domestik'];
+                                                        $komisi += ($dt['komisi_guide_domestik'] * $jmlBarang);
                                                     } else {
-                                                        if ($dtguide['jenis'] == 'produk' || $dtguide['jenis'] == 'paket') {
+                                                        if ($dt['jenis'] == 'produk' || $dt['jenis'] == 'paket') {
                                                             if ($dt['pengayah_id'] == NULL) {
                                                                 if ($dt['is_double'] == 'yes') {
-                                                                    $komisi += ($dt['komisi_guide_internasional'] * 2);
+                                                                    $komisi += (($dt['komisi_guide_internasional'] * 2) * $jmlBarang);
                                                                 } else {
-                                                                    $komisi += $dt['komisi_guide_internasional'];
+                                                                    $komisi += ($dt['komisi_guide_internasional'] * $jmlBarang);
                                                                 }
                                                             } else {
-                                                                $komisi += $dt['komisi_guide_internasional'];
+                                                                $komisi += ($dt['komisi_guide_internasional'] * $jmlBarang);
                                                             }
+                                                        } else {
+                                                            $komisi += ($dt['komisi_guide_internasional'] * $jmlBarang);
                                                         }
                                                     }
                                                 }

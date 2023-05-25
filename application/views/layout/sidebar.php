@@ -534,7 +534,7 @@
 
                             <!-- ======  Start Menu Kas ===== -->
                             <div class="menu-item">
-                                <a class="menu-link <?= @$side17 ?>" href="<?= base_url() ?>laporan/kas">
+                                <a class="menu-link <?= @$side19 ?>" href="<?= base_url() ?>laporan/kas">
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>

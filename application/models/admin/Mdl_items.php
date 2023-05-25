@@ -32,8 +32,9 @@ class Mdl_items extends CI_Model
 		SELECT
 			a.id_items,
 			b.namaitem,
+			a.hpp, 
 			a.lokal,
-			a.domestik,
+			a.domestik, 
 			a.internasional
 		FROM
 			items_harga a
@@ -59,6 +60,40 @@ class Mdl_items extends CI_Model
 		WHERE b.status='no';
 		";
 		$query = $this->db->query($sql, $id);
+		if ($query) {
+			return $query->result_array();
+		} else {
+			return $this->db->error();
+		}
+	}
+
+	public function getItemsByDate($date, $id)
+	{
+		$sql = "
+		SELECT
+			a.id_items,
+			b.namaitem,
+			a.hpp, 
+			a.lokal,
+			a.domestik, 
+			a.internasional
+		FROM
+			items_harga a
+		INNER JOIN items b ON a.id_items = b.id
+		JOIN(
+			SELECT MAX(tanggal) AS max_date
+			FROM
+				items_harga
+			WHERE
+				tanggal <= ?
+		GROUP BY
+			id_items
+		) X
+		ON
+			a.tanggal = X.max_date
+		WHERE id_items = ?;
+		";
+		$query = $this->db->query($sql, array($date, $id));
 		if ($query) {
 			return $query->result_array();
 		} else {

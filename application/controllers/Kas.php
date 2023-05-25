@@ -12,6 +12,9 @@ class Kas extends CI_Controller
 		}
 		$this->load->model('admin/mdl_kas', "kas");
 		$this->load->model('admin/mdl_store', 'store');
+		$this->load->model('admin/mdl_items', "items");
+		$this->load->model('admin/mdl_produk', "produk");
+		$this->load->model('admin/mdl_paket', "paket");
 	}
 
 	// ====== START KAS =====
@@ -268,11 +271,22 @@ class Kas extends CI_Controller
 		$cash = 0;
 		$card = 0;
 
+		$uniqueguide = array();
+		$uniquepengayah = array();
+
 		$uniqueitems = array();
 		$uniqueproduk = array();
 		$uniquepaket = array();
 
 		foreach ($result as $byMehtod) {
+			if ($byMehtod['guide_id'] != NULL) {
+				$uniqueguide[$byMehtod['guide_id']] = $byMehtod;
+			}
+
+			if ($byMehtod['pengayah_id'] != NULL) {
+				$uniquepengayah[$byMehtod['pengayah_id']] = $byMehtod;
+			}
+
 			if ($byMehtod['jml'] == '0') {
 				$jmlBarang = 1;
 			} else {
@@ -318,9 +332,12 @@ class Kas extends CI_Controller
 		}
 
 
-		$items = array_values($uniqueitems);
-		$produk = array_values($uniqueproduk);
-		$paket = array_values($uniquepaket);
+		$guide = array_values($uniqueguide);
+		$pengayah = array_values($uniquepengayah);
+
+		$list_items = array_values($uniqueitems);
+		$list_produk = array_values($uniqueproduk);
+		$list_paket = array_values($uniquepaket);
 
 		$uniquestore = array();
 		foreach ($store as $byStore) {
@@ -342,9 +359,11 @@ class Kas extends CI_Controller
 			'storeUniq'        => $storeUniq,
 			'cash'       => $cash,
 			'card'       => $card,
-			'items'       => $items,
-			'produk'       => $produk,
-			'paket'       => $paket,
+			'items'       => $list_items,
+			'produk'       => $list_produk,
+			'paket'       => $list_paket,
+			'guide'       => $guide,
+			'pengayah'       => $pengayah,
 		);
 		$this->load->view('layout/wrapper', $data);
 	}

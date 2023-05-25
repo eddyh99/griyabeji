@@ -45,117 +45,139 @@
 
                                 <div class="col-sm-12 my-5">
                                     <div class="d-flex flex-column">
-                                        <div class="w-100 d-flex justify-content-between align-items-center px-2">
-                                            <label class="col-form-label col-6"><b>Keterangan</b></label>
-                                            <label class="col-form-label col-2 text-end"><b>Komisi</b></label>
-                                            <label class="col-form-label col-2 text-end"><b>Cost</b></label>
-                                            <label class="col-form-label col-2 text-end"><b>Laba</b></label>
-                                        </div>
-                                        <?php
-                                        foreach ($penjualan as $pj) {
-                                            $idTransaksi = $pj['id'] . date("Ymd", strtotime($pj['tanggal']));
-                                        ?>
-                                            <div class="w-100 d-flex justify-content-between align-items-center px-2 mt-5">
-                                                <label class="col-form-label col-6" data-bs-toggle="collapse" href="#collapse<?= $pj['id'] ?>" role="button" aria-expanded="false" aria-controls="collapse<?= $pj['id'] ?>">
-                                                    <b><i class="fas fa-angle-down text-dark"></i> <?= $idTransaksi ?></b>
-                                                </label>
-                                                <label class="col-form-label col-2 text-end"><?= number_format(0) ?></label>
-                                                <label class="col-form-label col-2 text-end"><?= number_format(0) ?></label>
-                                                <label class="col-form-label col-2 text-end"><?= number_format(0) ?></label>
-                                            </div>
-                                            <div class="collapse" id="collapse<?= $pj['id'] ?>">
-                                                <div class="w-100 d-flex justify-content-between align-items-center px-2">
-                                                    <label class="col-form-label col-6"><span class="ms-3 fw-bold">Souvenir</span></label>
-                                                </div>
+                                        <table id="penjualan" class="table" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Keterangan</th>
+                                                    <th class="text-end pe-10">Komisi</th>
+                                                    <th class="text-end pe-10">Cost</th>
+                                                    <th class="text-end pe-10">Laba</th>
+                                                    <th class="text-end pe-10">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
                                                 <?php
-                                                $no_items = 1;
-                                                foreach ($items as $br) {
+                                                $totalPenjualan = 0;
+                                                foreach ($penjualan as $pj) {
+                                                    $komisi = 0;
+                                                    $cost = 0;
+                                                    $laba = 0;
+                                                    $penjualan = 0;
+                                                    $idTransaksi = $pj['id'] . date("Ymd", strtotime($pj['tanggal']));
+
+                                                    if ($pj['pengayah_id'] != NULL) {
+                                                        foreach ($data as $dt) {
+                                                            $jmlBarang = ($dt['jml'] == 0) ? 1 : $dt['jml'];
+                                                            if ($pj['pengayah_id'] == $dt['pengayah_id'] && $pj['id'] == $dt['id']) {
+                                                                if ($dt['jns'] == 'LOKAL') {
+                                                                    $komisi += ($dt['komisi_pengayah_lokal'] * $jmlBarang);
+                                                                } elseif ($dt['jns'] == 'DOMESTIK') {
+                                                                    $komisi += ($dt['komisi_pengayah_domestik'] * $jmlBarang);
+                                                                } else {
+                                                                    $komisi += ($dt['komisi_pengayah_internasional'] * $jmlBarang);
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+
+                                                    if ($pj['guide_id'] != NULL) {
+                                                        foreach ($data as $dt) {
+                                                            $jmlBarang = ($dt['jml'] == 0) ? 1 : $dt['jml'];
+                                                            if ($pj['guide_id'] == $dt['guide_id'] && $pj['id'] == $dt['id']) {
+                                                                if ($dt['jns'] == 'LOKAL') {
+                                                                    $komisi += ($dt['komisi_guide_lokal'] * $jmlBarang);
+                                                                } elseif ($dt['jns'] == 'DOMESTIK') {
+                                                                    $komisi += ($dt['komisi_guide_domestik'] * $jmlBarang);
+                                                                } else {
+                                                                    if ($dt['jenis'] == 'produk' || $dt['jenis'] == 'paket') {
+                                                                        if ($dt['pengayah_id'] == NULL) {
+                                                                            if ($dt['is_double'] == 'yes') {
+                                                                                $komisi += (($dt['komisi_guide_internasional'] * 2) * $jmlBarang);
+                                                                            } else {
+                                                                                $komisi += ($dt['komisi_guide_internasional'] * $jmlBarang);
+                                                                            }
+                                                                        } else {
+                                                                            $komisi += ($dt['komisi_guide_internasional'] * $jmlBarang);
+                                                                        }
+                                                                    } else {
+                                                                        $komisi += ($dt['komisi_guide_internasional'] * $jmlBarang);
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+
+                                                    foreach ($data as $dt) {
+                                                        $jmlBarang = ($dt['jml'] == 0) ? 1 : $dt['jml'];
+                                                        if ($dt['id'] == $pj['id']) {
+
+                                                            if ($dt['jenis'] == 'items') {
+                                                                $cost += ($dt['hpp'] * $jmlBarang);
+                                                                if ($dt['jns'] == 'LOKAL') {
+                                                                    $penjualan += ($dt['lokal'] * $jmlBarang);
+                                                                } elseif ($dt['jns'] == 'DOMESTIK') {
+                                                                    $penjualan += ($dt['domestik'] * $jmlBarang);
+                                                                } else {
+                                                                    $penjualan += ($dt['internasional'] * $jmlBarang);
+                                                                }
+                                                            }
+
+                                                            if ($dt['jenis'] == 'produk') {
+                                                                foreach ($listItemsbyProduk as $produk) {
+                                                                    if ($dt['id'] == $produk['id'] && $dt['id_reservasi'] == $produk['id_reservasi'] && $dt['id_barang'] == $produk['id_barang']) {
+                                                                        foreach ($produk['items'] as $item) {
+                                                                            $cost += ($item['hpp'] * $jmlBarang);
+                                                                        }
+                                                                        if ($dt['jns'] == 'LOKAL') {
+                                                                            $penjualan += ($dt['lokal'] * $jmlBarang);
+                                                                        } elseif ($dt['jns'] == 'DOMESTIK') {
+                                                                            $penjualan += ($dt['domestik'] * $jmlBarang);
+                                                                        } else {
+                                                                            $penjualan += ($dt['internasional'] * $jmlBarang);
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                            if ($dt['jenis'] == 'paket') {
+                                                                foreach ($listItemsbyPaket as $paket) {
+                                                                    if ($dt['id'] == $paket['id'] && $dt['id_reservasi'] == $paket['id_reservasi'] && $dt['id_barang'] == $paket['id_barang']) {
+                                                                        foreach ($paket['produk'] as $produk) {
+                                                                            foreach ($produk['items'] as $item) {
+                                                                                $cost += ($item['hpp'] * $jmlBarang);
+                                                                                if ($dt['jns'] == 'LOKAL') {
+                                                                                    $penjualan += ($item['lokal'] * $jmlBarang);
+                                                                                } elseif ($dt['jns'] == 'DOMESTIK') {
+                                                                                    $penjualan += ($item['domestik'] * $jmlBarang);
+                                                                                } else {
+                                                                                    $penjualan += ($item['internasional'] * $jmlBarang);
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+
+                                                    $laba = $penjualan - $cost - $komisi;
+                                                    $totalPenjualan += $laba;
                                                 ?>
-                                                    <div class="w-100 d-flex justify-content-between align-items-center px-2">
-                                                        <label class="col-form-label col-6">
-                                                            <span class="ms-3"><?= $no_items ?>. <?= $br['namabarang']; ?></span>
-                                                            <?= ($br['jns'] == 'LOKAL') ? ' <i>(Lokal)</i> ' : ''; ?>
-                                                            <?= ($br['jns'] == 'DOMESTIK') ? ' <i>(Domestik)</i> ' : ''; ?>
-                                                            <?= ($br['jns'] == 'INTERNASIONAL') ? ' <i>(Internasional)</i> ' : ''; ?>
-                                                            <?= ($br['id_reservasi'] == NULL) ? '' : ' <i>(Reservasi)</i> '; ?>
-                                                        </label>
-                                                        <label class="col-form-label col-2 text-end">
-                                                            <?= ($br['jns'] == 'LOKAL') ? number_format(0) : ''; ?>
-                                                            <?= ($br['jns'] == 'DOMESTIK') ? number_format(0) : ''; ?>
-                                                            <?= ($br['jns'] == 'INTERNASIONAL') ? number_format(0) : ''; ?>
-                                                        </label>
-                                                        <label class="col-form-label col-2 text-end">
-                                                            <?= ($br['jns'] == 'LOKAL') ? number_format(0) : ''; ?>
-                                                            <?= ($br['jns'] == 'DOMESTIK') ? number_format(0) : ''; ?>
-                                                            <?= ($br['jns'] == 'INTERNASIONAL') ? number_format(0) : ''; ?>
-                                                        </label>
-                                                        <label class="col-form-label col-2 text-end">
-                                                            <?= ($br['jns'] == 'LOKAL') ? number_format(0) : ''; ?>
-                                                            <?= ($br['jns'] == 'DOMESTIK') ? number_format(0) : ''; ?>
-                                                            <?= ($br['jns'] == 'INTERNASIONAL') ? number_format(0) : ''; ?>
-                                                        </label>
-                                                    </div>
-                                                <?php
-                                                    $no_items++;
-                                                }
-                                                ?>
-                                                <div class="w-100 d-flex justify-content-between align-items-center px-2">
-                                                    <label class="col-form-label col-6"><span class="ms-3 fw-bold">Produk</span></label>
-                                                </div>
-                                                <?php
-                                                $no_produk = 1;
-                                                foreach ($produk as $br) {
-                                                ?>
-                                                    <div class="w-100 d-flex justify-content-between align-items-center px-2">
-                                                        <label class="col-form-label col-6">
-                                                            <span class="ms-3"><?= $no_produk ?>. <?= $br['namabarang']; ?></span>
-                                                            <?= ($br['jns'] == 'LOKAL') ? ' <i>(Lokal)</i> ' : ''; ?>
-                                                            <?= ($br['jns'] == 'DOMESTIK') ? ' <i>(Domestik)</i> ' : ''; ?>
-                                                            <?= ($br['jns'] == 'INTERNASIONAL') ? ' <i>(Internasional)</i> ' : ''; ?>
-                                                            <?= ($br['id_reservasi'] == NULL) ? '' : ' <i>(Reservasi)</i> '; ?>
-                                                        </label>
-                                                        <label class="col-form-label col-2 text-end"><?= number_format(0) ?></label>
-                                                        <label class="col-form-label col-2 text-end"><?= number_format(0) ?></label>
-                                                        <label class="col-form-label col-2 text-end"><?= number_format(0) ?></label>
-                                                    </div>
-                                                <?php
-                                                    $no_produk++;
-                                                }
-                                                ?>
-                                                <div class="w-100 d-flex justify-content-between align-items-center px-2">
-                                                    <label class="col-form-label col-6"><span class="ms-3 fw-bold">Paket</span></label>
-                                                </div>
-                                                <?php
-                                                $no_paket = 1;
-                                                foreach ($paket as $br) {
-                                                ?>
-                                                    <div class="w-100 d-flex justify-content-between align-items-center px-2">
-                                                        <label class="col-form-label col-6">
-                                                            <span class="ms-3"><?= $no_paket ?>. <?= $br['namabarang']; ?></span>
-                                                            <?= ($br['jns'] == 'LOKAL') ? ' <i>(Lokal)</i> ' : ''; ?>
-                                                            <?= ($br['jns'] == 'DOMESTIK') ? ' <i>(Domestik)</i> ' : ''; ?>
-                                                            <?= ($br['jns'] == 'INTERNASIONAL') ? ' <i>(Internasional)</i> ' : ''; ?>
-                                                            <?= ($br['id_reservasi'] == NULL) ? '' : ' <i>(Reservasi)</i> '; ?>
-                                                        </label>
-                                                        <label class="col-form-label col-2 text-end"><?= number_format(0) ?></label>
-                                                        <label class="col-form-label col-2 text-end"><?= number_format(0) ?></label>
-                                                        <label class="col-form-label col-2 text-end"><?= number_format(0) ?></label>
-                                                    </div>
-                                                <?php
-                                                    $no_paket++;
-                                                }
-                                                ?>
-                                            </div>
-                                            <div class="w-100 d-flex justify-content-between align-items-center px-2">
-                                                <label class="col-form-label col-6"><b>Total Penjualan</b></label>
-                                                <label class="col-form-label col-2 text-end"><b><?= number_format(0) ?></b></label>
-                                            </div>
-                                        <?php } ?>
-                                        <hr>
-                                        <div class="w-100 d-flex justify-content-between align-items-center px-2">
-                                            <label class="col-form-label col-6"><b>TOTAL PENJUALAN</b></label>
-                                            <label class="col-form-label text-end"><b><?= number_format(0) ?></b></label>
-                                        </div>
+                                                    <tr>
+                                                        <td class="col-6"><?= $idTransaksi ?></td>
+                                                        <td class="col-2 text-end pe-10"><?= number_format($komisi) ?></td>
+                                                        <td class="col-2 text-end pe-10"><?= number_format($cost) ?></td>
+                                                        <td class="col-2 text-end pe-10"><?= ($laba < 0) ? '<span class="text-danger">' . number_format($laba) . '</span>' : '<span>' . number_format($laba) . '</span>'; ?></td>
+                                                        <td class="col-2 text-end pe-10"><a href="<?= base_url() ?>laporan/detailpenjualan/<?= base64_encode($pj['id']) ?>" class="btn btn-sm btn-info">Detail</a></td>
+                                                    </tr>
+                                                <?php } ?>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <th>Tanggal : <?= $tglShow ?></th>
+                                                    <th>Total : <?= number_format($totalPenjualan) ?></th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
@@ -163,7 +185,6 @@
                     </div>
                 </div>
                 <!-- ====== End Tambah Brand ====== -->
-
             </div>
             <!-- ======= End Row Content Canva JS ====== -->
         </div>
