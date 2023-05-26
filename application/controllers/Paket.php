@@ -130,6 +130,8 @@ class Paket extends CI_Controller
 		$this->form_validation->set_rules('kiguide', 'Komisi Internasional Guide', 'trim|required');
 		$this->form_validation->set_rules('kdpangayahan', 'Komisi Domestik Pangayahan', 'trim|required');
 		$this->form_validation->set_rules('kipengayahan', 'Komisi Internasional Pengayahan', 'trim|required');
+		$this->form_validation->set_rules('kipengayahan', 'Komisi Internasional Pengayahan', 'trim|required');
+		$this->form_validation->set_rules('komisi', 'Komisi x2', 'trim');
 
 		if ($this->form_validation->run() == FALSE) {
 			$this->session->set_flashdata('message', $this->message->error_msg(validation_errors()));
@@ -146,6 +148,11 @@ class Paket extends CI_Controller
 		$kiguide	= $this->security->xss_clean($this->input->post('kiguide'));
 		$kdpangayahan	= $this->security->xss_clean($this->input->post('kdpangayahan'));
 		$kipengayahan	= $this->security->xss_clean($this->input->post('kipengayahan'));
+		$komisi	= $this->security->xss_clean($this->input->post('komisi'));
+
+		if (empty($komisi)) {
+			$komisi = 'no';
+		}
 
 		$data		= array(
 			"namapaket"    => $namapaket,
@@ -154,6 +161,7 @@ class Paket extends CI_Controller
 
 		$harga		= array(
 			"tanggal"		=> date("Y-m-d H:i:s"),
+			"is_double"		=> $komisi,
 			"lokal"			=> $lokal,
 			"domestik"		=> $domestik,
 			"internasional" => $internasional,
@@ -200,42 +208,6 @@ class Paket extends CI_Controller
 			array_push($result["id_items"], $itm["id_produk"]);
 		}
 
-		// $result = array (
-		// 	"namaproduk"	=> "PURIFICATION CEREMONY",
-		// 	"local"			=> "1000000",
-		// 	"domestik"		=> "2000000",
-		// 	"internasional"	=> "3000000",
-		// 	"id_items"		=> ["1", "2", "2"]
-		// );
-
-		// $items = array (
-		// 	array(
-		//         "id"            => "1",
-		// 		"namaitem"		=> "Dupa Wangi",
-		// 	),
-		// 	array(
-		//         "id"            => "2",
-		// 		"namaitem"		=> "Gelang Tridatu",
-		// 	),
-		// 	array(
-		//         "id"            => "3",
-		// 		"namaitem"		=> "Canang Sari",
-		// 	),
-		// 	array(
-		//         "id"            => "4",
-		// 		"namaitem"		=> "Toples Tirta",
-		// 	),
-		// 	array(
-		//         "id"            => "5",
-		// 		"namaitem"		=> "Dupa Cempaka",
-		// 	),
-		// );
-
-
-		// print_r(json_encode($result));
-		// die;
-
-
 
 		$data		= array(
 			'title'		 => NAMETITLE . ' - Ubah Data Paket',
@@ -262,6 +234,7 @@ class Paket extends CI_Controller
 		$this->form_validation->set_rules('kiguide', 'Komisi Internasional Guide', 'trim|required');
 		$this->form_validation->set_rules('kdpangayahan', 'Komisi Domestik Pangayahan', 'trim|required');
 		$this->form_validation->set_rules('kipengayahan', 'Komisi Internasional Pengayahan', 'trim|required');
+		$this->form_validation->set_rules('komisi', 'Komisi x2', 'trim');
 
 		$id	= $this->security->xss_clean($this->input->post('id'));
 
@@ -281,7 +254,11 @@ class Paket extends CI_Controller
 		$kiguide	= $this->security->xss_clean($this->input->post('kiguide'));
 		$kdpangayahan	= $this->security->xss_clean($this->input->post('kdpangayahan'));
 		$kipengayahan	= $this->security->xss_clean($this->input->post('kipengayahan'));
+		$komisi	= $this->security->xss_clean($this->input->post('komisi'));
 
+		if (empty($komisi)) {
+			$komisi = 'no';
+		}
 
 		$data		= array(
 			"namapaket"    	=> $namaproduk,
@@ -291,6 +268,7 @@ class Paket extends CI_Controller
 		$harga		= array(
 			"id_paket"		=> $id,
 			"tanggal"		=> date("Y-m-d H:i:s"),
+			"is_double"		=> $komisi,
 			"lokal"			=> $lokal,
 			"domestik"		=> $domestik,
 			"internasional" => $internasional,

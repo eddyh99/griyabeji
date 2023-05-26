@@ -32,8 +32,9 @@ class Mdl_items extends CI_Model
 		SELECT
 			a.id_items,
 			b.namaitem,
+			a.hpp, 
 			a.lokal,
-			a.domestik,
+			a.domestik, 
 			a.internasional
 		FROM
 			items_harga a
@@ -66,6 +67,40 @@ class Mdl_items extends CI_Model
 		}
 	}
 
+	public function getItemsByDate($date, $id)
+	{
+		$sql = "
+		SELECT
+			a.id_items,
+			b.namaitem,
+			a.hpp, 
+			a.lokal,
+			a.domestik, 
+			a.internasional
+		FROM
+			items_harga a
+		INNER JOIN items b ON a.id_items = b.id
+		JOIN(
+			SELECT MAX(tanggal) AS max_date
+			FROM
+				items_harga
+			WHERE
+				tanggal <= ?
+		GROUP BY
+			id_items
+		) X
+		ON
+			a.tanggal = X.max_date
+		WHERE id_items = ?;
+		";
+		$query = $this->db->query($sql, array($date, $id));
+		if ($query) {
+			return $query->result_array();
+		} else {
+			return $this->db->error();
+		}
+	}
+
 	public function getItems($id)
 	{
 		$sql = "
@@ -76,8 +111,10 @@ class Mdl_items extends CI_Model
 		x.lokal,
 		x.domestik, 
 		x.internasional,
+		x.komisi_guide_lokal, 
 		x.komisi_guide_domestik, 
 		x.komisi_guide_internasional, 
+		x.komisi_pengayah_lokal, 
 		x.komisi_pengayah_domestik, 
 		x.komisi_pengayah_internasional
 		FROM " . ITEMS . " a 
@@ -88,8 +125,10 @@ class Mdl_items extends CI_Model
 			a.domestik, 
 			a.hpp, 
 			a.id_items, 
+			a.komisi_guide_lokal, 
 			a.komisi_guide_domestik, 
 			a.komisi_guide_internasional, 
+			a.komisi_pengayah_lokal, 
 			a.komisi_pengayah_domestik, 
 			a.komisi_pengayah_internasional
 			FROM " . ITEMS_HARGA . " a 

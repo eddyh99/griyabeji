@@ -77,6 +77,7 @@ class Mdl_paket extends CI_Model
 		SELECT 
 		id,
 		namapaket, 
+		x.is_double, 
 		x.lokal,
 		x.domestik,
 		x.internasional,
@@ -87,6 +88,7 @@ class Mdl_paket extends CI_Model
 		FROM " . PAKET . " a 
 		INNER JOIN (
 			SELECT 
+			a.is_double, 
 			a.lokal, 
 			a.internasional, 
 			a.domestik, 

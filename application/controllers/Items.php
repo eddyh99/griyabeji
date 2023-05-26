@@ -65,8 +65,10 @@ class Items extends CI_Controller
 		$this->form_validation->set_rules('local', 'Harga Local', 'trim|required');
 		$this->form_validation->set_rules('domestik', 'Harga Domestik', 'trim|required');
 		$this->form_validation->set_rules('internasional', 'Harga Internasional', 'trim|required');
+		$this->form_validation->set_rules('klguide', 'Komisi Lokal Guide', 'trim|required');
 		$this->form_validation->set_rules('kdguide', 'Komisi Domestik Guide', 'trim|required');
 		$this->form_validation->set_rules('kiguide', 'Komisi Internasional Guide', 'trim|required');
+		$this->form_validation->set_rules('klpangayahan', 'Komisi Lokal Guide', 'trim|required');
 		$this->form_validation->set_rules('kdpangayahan', 'Komisi Domestik Pangayahan', 'trim|required');
 		$this->form_validation->set_rules('kipengayahan', 'Komisi Internasional Pengayahan', 'trim|required');
 
@@ -81,8 +83,10 @@ class Items extends CI_Controller
 		$domestik	    = $this->security->xss_clean($this->input->post('domestik'));
 		$internasional	= $this->security->xss_clean($this->input->post('internasional'));
 		$hpp	    	= $this->security->xss_clean($this->input->post('hpp'));
+		$klguide	= $this->security->xss_clean($this->input->post('klguide'));
 		$kdguide	= $this->security->xss_clean($this->input->post('kdguide'));
 		$kiguide	= $this->security->xss_clean($this->input->post('kiguide'));
+		$klpangayahan	= $this->security->xss_clean($this->input->post('klpangayahan'));
 		$kdpangayahan	= $this->security->xss_clean($this->input->post('kdpangayahan'));
 		$kipengayahan	= $this->security->xss_clean($this->input->post('kipengayahan'));
 
@@ -98,8 +102,10 @@ class Items extends CI_Controller
 			"lokal"			=> $lokal,
 			"domestik"		=> $domestik,
 			"internasional" => $internasional,
+			"komisi_guide_lokal" => $klguide,
 			"komisi_guide_domestik" => $kdguide,
 			"komisi_guide_internasional" => $kiguide,
+			"komisi_pengayah_lokal" => $klpangayahan,
 			"komisi_pengayah_domestik" => $kdpangayahan,
 			"komisi_pengayah_internasional" => $kipengayahan,
 			"userid"		=> $_SESSION["logged_status"]["username"]
@@ -165,8 +171,10 @@ class Items extends CI_Controller
 		$this->form_validation->set_rules('local', 'Harga Local', 'trim|required');
 		$this->form_validation->set_rules('domestik', 'Harga Domestik', 'trim|required');
 		$this->form_validation->set_rules('internasional', 'Harga Internasional', 'trim|required');
+		$this->form_validation->set_rules('klguide', 'Komisi Lokal Guide', 'trim|required');
 		$this->form_validation->set_rules('kdguide', 'Komisi Domestik Guide', 'trim|required');
 		$this->form_validation->set_rules('kiguide', 'Komisi Internasional Guide', 'trim|required');
+		$this->form_validation->set_rules('klpangayahan', 'Komisi Lokal Guide', 'trim|required');
 		$this->form_validation->set_rules('kdpangayahan', 'Komisi Domestik Pangayahan', 'trim|required');
 		$this->form_validation->set_rules('kipengayahan', 'Komisi Internasional Pengayahan', 'trim|required');
 
@@ -183,8 +191,10 @@ class Items extends CI_Controller
 		$domestik	    = $this->security->xss_clean($this->input->post('domestik'));
 		$internasional	= $this->security->xss_clean($this->input->post('internasional'));
 		$hpp	    	= $this->security->xss_clean($this->input->post('hpp'));
+		$klguide	= $this->security->xss_clean($this->input->post('klguide'));
 		$kdguide	= $this->security->xss_clean($this->input->post('kdguide'));
 		$kiguide	= $this->security->xss_clean($this->input->post('kiguide'));
+		$klpangayahan	= $this->security->xss_clean($this->input->post('klpangayahan'));
 		$kdpangayahan	= $this->security->xss_clean($this->input->post('kdpangayahan'));
 		$kipengayahan	= $this->security->xss_clean($this->input->post('kipengayahan'));
 		$id	    		= $this->security->xss_clean($this->input->post('id'));
@@ -203,8 +213,10 @@ class Items extends CI_Controller
 			"lokal"			=> $lokal,
 			"domestik"		=> $domestik,
 			"internasional" => $internasional,
+			"komisi_guide_lokal" => $klguide,
 			"komisi_guide_domestik" => $kdguide,
 			"komisi_guide_internasional" => $kiguide,
+			"komisi_pengayah_lokal" => $klpangayahan,
 			"komisi_pengayah_domestik" => $kdpangayahan,
 			"komisi_pengayah_internasional" => $kipengayahan,
 			"userid"		=> $_SESSION["logged_status"]["username"]

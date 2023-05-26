@@ -25,74 +25,8 @@ class Transaksi extends CI_Controller
 	{
 
 		$guide = $this->guide->listguide();
-		// $guide = array (
-		// 	array(
-		// 		"id"            => "1",
-		// 		"nama"		    => "Guide 1",
-		// 		"whatsapp"		=> "11111111",
-		// 	),
-		// 	array(
-		// 		"id"            => "2",
-		// 		"nama"		    => "Guide 2",
-		// 		"whatsapp"		=> "22222222",
-		// 	),
-		// );
-
 		$pengayah = $this->pengayah->Listpengayah();
-		// $pengayah = array (
-		// 	array(
-		//         "id"            => "1",
-		// 		"nama"		    => "Pengayah 1",
-		// 		"whatsapp"		=> "11111111",
-		// 	),
-		// 	array(
-		//         "id"            => "2",
-		// 		"nama"		    => "Pengayah 2",
-		// 		"whatsapp"		=> "22222222",
-		// 	),
-		// );
-
 		$pengunjung = $this->pengunjung->Listpengunjung();
-		// $pengunjung = array (
-		// 	array(
-		//         "id"            => "1",
-		// 		"nama"		    => "I Made Farhan Sucipto Nugroho",
-		// 		"whatsapp"		=> "11111111",
-		// 		"email"			=> "made@gmail.com",
-		// 		"ig"			=> "made123",
-		// 		"statename"		=> "Indonesia",
-		// 		"countryname"	=> "Bali"			
-
-		// 	),
-		// 	array(
-		//         "id"            => "2",
-		// 		"nama"		    => "Pengunjung 2",
-		// 		"whatsapp"		=> "22222222",
-		// 		"email"			=> "made@gmail.com",
-		// 		"ig"			=> "made123",
-		// 		"statename"		=> "Indonesia",
-		// 		"countryname"	=> "Bali"	
-		// 	),
-		// 	array(
-		//         "id"            => "3",
-		// 		"nama"		    => "Pengunjung 3",
-		// 		"whatsapp"		=> "333",
-		// 		"email"			=> "made@gmail.com",
-		// 		"ig"			=> "made123",
-		// 		"statename"		=> "Indonesia",
-		// 		"countryname"	=> "Bali"	
-		// 	),
-		// 	array(
-		//         "id"            => "4",
-		// 		"nama"		    => "Pengunjung 4",
-		// 		"whatsapp"		=> "44444444",
-		// 		"email"			=> "made@gmail.com",
-		// 		"ig"			=> "made123",
-		// 		"statename"		=> "Indonesia",
-		// 		"countryname"	=> "Bali"	
-		// 	),
-
-		// );
 
 		// For Select Items
 		$items = $this->items->listitems();
@@ -113,6 +47,7 @@ class Transaksi extends CI_Controller
 			'content'	 => 'transaksi/index',
 			'extra'		 => 'transaksi/js/js_index',
 			'extracss'	 => 'transaksi/css/css_index',
+			'h_tc'		 => 'collapse',
 			'guide'		 => $guide,
 			'pengayah'	 => $pengayah,
 			'pengunjung' => $pengunjung,
@@ -125,6 +60,60 @@ class Transaksi extends CI_Controller
 		);
 
 		$this->load->view('layout/wrapper', $data);
+	}
+
+	public function listTransaksi()
+	{
+		if (@!isset($_GET["tanggal"])) {
+			$tanggal_awal       = date("Y-m-d", strtotime("first day of 0 month"));
+			$tanggal_akhir      = date("Y-m-d", strtotime("last day of 0 month"));
+		} else {
+			$tgl     = $this->security->xss_clean($_GET["tanggal"]);
+			$tanggal		= explode("-", $tgl);
+			$tanggal_awal       = date_format(date_create($tanggal[0]), "Y-m-d");
+			$tanggal_akhir      = date_format(date_create($tanggal[1]), "Y-m-d");
+		}
+
+		$result = $this->transaksi->listTansaksi($tanggal_awal, $tanggal_akhir);
+		$data	= array(
+			'title'		 => 'Data Pengguna',
+			'content'	 => 'transaksi/list',
+			'extra'		 => 'transaksi/js/js_list',
+			'extracss'	 => 'transaksi/css/css_index',
+			'h_tc'		 => 'collapse',
+			'list'		 => $result,
+			'tgl'		 => @$tgl,
+			'tanggal_awal'		 => @$tanggal_awal,
+			'tanggal_akhir'		 => @$tanggal_akhir,
+
+		);
+
+		$this->load->view('layout/wrapper', $data);
+	}
+
+	public function detail($id)
+	{
+		$id	= base64_decode($this->security->xss_clean($id));
+		$result = $this->transaksi->detail($id);
+
+		$data	= array(
+			'title'		 => 'Data Pengguna',
+			'content'	 => 'transaksi/detail',
+			'extra'		 => 'transaksi/js/js_list',
+			'extracss'	 => 'transaksi/css/css_index',
+			'h_tc'		 => 'collapse',
+			'list'		 => $result,
+
+		);
+
+		$this->load->view('layout/wrapper', $data);
+	}
+
+	public function detailBarang()
+	{
+		$id    = $_GET["id"];
+		$barang = $this->transaksi->detailBarang($id);
+		echo json_encode($barang);
 	}
 
 	public function summarybayar()
