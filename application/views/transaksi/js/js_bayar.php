@@ -32,8 +32,8 @@
     $("#totaltagih").val(totaltagihan.toLocaleString('en'));
 
     $("#approve").on("click", function() {
-        var diskon = $("#diskon").val();
-        if ($("#diskon").val() > 0) {
+        var diskon = $("#diskon").val().replace(/,/g, '');
+        if ($("#diskon").val().replace(/,/g, '') > 0) {
             var values = "passcode=" + $("#passcode").val();
             $.ajax({
                 url: "<?= base_url() ?>transaksi/approval",
@@ -41,6 +41,8 @@
                 data: values,
                 success: function(response) {
                     if (response == "0") {
+                        $('#message_toast').text("Sudah disetujui!");
+                        $('#notifToast').toast("show");
                         $("#totaltagih").val((total - diskon - parseInt(dp)).toLocaleString('en'));
                     } else {
                         // Toast

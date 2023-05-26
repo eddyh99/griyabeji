@@ -662,7 +662,9 @@ class Mdl_kas extends CI_Model
 					'DOMESTIK',
 					'INTERNASIONAL'
 				)
-			) AS jns
+			) AS jns,
+			e.country_code,
+			e1.name as countryname
 		FROM
 			penjualan a
 		LEFT JOIN guide a1 ON
@@ -677,6 +679,8 @@ class Mdl_kas extends CI_Model
 			c.id_pengunjung = d.id
 		INNER JOIN tbl_state e ON
 			d.state_id = e.state_code AND d.country_code = e.country_code
+		INNER JOIN tbl_country e1 ON
+			e.country_code = e1.code
 		INNER JOIN items f ON
 			b.id_produk = f.id
 		WHERE
@@ -708,7 +712,9 @@ class Mdl_kas extends CI_Model
 					'DOMESTIK',
 					'INTERNASIONAL'
 				)
-			) AS jns
+			) AS jns,
+			e.country_code,
+			e1.name as countryname
 		FROM
 			penjualan a
 		LEFT JOIN guide a1 ON
@@ -723,6 +729,8 @@ class Mdl_kas extends CI_Model
 			c.id_pengunjung = d.id
 		INNER JOIN tbl_state e ON
 			d.state_id = e.state_code AND d.country_code = e.country_code
+		INNER JOIN tbl_country e1 ON
+			e.country_code = e1.code
 		INNER JOIN produk f ON
 			b.id_produk = f.id
 		WHERE
@@ -753,7 +761,9 @@ class Mdl_kas extends CI_Model
 					'DOMESTIK',
 					'INTERNASIONAL'
 				)
-			) AS jns
+			) AS jns,
+			e.country_code,
+			e1.name as countryname
 		FROM
 			penjualan a
 		LEFT JOIN guide a1 ON
@@ -768,6 +778,8 @@ class Mdl_kas extends CI_Model
 			c.id_pengunjung = d.id
 		INNER JOIN tbl_state e ON
 			d.state_id = e.state_code AND d.country_code = e.country_code
+		INNER JOIN tbl_country e1 ON
+			e.country_code = e1.code
 		INNER JOIN paket f ON
 			b.id_produk = f.id
 		WHERE
@@ -793,6 +805,8 @@ class Mdl_kas extends CI_Model
 			$temp['id_pengunjung'] 		= $dt['id_pengunjung'];
 			$temp['nama_pengunjung'] 	= $dt['nama_pengunjung'];
 			$temp['jns'] 				= $dt['jns'];
+			$temp['country_code'] 		= $dt['country_code'];
+			$temp['countryname'] 		= $dt['countryname'];
 			$temp['method'] 			= $dt['method'];
 
 

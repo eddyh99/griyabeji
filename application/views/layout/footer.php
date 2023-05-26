@@ -85,7 +85,7 @@ if (isset($extra)) {
 ?>
 <script>
 	$(".typeMoney").autoNumeric('init', {
-		aSep: '',
+		aSep: ',',
 		// aDec: '.',
 		aForm: true,
 		vMax: '99999999999',

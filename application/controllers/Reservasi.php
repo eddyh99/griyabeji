@@ -150,6 +150,14 @@ class Reservasi extends CI_Controller
 
 	public function simpandata()
 	{
+
+		$dp = $this->input->post("dp");
+		$new_dp = str_replace(array(
+			'\'', '"',
+			',', ';', '<', '>'
+		), '', $dp);
+		$_POST["dp"] = $new_dp;
+
 		$data = json_decode($this->security->xss_clean($this->input->get('data')));
 		$guide = json_decode($this->security->xss_clean($this->input->get('guide')));
 		$pengayah = json_decode($this->security->xss_clean($this->input->get('pengayah')));

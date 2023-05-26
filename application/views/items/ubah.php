@@ -7,45 +7,45 @@
         <div id="kt_app_content_container" class="app-container container-fluid">
 
             <!-- ======= Start Row Content Canva JS ====== -->
-            <div class="row">
-                <!-- ====== Start Ubah Pengguna  ====== -->
-                <div class="card mt-10">
-                    <?php if (isset($_SESSION["message"])) { ?>
-                        <div class="alert alert-warning"><?= $_SESSION["message"] ?></div>
-                    <?php } ?>
+            <div class="row my-10">
+                <!-- ====== Start Tambah Pengguna ====== -->
+                <div class="card">
                     <div class="card-body">
+                        <?php if (isset($_SESSION["message"])) { ?>
+                            <div class="alert alert-warning"><?= $_SESSION["message"] ?></div>
+                        <?php } ?>
                         <form id="form_input" method="post" action="<?= base_url() ?>items/updateData">
                             <input type="hidden" name="id" value="<?= $detail["id"] ?>">
                             <div class="row">
                                 <div class="col-xl">
-                                    <div class="form-group row my-3">
+                                    <div class="form-group row mb-5">
                                         <label class="col-sm-3 col-form-label">Nama Items</label>
                                         <div class="col-sm">
                                             <input type="text" class="form-control" id="namaitems" name="namaitems" maxlength="35" value="<?= $detail['namaitem'] ?>">
                                         </div>
                                     </div>
-                                    <div class="form-group row my-5">
+                                    <div class="form-group row mb-5">
                                         <label class="col-sm-3 col-form-label">HPP</label>
                                         <div class="col-sm d-flex align-items-center">
                                             <span class="me-3">Rp. </span>
                                             <input type="text" class="form-control rupiah typeMoney" id="hpp" name="hpp" maxlength="35" value="<?= $detail['hpp']; ?>">
                                         </div>
                                     </div>
-                                    <div class="form-group row my-5">
+                                    <div class="form-group row mb-5">
                                         <label class="col-sm-3 col-form-label">Harga Lokal</label>
                                         <div class="col-sm d-flex align-items-center">
                                             <span class="me-3">Rp. </span>
                                             <input type="text" class="form-control rupiah typeMoney" id="local" name="local" maxlength="35" value="<?= $detail['lokal']; ?>">
                                         </div>
                                     </div>
-                                    <div class="form-group row my-5">
+                                    <div class="form-group row mb-5">
                                         <label class="col-sm-3 col-form-label">Harga Domestik</label>
                                         <div class="col-sm d-flex align-items-center">
                                             <span class="me-3">Rp. </span>
                                             <input type="text" class="form-control rupiah typeMoney" id="domestik" name="domestik" maxlength="35" value="<?= $detail['domestik']; ?>">
                                         </div>
                                     </div>
-                                    <div class="form-group row my-5">
+                                    <div class="form-group row mb-5">
                                         <label class="col-sm-3 col-form-label">Harga Internasional</label>
                                         <div class="col-sm d-flex align-items-center">
                                             <span class="me-3">Rp. </span>
@@ -54,42 +54,42 @@
                                     </div>
                                 </div>
                                 <div class="col-xl">
-                                    <div class="form-group row my-5">
+                                    <div class="form-group row mb-5">
                                         <label class="col-sm-3 col-form-label">Komisi Guide Lokal</label>
                                         <div class="col-sm d-flex align-items-center">
                                             <span class="me-3">Rp. </span>
                                             <input type="text" class="form-control rupiah typeMoney" id="kdguide" name="klguide" maxlength="35" autocomplete="off" value="<?= $detail['komisi_guide_lokal']; ?>">
                                         </div>
                                     </div>
-                                    <div class="form-group row my-5">
+                                    <div class="form-group row mb-5">
                                         <label class="col-sm-3 col-form-label">Komisi Guide Domestik</label>
                                         <div class="col-sm d-flex align-items-center">
                                             <span class="me-3">Rp. </span>
                                             <input type="text" class="form-control rupiah typeMoney" id="kdguide" name="kdguide" maxlength="35" autocomplete="off" value="<?= $detail['komisi_guide_domestik']; ?>">
                                         </div>
                                     </div>
-                                    <div class="form-group row my-5">
+                                    <div class="form-group row mb-5">
                                         <label class="col-sm-3 col-form-label">Komisi Guide Internasional</label>
                                         <div class="col-sm d-flex align-items-center">
                                             <span class="me-3">Rp. </span>
                                             <input type="text" class="form-control rupiah typeMoney" id="kiguide" name="kiguide" maxlength="35" autocomplete="off" value="<?= $detail['komisi_guide_internasional']; ?>">
                                         </div>
                                     </div>
-                                    <div class="form-group row my-5">
+                                    <div class="form-group row mb-5">
                                         <label class="col-sm-3 col-form-label">Komisi Pengayah Lokal</label>
                                         <div class="col-sm d-flex align-items-center">
                                             <span class="me-3">Rp. </span>
                                             <input type="text" class="form-control rupiah typeMoney" id="klpangayahan" name="klpangayahan" maxlength="35" autocomplete="off" value="<?= $detail['komisi_pengayah_lokal']; ?>">
                                         </div>
                                     </div>
-                                    <div class="form-group row my-5">
+                                    <div class="form-group row mb-5">
                                         <label class="col-sm-3 col-form-label">Komisi Pengayah Domestik</label>
                                         <div class="col-sm d-flex align-items-center">
                                             <span class="me-3">Rp. </span>
                                             <input type="text" class="form-control rupiah typeMoney" id="kdpangayahan" name="kdpangayahan" maxlength="35" autocomplete="off" value="<?= $detail['komisi_pengayah_domestik']; ?>">
                                         </div>
                                     </div>
-                                    <div class="form-group row my-5">
+                                    <div class="form-group row mb-5">
                                         <label class="col-sm-3 col-form-label">Komisi Pengayah Internasional</label>
                                         <div class="col-sm d-flex align-items-center">
                                             <span class="me-3">Rp. </span>

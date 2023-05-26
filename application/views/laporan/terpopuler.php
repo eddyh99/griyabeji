@@ -16,26 +16,13 @@
 
                 <div class="col-lg-10 card">
                     <div class="card-body">
-                        <form action="<?= base_url() ?>laporan/kas/" method="get">
-                            <div class="row form-group mb-3">
+                        <form action="<?= base_url() ?>laporan/produkteratas/" method="get">
+                            <div class="row form-group">
                                 <label class="col-form-label col">Tanggal</label>
                                 <div class="col">
                                     <input type="text" id="tanggal" name="tanggal" class="form-control" value="<?= $tgl ?>" autocomplete="off">
                                 </div>
-                            </div>
-                            <div class="row form-group mb-3">
-                                <label class="col-form-label col">Store</label>
-                                <div class="col">
-                                    <select id="storename" name="storename" class="form-control">
-                                        <option value="" disabled selected>--Pilih Store--</option>
-                                        <?php foreach ($store as $store) { ?>
-                                            <option value="<?= $store["id"] ?>" <?= ($idstore == $store['id']) ? 'selected' : ''; ?>><?= $store["namastore"] ?></option>
-                                        <?php } ?>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="row form-group mb-3">
-                                <div class="col text-end">
+                                <div class="col-auto">
                                     <button type="submit" class="btn btn-primary">Lihat</button>
                                 </div>
                             </div>
@@ -43,7 +30,7 @@
 
                         <div class="row mt-20" id="printarea">
                             <div class="col text-start mb-5">
-                                <h3>Laporan Kas</h3>
+                                <h3>Laporan Produk Terpopuler Berbagai Negara</h3>
                             </div>
 
                             <hr>
@@ -58,40 +45,52 @@
 
                                 <div class="col-sm-12 my-5">
                                     <div class="d-flex flex-column">
-                                        <table id="penjualan" class="table" width="100%">
+                                        <table id="country" class="table" width="100%">
                                             <thead>
                                                 <tr>
                                                     <th>Keterangan</th>
-                                                    <th>Tanggal</th>
-                                                    <th>Store</th>
-                                                    <th>Debit</th>
-                                                    <th>Kredit</th>
-                                                    <th>Saldo</th>
+                                                    <th class="text-center">Jumlah</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                $total = 0;
-                                                if (!empty($kas)) {
-                                                    $total += $saldo['saldo'];
-                                                    foreach ($kas as $dt) {
-                                                        if ($dt['jenis'] == 'Kas Awal' || $dt['jenis'] == 'Masuk') {
-                                                            $total += $dt['nominal'];
-                                                        } elseif ($dt['jenis'] == 'Keluar') {
-                                                            $total -= $dt['nominal'];
-                                                        }
+                                                foreach ($country as $ct) {
                                                 ?>
-                                                        <tr>
-                                                            <td class="col-2"><?= $dt['keterangan'] ?></td>
-                                                            <td class="col-2"><?= $dt['tanggal'] ?></td>
-                                                            <td class="col-2"><?= $dt['store'] ?></td>
-                                                            <td class="col-2"><?= ($dt['jenis'] == 'Kas Awal' || $dt['jenis'] == 'Masuk') ? number_format($dt['nominal']) : number_format(0); ?></td>
-                                                            <td class="col-2"><?= ($dt['jenis'] == 'Kas Awal' || $dt['jenis'] == 'Masuk') ? number_format(0) : number_format($dt['nominal']); ?></td>
-                                                            <td class="col-2"><?= number_format($total); ?></td>
-                                                        </tr>
-                                                <?php }
-                                                } ?>
+                                                    <tr>
+                                                        <td class="fw-bold"><?= $ct['countryname'] ?></td>
+                                                        <td></td>
+                                                    </tr>
+                                                    <?php
+                                                    foreach ($produk as $br) {
+                                                        $jumlahBarang = 0;
+                                                        if ($br['country_code'] == $ct['country_code']) {
+                                                            foreach ($data as $dt) {
+                                                                if (
+                                                                    $dt['jenis'] == 'produk' &&
+                                                                    $dt['id_barang'] == $br['id_barang'] &&
+                                                                    $dt['country_code'] == $ct['country_code']
+                                                                ) {
+                                                                    $jmlBarang = ($dt['jml'] == 0) ? 1 : $dt['jml'];
+                                                                    $jumlahBarang += $jmlBarang;
+                                                                }
+                                                            }
+                                                    ?>
+                                                            <tr>
+                                                                <td class="ps-5">- <?= $br['namabarang'] ?></td>
+                                                                <td class="text-center"><?= $jumlahBarang; ?></td>
+                                                            </tr>
+                                                <?php
+                                                        }
+                                                    }
+                                                }
+                                                ?>
                                             </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <th>Tanggal : <?= $tglShow ?></th>
+                                                    <!-- <th>Total : <?= number_format($totalPenjualan); ?></th> -->
+                                                </tr>
+                                            </tfoot>
                                         </table>
                                     </div>
                                 </div>

@@ -14,7 +14,7 @@
                     <div class="alert alert-danger"><?= $_SESSION["gagal"] ?></div>
                 <?php } ?>
 
-                <div class="col-md-8 card">
+                <div class="col-lg-10 card">
                     <div class="card-body">
                         <div class="row" id="printarea">
                             <div class="col text-start mb-5">
@@ -156,7 +156,7 @@
 
                                         <div class="col-sm-12 my-5">
                                             <div class="d-flex flex-column">
-                                                <table id="penjualan" class="table" width="100%">
+                                                <table id="detail" class="table" width="100%">
                                                     <thead>
                                                         <tr>
                                                             <th>Pesanan</th>
@@ -203,7 +203,6 @@
                                                                             && $br['jenis'] == $dt['jenis']
                                                                             && $br['id_reservasi'] == $dt['id_reservasi']
                                                                         ) {
-
                                                                             if ($dt['jns'] == 'LOKAL') {
                                                                                 $komisibarang += ($dt['komisi_guide_lokal'] * $jmlBarang);
                                                                             } elseif ($dt['jns'] == 'DOMESTIK') {

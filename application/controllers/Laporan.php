@@ -64,9 +64,70 @@ class Laporan extends CI_Controller
 		$this->load->view('layout/wrapper', $data);
 	}
 
+	// ====== START LAPORAN UNTUNG RUGI =====
+	public function produkteratas()
+	{
+		if (@!isset($_GET["tanggal"])) {
+			$tanggal_awal       = date("Y-m-d", strtotime("first day of 0 month"));
+			$tanggal_akhir      = date("Y-m-d", strtotime("last day of 0 month"));
 
-	// ====== START LAPORAN PENJUALAN =====
-	public function penjualan()
+			$tglShow = date("d M Y", strtotime("$tanggal_awal")) . ' - ' . date("d M Y", strtotime("$tanggal_akhir"));
+		} else {
+			$tgl     = $this->security->xss_clean($_GET["tanggal"]);
+			$tanggal		= explode("-", $tgl);
+			$tanggal_awal       = date_format(date_create($tanggal[0]), "Y-m-d");
+			$tanggal_akhir      = date_format(date_create($tanggal[1]), "Y-m-d");
+
+			if ($tanggal_awal == $tanggal_akhir) {
+				$tglShow = $tanggal[0];
+			} else {
+				$tglShow = $tgl;
+			}
+		}
+
+		$result = $this->kas->getpenjualan($tanggal_awal, $tanggal_akhir);
+		// print("<pre>" . print_r($result, true) . "</pre>");
+		// die;
+
+		$uniqueCountry = array();
+		$uniqueproduk = array();
+
+		foreach ($result as $byMehtod) {
+			$uniqueCountry[$byMehtod['country_code']] = $byMehtod;
+
+			if ($byMehtod['jenis'] == 'produk') {
+				$uniqueproduk[$byMehtod['id_barang'] . $byMehtod['country_code']] = $byMehtod;
+			}
+		}
+
+
+
+		$country = array_values($uniqueCountry);
+		$produk = array_values($uniqueproduk);
+		// print("<pre>" . print_r($produk, true) . "</pre>");
+		// die;
+
+		$data	= array(
+			'title'		 	=> 'Laporan Produk Terpopuler',
+			'content'	 	=> 'laporan/terpopuler',
+			'extra'		 	=> 'laporan/js/js_penjualan',
+			'side21'	 	=> 'active',
+			'colmas_lp'	 	=> 'show hover',
+			'breadcrumb' 	=> 'Laporan Produk Terpopuler/',
+			'data'  		=> $result,
+			'tgl'        	=> @$tgl,
+			'tglShow'		=> @$tglShow,
+			'tanggal_awal'  => @$tanggal_awal,
+			'tanggal_akhir'	=> @$tanggal_akhir,
+			'country'       => $country,
+			'produk'       => $produk,
+		);
+		$this->load->view('layout/wrapper', $data);
+	}
+
+
+	// ====== START LAPORAN UNTUNG RUGI =====
+	public function untungrugi()
 	{
 		if (@!isset($_GET["tanggal"])) {
 			$tanggal_awal       = date("Y-m-d", strtotime("first day of 0 month"));
@@ -267,12 +328,12 @@ class Laporan extends CI_Controller
 		// die;
 
 		$data	= array(
-			'title'		 	=> 'Laporan Penjualan',
-			'content'	 	=> 'laporan/penjualan',
+			'title'		 	=> 'Laporan Untung Rugi',
+			'content'	 	=> 'laporan/untungrugi',
 			'extra'		 	=> 'laporan/js/js_penjualan',
-			'side18'	 	=> 'active',
+			'side20'	 	=> 'active',
 			'colmas_lp'	 	=> 'show hover',
-			'breadcrumb' 	=> 'Laporan Penjualan/',
+			'breadcrumb' 	=> 'Laporan Untung Rugi/',
 			'data'  		=> $result,
 			'penjualan'  	=> $penjualan,
 			'tgl'        	=> @$tgl,
@@ -289,7 +350,7 @@ class Laporan extends CI_Controller
 	}
 
 	// ====== START LAPORAN PENJUALAN =====
-	public function detailpenjualan($id)
+	public function detailuntungrugi($id)
 	{
 		$id = base64_decode($id);
 		if (@!isset($_GET["tanggal"])) {
@@ -493,12 +554,12 @@ class Laporan extends CI_Controller
 		// die;
 
 		$data	= array(
-			'title'		 	=> 'Laporan Penjualan',
-			'content'	 	=> 'laporan/detailpenjualan',
+			'title'		 	=> 'Laporan Untung Rugi',
+			'content'	 	=> 'laporan/detailuntungrugi',
 			'extra'		 	=> 'laporan/js/js_penjualan',
-			'side18'	 	=> 'active',
+			'side20'	 	=> 'active',
 			'colmas_lp'	 	=> 'show hover',
-			'breadcrumb' 	=> 'Laporan Penjualan/',
+			'breadcrumb' 	=> 'Laporan Untung Rugi/',
 			'data'  		=> $result,
 			'id'  			=> $id,
 			'penjualan'  	=> $penjualan,
@@ -514,4 +575,127 @@ class Laporan extends CI_Controller
 		);
 		$this->load->view('layout/wrapper', $data);
 	}
+
+	// ====== START PENJUALAN =====
+	public function penjualan()
+	{
+		if (@!isset($_GET["tanggal"])) {
+			$tanggal_awal       = date("Y-m-d", strtotime("first day of 0 month"));
+			$tanggal_akhir      = date("Y-m-d", strtotime("last day of 0 month"));
+
+			$tglShow = date("d M Y", strtotime("$tanggal_awal")) . ' - ' . date("d M Y", strtotime("$tanggal_akhir"));
+		} else {
+			$tgl     = $this->security->xss_clean($_GET["tanggal"]);
+			$tanggal		= explode("-", $tgl);
+			$tanggal_awal       = date_format(date_create($tanggal[0]), "Y-m-d");
+			$tanggal_akhir      = date_format(date_create($tanggal[1]), "Y-m-d");
+
+			if ($tanggal_awal == $tanggal_akhir) {
+				$tglShow = $tanggal[0];
+			} else {
+				$tglShow = $tgl;
+			}
+		}
+
+		$result = $this->kas->getpenjualan($tanggal_awal, $tanggal_akhir);
+
+		$uniqueitems = array();
+		$uniqueproduk = array();
+		$uniquepaket = array();
+
+		foreach ($result as $byMehtod) {
+			if ($byMehtod['id_reservasi'] == NULL && $byMehtod['jenis'] == 'items') {
+				if ($byMehtod['jns'] == 'LOKAL') {
+					$uniqueitems[$byMehtod['id_barang'] . '1' . '4'] = $byMehtod;
+				}
+				if ($byMehtod['jns'] == 'DOMESTIK') {
+					$uniqueitems[$byMehtod['id_barang'] . '1' . '5'] = $byMehtod;
+				}
+				if ($byMehtod['jns'] == 'INTERNASIONAL') {
+					$uniqueitems[$byMehtod['id_barang'] . '1' . '6'] = $byMehtod;
+				}
+			}
+			if ($byMehtod['id_reservasi'] != NULL && $byMehtod['jenis'] == 'items') {
+				if ($byMehtod['jns'] == 'LOKAL') {
+					$uniqueitems[$byMehtod['id_barang'] . $byMehtod['id_reservasi'] . '1' . '4'] = $byMehtod;
+				}
+				if ($byMehtod['jns'] == 'DOMESTIK') {
+					$uniqueitems[$byMehtod['id_barang'] . $byMehtod['id_reservasi'] . '1' . '5'] = $byMehtod;
+				}
+				if ($byMehtod['jns'] == 'INTERNASIONAL') {
+					$uniqueitems[$byMehtod['id_barang'] . $byMehtod['id_reservasi'] . '1' . '6'] = $byMehtod;
+				}
+			}
+			if ($byMehtod['id_reservasi'] == NULL && $byMehtod['jenis'] == 'produk') {
+				if ($byMehtod['jns'] == 'LOKAL') {
+					$uniqueproduk[$byMehtod['id_barang'] . '2' . '4'] = $byMehtod;
+				}
+				if ($byMehtod['jns'] == 'DOMESTIK') {
+					$uniqueproduk[$byMehtod['id_barang'] . '2' . '5'] = $byMehtod;
+				}
+				if ($byMehtod['jns'] == 'INTERNASIONAL') {
+					$uniqueproduk[$byMehtod['id_barang'] . '2' . '6'] = $byMehtod;
+				}
+			}
+			if ($byMehtod['id_reservasi'] != NULL && $byMehtod['jenis'] == 'produk') {
+				if ($byMehtod['jns'] == 'LOKAL') {
+					$uniqueproduk[$byMehtod['id_barang'] . $byMehtod['id_reservasi'] . '2' . '4'] = $byMehtod;
+				}
+				if ($byMehtod['jns'] == 'DOMESTIK') {
+					$uniqueproduk[$byMehtod['id_barang'] . $byMehtod['id_reservasi'] . '2' . '5'] = $byMehtod;
+				}
+				if ($byMehtod['jns'] == 'INTERNASIONAL') {
+					$uniqueproduk[$byMehtod['id_barang'] . $byMehtod['id_reservasi'] . '2' . '6'] = $byMehtod;
+				}
+			}
+			if ($byMehtod['id_reservasi'] == NULL && $byMehtod['jenis'] == 'paket') {
+				if ($byMehtod['jns'] == 'LOKAL') {
+					$uniquepaket[$byMehtod['id_barang'] . '3' . '4'] = $byMehtod;
+				}
+				if ($byMehtod['jns'] == 'DOMESTIK') {
+					$uniquepaket[$byMehtod['id_barang'] . '3' . '5'] = $byMehtod;
+				}
+				if ($byMehtod['jns'] == 'INTERNASIONAL') {
+					$uniquepaket[$byMehtod['id_barang'] . '3' . '6'] = $byMehtod;
+				}
+			}
+			if ($byMehtod['id_reservasi'] != NULL && $byMehtod['jenis'] == 'paket') {
+				if ($byMehtod['jns'] == 'LOKAL') {
+					$uniquepaket[$byMehtod['id_barang'] . $byMehtod['id_reservasi'] . '3' . '4'] = $byMehtod;
+				}
+				if ($byMehtod['jns'] == 'DOMESTIK') {
+					$uniquepaket[$byMehtod['id_barang'] . $byMehtod['id_reservasi'] . '3' . '5'] = $byMehtod;
+				}
+				if ($byMehtod['jns'] == 'INTERNASIONAL') {
+					$uniquepaket[$byMehtod['id_barang'] . $byMehtod['id_reservasi'] . '3' . '6'] = $byMehtod;
+				}
+			}
+		}
+
+		$list_items = array_values($uniqueitems);
+		$list_produk = array_values($uniqueproduk);
+		$list_paket = array_values($uniquepaket);
+
+		// print("<pre>" . print_r($result, true) . "</pre>");
+		// die;
+
+		$data	= array(
+			'title'		 => 'Laporan Penjualan',
+			'content'	 => 'laporan/penjualan',
+			'extra'		 => 'laporan/js/js_penjualan',
+			'side18'	 => 'active',
+			'colmas_lp'	 => 'hover show',
+			'breadcrumb' => 'Laporan Penjualan /',
+			'data'		 => $result,
+			'tgl'        	=> @$tgl,
+			'tglShow'		=> @$tglShow,
+			'tanggal_awal'  => @$tanggal_awal,
+			'tanggal_akhir'	=> @$tanggal_akhir,
+			'list_items'       	=> $list_items,
+			'list_produk'       	=> $list_produk,
+			'list_paket'       	=> $list_paket,
+		);
+		$this->load->view('layout/wrapper', $data);
+	}
+	// ====== END LAPORAN PENJUALAN =====
 }

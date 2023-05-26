@@ -545,11 +545,22 @@
 
                             <!-- ======  Start Menu Untung Rugi ===== -->
                             <div class="menu-item">
-                                <a class="menu-link <?= @$side17 ?>" href="<?= base_url() ?>laporan/untungrugi">
+                                <a class="menu-link <?= @$side20 ?>" href="<?= base_url() ?>laporan/untungrugi">
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
                                     <span class="menu-title">Untung Rugi</span>
+                                </a>
+                            </div>
+                            <!-- ======  Start Menu Untung Rugi ===== -->
+
+                            <!-- ======  Start Menu Untung Rugi ===== -->
+                            <div class="menu-item">
+                                <a class="menu-link <?= @$side21 ?>" href="<?= base_url() ?>laporan/produkteratas">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">Produk Popular</span>
                                 </a>
                             </div>
                             <!-- ======  Start Menu Untung Rugi ===== -->

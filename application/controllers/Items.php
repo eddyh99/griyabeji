@@ -60,6 +60,37 @@ class Items extends CI_Controller
 
 	public function AddData()
 	{
+		$hpp = $this->input->post("hpp");
+		$new_hpp = str_replace(array('\'', '"', ',', ';', '<', '>'), '', $hpp);
+		$_POST["hpp"] = $new_hpp;
+		$local = $this->input->post("local");
+		$new_local = str_replace(array('\'', '"', ',', ';', '<', '>'), '', $local);
+		$_POST["local"] = $new_local;
+		$domestik = $this->input->post("domestik");
+		$new_domestik = str_replace(array('\'', '"', ',', ';', '<', '>'), '', $domestik);
+		$_POST["domestik"] = $new_domestik;
+		$internasional = $this->input->post("internasional");
+		$new_internasional = str_replace(array('\'', '"', ',', ';', '<', '>'), '', $internasional);
+		$_POST["internasional"] = $new_internasional;
+		$klguide = $this->input->post("klguide");
+		$new_klguide = str_replace(array('\'', '"', ',', ';', '<', '>'), '', $klguide);
+		$_POST["klguide"] = $new_klguide;
+		$kdguide = $this->input->post("kdguide");
+		$new_kdguide = str_replace(array('\'', '"', ',', ';', '<', '>'), '', $kdguide);
+		$_POST["kdguide"] = $new_kdguide;
+		$kiguide = $this->input->post("kiguide");
+		$new_kiguide = str_replace(array('\'', '"', ',', ';', '<', '>'), '', $kiguide);
+		$_POST["kiguide"] = $new_kiguide;
+		$klpangayahan = $this->input->post("klpangayahan");
+		$new_klpangayahan = str_replace(array('\'', '"', ',', ';', '<', '>'), '', $klpangayahan);
+		$_POST["klpangayahan"] = $new_klpangayahan;
+		$kdpangayahan = $this->input->post("kdpangayahan");
+		$new_kdpangayahan = str_replace(array('\'', '"', ',', ';', '<', '>'), '', $kdpangayahan);
+		$_POST["kdpangayahan"] = $new_kdpangayahan;
+		$kipengayahan = $this->input->post("kipengayahan");
+		$new_kipengayahan = str_replace(array('\'', '"', ',', ';', '<', '>'), '', $kipengayahan);
+		$_POST["kipengayahan"] = $new_kipengayahan;
+
 		$this->form_validation->set_rules('namaitems', 'Nama Items', 'trim|required');
 		$this->form_validation->set_rules('hpp', 'HPP', 'trim|required|greater_than[0]');
 		$this->form_validation->set_rules('local', 'Harga Local', 'trim|required');
@@ -166,6 +197,38 @@ class Items extends CI_Controller
 
 	public function updateData()
 	{
+
+		$hpp = $this->input->post("hpp");
+		$new_hpp = str_replace(array('\'', '"', ',', ';', '<', '>'), '', $hpp);
+		$_POST["hpp"] = $new_hpp;
+		$local = $this->input->post("local");
+		$new_local = str_replace(array('\'', '"', ',', ';', '<', '>'), '', $local);
+		$_POST["local"] = $new_local;
+		$domestik = $this->input->post("domestik");
+		$new_domestik = str_replace(array('\'', '"', ',', ';', '<', '>'), '', $domestik);
+		$_POST["domestik"] = $new_domestik;
+		$internasional = $this->input->post("internasional");
+		$new_internasional = str_replace(array('\'', '"', ',', ';', '<', '>'), '', $internasional);
+		$_POST["internasional"] = $new_internasional;
+		$klguide = $this->input->post("klguide");
+		$new_klguide = str_replace(array('\'', '"', ',', ';', '<', '>'), '', $klguide);
+		$_POST["klguide"] = $new_klguide;
+		$kdguide = $this->input->post("kdguide");
+		$new_kdguide = str_replace(array('\'', '"', ',', ';', '<', '>'), '', $kdguide);
+		$_POST["kdguide"] = $new_kdguide;
+		$kiguide = $this->input->post("kiguide");
+		$new_kiguide = str_replace(array('\'', '"', ',', ';', '<', '>'), '', $kiguide);
+		$_POST["kiguide"] = $new_kiguide;
+		$klpangayahan = $this->input->post("klpangayahan");
+		$new_klpangayahan = str_replace(array('\'', '"', ',', ';', '<', '>'), '', $klpangayahan);
+		$_POST["klpangayahan"] = $new_klpangayahan;
+		$kdpangayahan = $this->input->post("kdpangayahan");
+		$new_kdpangayahan = str_replace(array('\'', '"', ',', ';', '<', '>'), '', $kdpangayahan);
+		$_POST["kdpangayahan"] = $new_kdpangayahan;
+		$kipengayahan = $this->input->post("kipengayahan");
+		$new_kipengayahan = str_replace(array('\'', '"', ',', ';', '<', '>'), '', $kipengayahan);
+		$_POST["kipengayahan"] = $new_kipengayahan;
+
 		$this->form_validation->set_rules('namaitems', 'Nama Items', 'trim|required');
 		$this->form_validation->set_rules('hpp', 'HPP', 'trim|required|greater_than[0]');
 		$this->form_validation->set_rules('local', 'Harga Local', 'trim|required');
@@ -357,6 +420,16 @@ class Items extends CI_Controller
 
 	public function AddHargaData()
 	{
+		$local = $this->input->post("local");
+		$new_local = str_replace(array('\'', '"', ',', ';', '<', '>'), '', $local);
+		$_POST["local"] = $new_local;
+		$domestik = $this->input->post("domestik");
+		$new_domestik = str_replace(array('\'', '"', ',', ';', '<', '>'), '', $domestik);
+		$_POST["domestik"] = $new_domestik;
+		$internasional = $this->input->post("internasional");
+		$new_internasional = str_replace(array('\'', '"', ',', ';', '<', '>'), '', $internasional);
+		$_POST["internasional"] = $new_internasional;
+
 		$this->form_validation->set_rules('namaitems', 'Nama Items', 'trim|required');
 		$this->form_validation->set_rules('local', 'Harga Local', 'trim|required');
 		$this->form_validation->set_rules('domestik', 'Harga Domestik', 'trim|required');
