@@ -3,9 +3,9 @@ if (isset($this->session->userdata['logged_status'])) {
     //Menggabungkan semua bagian halaman
     require_once('header.php');
 
-    if ($this->uri->segment(1) != "reservasi") {
-        require_once('sidebar.php');
-    }
+    // if ($this->uri->segment(1) != "reservasi") {
+    require_once('sidebar.php');
+    // }
 
     if (isset($content)) {
         $this->load->view($content);

@@ -106,12 +106,21 @@ class Pengguna extends CI_Controller
 			"role"      => $role,
 		);
 
+		$datapengayah = NULL;
+		if ($role == 'pengayah') {
+			$datapengayah		= array(
+				"nama"      => $nama,
+				"whatsapp"  => '0',
+				"username"  => $username,
+				"userid"	=> $_SESSION["logged_status"]["username"]
+			);
+		}
+
 		// print_r(json_encode($data));
 		// die;
 
 		// Checking Success and Error AddData
-		$result		= $this->pengguna->insertData($data);
-
+		$result		= $this->pengguna->insertData($data, $datapengayah);
 		// untuk sukses
 		// $result["code"]=0;
 

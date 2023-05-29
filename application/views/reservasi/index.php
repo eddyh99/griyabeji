@@ -12,10 +12,10 @@
 		</div>
 		<div class="col">
 			<label>Pengayah (optional)</label>
-			<select name="pengayah" id="pengayah" class="form-control rounded-pill">
+			<select name="pengayah" id="pengayah" class="form-control rounded-pill" <?= ($_SESSION["logged_status"]["role"] == "pengayah") ? 'disabled' : ''; ?>>
 				<option></option>
 				<?php foreach ($pengayah as $dt) { ?>
-					<option value="<?= $dt["id"] ?>"><?= $dt["nama"] ?></option>
+					<option value="<?= $dt["id"] ?>" <?= ($_SESSION["logged_status"]["role"] == "pengayah" && $dt["username"] == $_SESSION["logged_status"]["username"]) ? 'selected' : ''; ?>><?= $dt["nama"] ?></option>
 				<?php } ?>
 			</select>
 		</div>

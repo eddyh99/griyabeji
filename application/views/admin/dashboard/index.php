@@ -5,28 +5,18 @@
 	<div id="kt_app_content" class="app-content flex-column-fluid">
 		<!-- ======= Start Content container ======== -->
 		<div id="kt_app_content_container" class="app-container container-fluid">
-			
-			<!-- ======= Start Row Content Canva JS ====== -->
-			<div class="row">
-				<div class="col-12 mb-md-5 mb-xl-10 mt-10">
-					<div class="content rounded-3 shadow-lg" style="background-color:white;height:100%">
-						<div class="container-fluid">
-							<!-- Start -->
-							<div class="form-group row py-10">
-								<div class="col-md-6 ">
-									<div id="netincome"  style="height: 300px; width: auto;margin-left:10px"></div>                
-								</div>
-								<div class="col-md-6">
-									<div id="brand"  style="height: 300px; width: auto;margin-left:10px"></div>                
-								</div>
-							</div>
-							<div class="form-group row">
-								<div class="col-md-12">
-									<div id="brandstore" style="height: 300px; width: auto;margin-left:10px"></div>                
-								</div>
-							</div>
 
-							<!-- End Container -->
+			<!-- ======= Start Row Content Canva JS ====== -->
+			<div class="row my-10">
+				<div class="card">
+					<div class="card-body">
+						<div class="row">
+							<div class="col-6">
+								<div id="penjualan" style="height: 370px; width: auto;margin-left:10px"></div>
+							</div>
+							<div class="col-6">
+								<div id="country" style="height: 370px; width: auto;margin-left:10px"></div>
+							</div>
 						</div>
 					</div>
 				</div>

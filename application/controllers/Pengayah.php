@@ -73,6 +73,8 @@ class Pengayah extends CI_Controller
 	public function AddData()
 	{
 		$this->form_validation->set_rules('nama', 'Nama', 'trim|required');
+		$this->form_validation->set_rules('username', 'Username', 'trim|required');
+		$this->form_validation->set_rules('password', 'Password', 'trim|required');
 		$this->form_validation->set_rules('whatsapp', 'Whatsapp', 'trim|required');
 
 		if ($this->form_validation->run() == FALSE) {
@@ -83,19 +85,34 @@ class Pengayah extends CI_Controller
 
 		$nama	    = $this->security->xss_clean($this->input->post('nama'));
 		$whatsapp	= $this->security->xss_clean($this->input->post('whatsapp'));
+		$username	= $this->security->xss_clean($this->input->post('username'));
+		$password	= $this->security->xss_clean($this->input->post('password'));
 
 
 		$data		= array(
 			"nama"      => $nama,
 			"whatsapp"  => $whatsapp,
+			"username"  => $username,
 			"userid"	=> $_SESSION["logged_status"]["username"]
 		);
+
+		$datapengguna		= array(
+			"username"  => $username,
+			"passwd"    => sha1($password),
+			"nama"      => $nama,
+			"role"      => 'pengayah',
+			"passcode"  => '',
+			"status"  => 'no',
+		);
+
+		// print_r($datapengguna);
+		// die;
 
 		// print_r(json_encode($data));
 		// die;
 
 		// Checking Success and Error AddData
-		$result		= $this->pengayah->insertData($data);
+		$result		= $this->pengayah->insertData($data, $datapengguna);
 
 		// untuk sukses
 		// $result["code"]=0;

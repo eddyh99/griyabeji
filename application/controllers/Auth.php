@@ -13,6 +13,9 @@ class Auth extends CI_Controller
 	public function index()
 	{
 		if (isset($this->session->userdata['logged_status'])) {
+			if ($this->session->userdata['logged_status']['role'] == 'pengayah') {
+				redirect('reservasi');
+			}
 			redirect("dashboard");
 		}
 
@@ -48,6 +51,9 @@ class Auth extends CI_Controller
 				'is_login'  => true
 			);
 			$this->session->set_userdata('logged_status', $session_data);
+			if ($result->role == 'pengayah') {
+				redirect('reservasi');
+			}
 			redirect('dashboard');
 		} else {
 			$this->session->set_flashdata('error', "username atau password salah, mohon periksa ulang");
