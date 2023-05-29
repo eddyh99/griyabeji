@@ -7,8 +7,8 @@
         <div id="kt_app_content_container" class="app-container container-fluid">
 
             <!-- ======= Start Row Content Canva JS ====== -->
-            <div class="row">
-                <div class="col-md-12 text-right my-10">
+            <div class="row my-10">
+                <div class="col-md-12 text-right mb-5">
                     <a class="btn btn-primary" href="<?= base_url() ?>paket/tambah">Tambah</a>
                 </div>
                 <div class="card">

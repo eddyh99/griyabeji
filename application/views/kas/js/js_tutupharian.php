@@ -19,6 +19,27 @@
     }
   });
 
+  $('#harian').DataTable({
+    ordering: false,
+    bPaginate: false,
+    bFilter: false,
+    bInfo: false,
+    dom: 'Bfrtip',
+    buttons: [{
+        extend: 'excelHtml5',
+        exportOptions: {
+          columns: [0, 1, 2]
+        }
+      },
+      {
+        extend: 'pdfHtml5',
+        exportOptions: {
+          columns: [0, 1, 2]
+        }
+      }
+    ]
+  });
+
   function printDiv(divName) {
     var printContents = document.getElementById(divName).innerHTML;
     var originalContents = document.body.innerHTML;

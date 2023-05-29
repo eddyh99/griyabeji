@@ -14,7 +14,7 @@
                     <div class="alert alert-danger"><?= $_SESSION["gagal"] ?></div>
                 <?php } ?>
 
-                <div class="col-md-8 card">
+                <div class="col-lg-10 card">
                     <div class="card-body">
                         <form action="<?= base_url() ?>kas/komisiguide/" method="get">
                             <div class="row form-group">
@@ -45,113 +45,114 @@
 
                                 <div class="col-sm-12 my-5">
                                     <div class="d-flex col flex-column">
-                                        <div class="w-100 col-6 d-flex justify-content-between align-items-center px-2 mt-5">
-                                            <label class="col-form-label col-5"><b>Nama</b></label>
-                                            <label class="col-form-label col"><b>Satuan</b></label>
-                                            <label class="col-form-label pe-2 text-right"><b>Total</b></label>
-                                        </div>
-
-                                        <?php if (empty($guide)) { ?>
-                                            <div class="w-100 col-6 d-flex justify-content-between align-items-center px-2 mt-5">
-                                                <label class="col-form-label col-12 text-center"><i>Tidak ada.</i></label>
-                                            </div>
-                                        <?php } ?>
-
-                                        <?php
-                                        $no = 1;
-                                        foreach ($guide as $dtguide) {
-                                            $komisi = 0;
-                                            foreach ($penjualan as $dt) {
-                                                $jmlBarang = ($dt['jml'] == 0) ? 1 : $dt['jml'];
-                                                if ($dtguide['guide_id'] == $dt['guide_id']) {
-                                                    if ($dt['jns'] == 'LOKAL') {
-                                                        $komisi += ($dt['komisi_guide_lokal'] * $jmlBarang);
-                                                    } elseif ($dt['jns'] == 'DOMESTIK') {
-                                                        $komisi += ($dt['komisi_guide_domestik'] * $jmlBarang);
-                                                    } else {
-                                                        if ($dt['jenis'] == 'produk' || $dt['jenis'] == 'paket') {
-                                                            if ($dt['pengayah_id'] == NULL) {
-                                                                if ($dt['is_double'] == 'yes') {
-                                                                    $komisi += (($dt['komisi_guide_internasional'] * 2) * $jmlBarang);
+                                        <table id="komisi" class="table" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Keterangan</th>
+                                                    <th class="text-center">Jumlah</th>
+                                                    <th>Harga@</th>
+                                                    <th class="text-end pe-10">Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                $no = 1;
+                                                foreach ($guide as $dtguide) {
+                                                    $komisi = 0;
+                                                    foreach ($penjualan as $dt) {
+                                                        $jmlBarang = ($dt['jml'] == 0) ? 1 : $dt['jml'];
+                                                        if ($dtguide['guide_id'] == $dt['guide_id']) {
+                                                            if ($dt['jns'] == 'LOKAL') {
+                                                                $komisi += ($dt['komisi_guide_lokal'] * $jmlBarang);
+                                                            } elseif ($dt['jns'] == 'DOMESTIK') {
+                                                                $komisi += ($dt['komisi_guide_domestik'] * $jmlBarang);
+                                                            } else {
+                                                                if ($dt['jenis'] == 'produk' || $dt['jenis'] == 'paket') {
+                                                                    if ($dt['pengayah_id'] == NULL) {
+                                                                        if ($dt['is_double'] == 'yes') {
+                                                                            $komisi += (($dt['komisi_guide_internasional'] * 2) * $jmlBarang);
+                                                                        } else {
+                                                                            $komisi += ($dt['komisi_guide_internasional'] * $jmlBarang);
+                                                                        }
+                                                                    } else {
+                                                                        $komisi += ($dt['komisi_guide_internasional'] * $jmlBarang);
+                                                                    }
                                                                 } else {
                                                                     $komisi += ($dt['komisi_guide_internasional'] * $jmlBarang);
                                                                 }
-                                                            } else {
-                                                                $komisi += ($dt['komisi_guide_internasional'] * $jmlBarang);
-                                                            }
-                                                        } else {
-                                                            $komisi += ($dt['komisi_guide_internasional'] * $jmlBarang);
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                            if ($komisi != 0) {
-                                        ?>
-                                                <div class="w-100 col-6 d-flex justify-content-between align-items-center px-2 mt-5">
-                                                    <label class="col-form-label col-5"><b><?= $no . '. ' . $dtguide['nama_guide'] ?></b></label>
-                                                    <label class="col-form-label pe-2 text-right"><b><?= number_format($komisi) ?></b></label>
-                                                </div>
-
-                                                <?php
-                                                foreach ($barang as $dtBarang) {
-                                                    $jmlBarang = 0;
-                                                    $hrgBarang = 0;
-                                                    foreach ($penjualan as $dt) {
-                                                        if ($dt['guide_id'] == $dtguide['guide_id']) {
-                                                            if ($dt['jml'] == 0) {
-                                                                $jml = 1;
-                                                            } elseif ($dt['jml'] > 0) {
-                                                                $jml = $dt['jml'];
-                                                            }
-
-                                                            if ($dt['id_barang'] == $dtBarang['id_barang'] && $dt['jenis'] == $dtBarang['jenis'] && $dt['id_reservasi'] == $dtBarang['id_reservasi'] && $dt['jns'] == $dtBarang['jns']) {
-                                                                $jmlBarang += $jml;
                                                             }
                                                         }
                                                     }
-
-                                                    if ($dtBarang['guide_id'] == $dtguide['guide_id']) {
-                                                        if ($dtBarang['jns'] == 'LOKAL') {
-                                                            $hrgBarang = $dtBarang['komisi_guide_lokal'];
-                                                        } elseif ($dtBarang['jns'] == 'DOMESTIK') {
-                                                            $hrgBarang = $dtBarang['komisi_guide_domestik'];
-                                                        } else {
-                                                            if ($dtBarang['is_double'] == 'yes') {
-                                                                $hrgBarang = $dtBarang['komisi_guide_internasional'] * 2;
-                                                            } else {
-                                                                $hrgBarang = $dtBarang['komisi_guide_internasional'];
-                                                            }
-                                                        }
-                                                    }
-
-                                                    $totalkomisiperproduk = $hrgBarang * $jmlBarang;
-
-                                                    if ($totalkomisiperproduk != 0) {
-                                                        if ($dtBarang['id_reservasi'] == NULL) {
+                                                    if ($komisi != 0) {
                                                 ?>
-                                                            <div class="w-100 col-6 d-flex justify-content-between align-items-center px-2 ">
-                                                                <label class="col-form-label col-5">- <?= $dtBarang['namabarang'] ?></label>
-                                                                <label class="col-form-label col"> <?= $jmlBarang ?> x <?= number_format($hrgBarang) ?>
-                                                                    <?= ($dtBarang['jns'] == 'INTERNASIONAL' && $dtBarang['is_double'] == 'yes') ? 'x 2<i>(*Bonus)</i>' : '' ?></label>
-                                                                <label class="col-form-label pe-2 text-right"><?= number_format($totalkomisiperproduk) ?></label>
-                                                            </div>
+
+                                                        <tr>
+                                                            <td class="col-4 fw-bold"><?= $no . '. ' . $dtguide['nama_guide'] ?></td>
+                                                            <td class="col-2 text-center"></td>
+                                                            <td class="col-2 text-center"></td>
+                                                            <td class="col-2 text-end pe-10"><?= number_format($komisi) ?></td>
+                                                        </tr>
                                                         <?php
-                                                        } else {
+                                                        foreach ($barang as $dtBarang) {
+                                                            $jmlBarang = 0;
+                                                            $hrgBarang = 0;
+                                                            foreach ($penjualan as $dt) {
+                                                                if ($dt['guide_id'] == $dtguide['guide_id']) {
+                                                                    if ($dt['jml'] == 0) {
+                                                                        $jml = 1;
+                                                                    } elseif ($dt['jml'] > 0) {
+                                                                        $jml = $dt['jml'];
+                                                                    }
+
+                                                                    if ($dt['id_barang'] == $dtBarang['id_barang'] && $dt['jenis'] == $dtBarang['jenis'] && $dt['id_reservasi'] == $dtBarang['id_reservasi'] && $dt['jns'] == $dtBarang['jns']) {
+                                                                        $jmlBarang += $jml;
+                                                                    }
+                                                                }
+                                                            }
+
+                                                            if ($dtBarang['guide_id'] == $dtguide['guide_id']) {
+                                                                if ($dtBarang['jns'] == 'LOKAL') {
+                                                                    $hrgBarang = $dtBarang['komisi_guide_lokal'];
+                                                                } elseif ($dtBarang['jns'] == 'DOMESTIK') {
+                                                                    $hrgBarang = $dtBarang['komisi_guide_domestik'];
+                                                                } else {
+                                                                    if ($dtBarang['is_double'] == 'yes') {
+                                                                        $hrgBarang = $dtBarang['komisi_guide_internasional'] * 2;
+                                                                    } else {
+                                                                        $hrgBarang = $dtBarang['komisi_guide_internasional'];
+                                                                    }
+                                                                }
+                                                            }
+
+                                                            $totalkomisiperproduk = $hrgBarang * $jmlBarang;
+
+                                                            if ($totalkomisiperproduk != 0) {
                                                         ?>
-                                                            <div class="w-100 col-6 d-flex justify-content-between align-items-center px-2 ">
-                                                                <label class="col-form-label col-5">- <?= $dtBarang['namabarang'] ?> <i>(Reservasi)</i></label>
-                                                                <label class="col-form-label col"> <?= $jmlBarang ?> x <?= number_format($hrgBarang) ?>
-                                                                    <?= ($dtBarang['jns'] == 'INTERNASIONAL' && $dtBarang['is_double'] == 'yes') ? 'x 2<i>(*Bonus)</i>' : '' ?></label>
-                                                                <label class="col-form-label pe-2 text-right"><?= number_format($totalkomisiperproduk) ?></label>
-                                                            </div>
-                                        <?php
+
+                                                                <tr>
+                                                                    <td class="col-4 ps-5 text-start">
+                                                                        -
+                                                                        <?= $dtBarang['namabarang'] ?>
+                                                                        <?= ($dtBarang['jns'] == 'LOKAL') ? '<i>(Lokal)</i>' : ''; ?>
+                                                                        <?= ($dtBarang['jns'] == 'DOMESTIK') ? '<i>(Domestik)</i>' : ''; ?>
+                                                                        <?= ($dtBarang['jns'] == 'INTERNASIONAL') ? '<i>(Internasional)</i>' : ''; ?>
+                                                                        <?= ($dtBarang['id_reservasi'] != NULL) ? '<i>(Reservasi)</i>' : ''; ?>
+                                                                    </td>
+                                                                    <td class="col-2 text-center"><?= $jmlBarang ?></td>
+                                                                    <td class="col-2">
+                                                                        <?= number_format($hrgBarang) ?>
+                                                                        <?= ($dtBarang['jns'] == 'INTERNASIONAL' && $dtBarang['is_double'] == 'yes') ? ' x 2<i>(*Bonus)</i>' : '' ?>
+                                                                    </td>
+                                                                    <td class="col-2 text-end pe-10"><?= number_format($totalkomisiperproduk) ?></td>
+                                                                </tr>
+                                                <?php
+                                                            }
                                                         }
                                                     }
+                                                    $no++;
                                                 }
-                                            }
-                                            $no++;
-                                        }
-                                        ?>
+                                                ?>
+                                        </table>
                                     </div>
                                 </div>
                             </div>

@@ -15,6 +15,7 @@ class Kas extends CI_Controller
 		$this->load->model('admin/mdl_items', "items");
 		$this->load->model('admin/mdl_produk', "produk");
 		$this->load->model('admin/mdl_paket', "paket");
+		$this->load->model('admin/Mdl_pengguna', "pengguna");
 	}
 
 	// ====== START KAS =====
@@ -71,9 +72,7 @@ class Kas extends CI_Controller
 
 	public function tambah()
 	{
-
 		$stores = $this->store->Liststore();
-
 
 		$data = array(
 			'title'		 => NAMETITLE . ' - Tambah Data KAS',
@@ -88,6 +87,12 @@ class Kas extends CI_Controller
 
 	public function AddData()
 	{
+		$nominal = $this->input->post("nominal");
+		$new_nominal = str_replace(array(
+			'\'', '"',
+			',', ';', '<', '>'
+		), '', $nominal);
+		$_POST["nominal"] = $new_nominal;
 
 		$this->form_validation->set_rules('tanggal', 'Tanggal', 'trim|required');
 		$this->form_validation->set_rules('storename', 'Nama Store', 'trim|required');
@@ -101,12 +106,25 @@ class Kas extends CI_Controller
 			return;
 		}
 
+
 		$tanggal	    = $this->security->xss_clean($this->input->post('tanggal'));
 		$storename	    = $this->security->xss_clean($this->input->post('storename'));
 		$jenis	    	= $this->security->xss_clean($this->input->post('jenis'));
 		$nominal	    = $this->security->xss_clean($this->input->post('nominal'));
 		$keterangan		= $this->security->xss_clean($this->input->post('keterangan'));
+		$keterangan		= $this->security->xss_clean($this->input->post('keterangan'));
+		$approve		= $this->security->xss_clean($this->input->post('approve'));
 
+		if ($jenis == 'Keluar') {
+			if ($nominal >= 1000000) {
+				$result = $this->pengguna->check_passcode($approve);
+				if (@$result["code"] != 0) {
+					$this->session->set_flashdata('message', 'Gagal! Passcode salah');
+					redirect(base_url() . "kas/tambah");
+					return;
+				}
+			}
+		}
 
 		$data		= array(
 			"tanggal"     	=> date("Y-m-d H:i:s"),
@@ -117,21 +135,8 @@ class Kas extends CI_Controller
 			"userid"		=> $_SESSION["logged_status"]["username"]
 		);
 
-		// print_r(json_encode($data));
-		// die;
-
 		// Checking Success and Error AddData
 		$result		= $this->kas->insertData($data);
-
-		// untuk sukses
-		// $result["code"]=0;
-
-		//untuk gagal
-		// $result["code"]=5011;
-		// $result["message"]="Data gagal di inputkan";
-
-
-
 		if ($result["code"] == 0) {
 			$this->session->set_flashdata('message', $this->message->success_msg());
 			redirect(base_url() . "kas");

@@ -14,9 +14,9 @@
                     <div class="alert alert-danger"><?= $_SESSION["gagal"] ?></div>
                 <?php } ?>
 
-                <div class="col-md-8 card">
+                <div class="col-lg-10 card">
                     <div class="card-body">
-                        <form action="<?= base_url() ?>kas/komisipengayah/" method="get">
+                        <form action="<?= base_url() ?>laporan/penjualan/" method="get">
                             <div class="row form-group">
                                 <label class="col-form-label col">Tanggal</label>
                                 <div class="col">
@@ -49,132 +49,281 @@
                                             <thead>
                                                 <tr>
                                                     <th>Keterangan</th>
-                                                    <th class="text-end pe-10">Komisi</th>
-                                                    <th class="text-end pe-10">Cost</th>
-                                                    <th class="text-end pe-10">Laba</th>
-                                                    <th class="text-end pe-10">Action</th>
+                                                    <th class="text-center">Jenis</th>
+                                                    <th class="text-center">Jumlah</th>
+                                                    <th class="text-end pe-10">Harga@</th>
+                                                    <th class="text-end pe-10">Total</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <?php
                                                 $totalPenjualan = 0;
-                                                foreach ($penjualan as $pj) {
-                                                    $komisi = 0;
-                                                    $cost = 0;
-                                                    $laba = 0;
-                                                    $penjualan = 0;
-                                                    $idTransaksi = $pj['id'] . date("Ymd", strtotime($pj['tanggal']));
-
-                                                    if ($pj['pengayah_id'] != NULL) {
-                                                        foreach ($data as $dt) {
-                                                            $jmlBarang = ($dt['jml'] == 0) ? 1 : $dt['jml'];
-                                                            if ($pj['pengayah_id'] == $dt['pengayah_id'] && $pj['id'] == $dt['id']) {
-                                                                if ($dt['jns'] == 'LOKAL') {
-                                                                    $komisi += ($dt['komisi_pengayah_lokal'] * $jmlBarang);
-                                                                } elseif ($dt['jns'] == 'DOMESTIK') {
-                                                                    $komisi += ($dt['komisi_pengayah_domestik'] * $jmlBarang);
-                                                                } else {
-                                                                    $komisi += ($dt['komisi_pengayah_internasional'] * $jmlBarang);
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-
-                                                    if ($pj['guide_id'] != NULL) {
-                                                        foreach ($data as $dt) {
-                                                            $jmlBarang = ($dt['jml'] == 0) ? 1 : $dt['jml'];
-                                                            if ($pj['guide_id'] == $dt['guide_id'] && $pj['id'] == $dt['id']) {
-                                                                if ($dt['jns'] == 'LOKAL') {
-                                                                    $komisi += ($dt['komisi_guide_lokal'] * $jmlBarang);
-                                                                } elseif ($dt['jns'] == 'DOMESTIK') {
-                                                                    $komisi += ($dt['komisi_guide_domestik'] * $jmlBarang);
-                                                                } else {
-                                                                    if ($dt['jenis'] == 'produk' || $dt['jenis'] == 'paket') {
-                                                                        if ($dt['pengayah_id'] == NULL) {
-                                                                            if ($dt['is_double'] == 'yes') {
-                                                                                $komisi += (($dt['komisi_guide_internasional'] * 2) * $jmlBarang);
-                                                                            } else {
-                                                                                $komisi += ($dt['komisi_guide_internasional'] * $jmlBarang);
-                                                                            }
-                                                                        } else {
-                                                                            $komisi += ($dt['komisi_guide_internasional'] * $jmlBarang);
-                                                                        }
-                                                                    } else {
-                                                                        $komisi += ($dt['komisi_guide_internasional'] * $jmlBarang);
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-
+                                                foreach ($list_items as $br) {
+                                                    $jumlahBarang = 0;
+                                                    $penjualanBarang = 0;
                                                     foreach ($data as $dt) {
-                                                        $jmlBarang = ($dt['jml'] == 0) ? 1 : $dt['jml'];
-                                                        if ($dt['id'] == $pj['id']) {
-
-                                                            if ($dt['jenis'] == 'items') {
-                                                                $cost += ($dt['hpp'] * $jmlBarang);
+                                                        if (
+                                                            $br['id_barang'] == $dt['id_barang']
+                                                            && $br['jenis'] == $dt['jenis']
+                                                            && $br['id_reservasi'] == $dt['id_reservasi']
+                                                            && $br['jns'] == $dt['jns']
+                                                        ) {
+                                                            $jmlBarang = ($dt['jml'] == 0) ? 1 : $dt['jml'];
+                                                            if (
+                                                                $dt['lokal'] != $br['lokal'] &&
+                                                                $dt['domestik'] != $br['domestik'] &&
+                                                                $dt['internasional'] != $br['internasional']
+                                                            ) {
+                                                                $penjualanBarang = 0;
+                                                                $jumlahBarang = 0;
                                                                 if ($dt['jns'] == 'LOKAL') {
-                                                                    $penjualan += ($dt['lokal'] * $jmlBarang);
+                                                                    $hargaSatuan = $dt['lokal'];
+                                                                    $penjualanBarang += ($dt['lokal'] * $jmlBarang);
+                                                                    $totalPenjualan += ($dt['lokal'] * $jmlBarang);
                                                                 } elseif ($dt['jns'] == 'DOMESTIK') {
-                                                                    $penjualan += ($dt['domestik'] * $jmlBarang);
+                                                                    $hargaSatuan = $dt['domestik'];
+                                                                    $penjualanBarang += ($dt['domestik'] * $jmlBarang);
+                                                                    $totalPenjualan += ($dt['domestik'] * $jmlBarang);
                                                                 } else {
-                                                                    $penjualan += ($dt['internasional'] * $jmlBarang);
+                                                                    $hargaSatuan = $dt['internasional'];
+                                                                    $penjualanBarang += ($dt['internasional'] * $jmlBarang);
+                                                                    $totalPenjualan += ($dt['internasional'] * $jmlBarang);
                                                                 }
-                                                            }
-
-                                                            if ($dt['jenis'] == 'produk') {
-                                                                foreach ($listItemsbyProduk as $produk) {
-                                                                    if ($dt['id'] == $produk['id'] && $dt['id_reservasi'] == $produk['id_reservasi'] && $dt['id_barang'] == $produk['id_barang']) {
-                                                                        foreach ($produk['items'] as $item) {
-                                                                            $cost += ($item['hpp'] * $jmlBarang);
-                                                                        }
-                                                                        if ($dt['jns'] == 'LOKAL') {
-                                                                            $penjualan += ($dt['lokal'] * $jmlBarang);
-                                                                        } elseif ($dt['jns'] == 'DOMESTIK') {
-                                                                            $penjualan += ($dt['domestik'] * $jmlBarang);
-                                                                        } else {
-                                                                            $penjualan += ($dt['internasional'] * $jmlBarang);
-                                                                        }
-                                                                    }
+                                                                $jumlahBarang += $jmlBarang;
+                                                ?>
+                                                                <tr>
+                                                                    <td class="col-4">
+                                                                        <?= $br['namabarang'] ?>
+                                                                        <?= ($br['jns'] == 'LOKAL') ? '<i>(Lokal)</i>' : ''; ?>
+                                                                        <?= ($br['jns'] == 'DOMESTIK') ? '<i>(Domestik)</i>' : ''; ?>
+                                                                        <?= ($br['jns'] == 'INTERNASIONAL') ? '<i>(Internasional)</i>' : ''; ?>
+                                                                        <?= ($br['id_reservasi'] != NULL) ? '<i>(Reservasi)</i>' : ''; ?>
+                                                                    </td>
+                                                                    <td class="col-2 text-center text-capitalize">
+                                                                        <?= $br['jenis'] ?>
+                                                                    </td>
+                                                                    <td class="col-2 text-center"><?= $jumlahBarang ?></td>
+                                                                    <td class="col-2 text-end pe-10"><?= number_format($hargaSatuan) ?></td>
+                                                                    <td class="col-2 text-end pe-10"><?= number_format($penjualanBarang) ?></td>
+                                                                </tr>
+                                                    <?php
+                                                            } else {
+                                                                if ($dt['jns'] == 'LOKAL') {
+                                                                    $hargaSatuan = $dt['lokal'];
+                                                                    $penjualanBarang += ($dt['lokal'] * $jmlBarang);
+                                                                    $totalPenjualan += ($dt['lokal'] * $jmlBarang);
+                                                                } elseif ($dt['jns'] == 'DOMESTIK') {
+                                                                    $hargaSatuan = $dt['domestik'];
+                                                                    $penjualanBarang += ($dt['domestik'] * $jmlBarang);
+                                                                    $totalPenjualan += ($dt['domestik'] * $jmlBarang);
+                                                                } else {
+                                                                    $hargaSatuan = $dt['internasional'];
+                                                                    $penjualanBarang += ($dt['internasional'] * $jmlBarang);
+                                                                    $totalPenjualan += ($dt['internasional'] * $jmlBarang);
                                                                 }
-                                                            }
-                                                            if ($dt['jenis'] == 'paket') {
-                                                                foreach ($listItemsbyPaket as $paket) {
-                                                                    if ($dt['id'] == $paket['id'] && $dt['id_reservasi'] == $paket['id_reservasi'] && $dt['id_barang'] == $paket['id_barang']) {
-                                                                        foreach ($paket['produk'] as $produk) {
-                                                                            foreach ($produk['items'] as $item) {
-                                                                                $cost += ($item['hpp'] * $jmlBarang);
-                                                                                if ($dt['jns'] == 'LOKAL') {
-                                                                                    $penjualan += ($item['lokal'] * $jmlBarang);
-                                                                                } elseif ($dt['jns'] == 'DOMESTIK') {
-                                                                                    $penjualan += ($item['domestik'] * $jmlBarang);
-                                                                                } else {
-                                                                                    $penjualan += ($item['internasional'] * $jmlBarang);
-                                                                                }
-                                                                            }
-                                                                        }
-                                                                    }
-                                                                }
+                                                                $jumlahBarang += $jmlBarang;
                                                             }
                                                         }
                                                     }
 
-                                                    $laba = $penjualan - $cost - $komisi;
-                                                    $totalPenjualan += $laba;
-                                                ?>
+                                                    ?>
                                                     <tr>
-                                                        <td class="col-6"><?= $idTransaksi ?></td>
-                                                        <td class="col-2 text-end pe-10"><?= number_format($komisi) ?></td>
-                                                        <td class="col-2 text-end pe-10"><?= number_format($cost) ?></td>
-                                                        <td class="col-2 text-end pe-10"><?= ($laba < 0) ? '<span class="text-danger">' . number_format($laba) . '</span>' : '<span>' . number_format($laba) . '</span>'; ?></td>
-                                                        <td class="col-2 text-end pe-10"><a href="<?= base_url() ?>laporan/detailpenjualan/<?= base64_encode($pj['id']) ?>" class="btn btn-sm btn-info">Detail</a></td>
+                                                        <td class="col-4">
+                                                            <?= $br['namabarang'] ?>
+                                                            <?= ($br['jns'] == 'LOKAL') ? '<i>(Lokal)</i>' : ''; ?>
+                                                            <?= ($br['jns'] == 'DOMESTIK') ? '<i>(Domestik)</i>' : ''; ?>
+                                                            <?= ($br['jns'] == 'INTERNASIONAL') ? '<i>(Internasional)</i>' : ''; ?>
+                                                            <?= ($br['id_reservasi'] != NULL) ? '<i>(Reservasi)</i>' : ''; ?>
+                                                        </td>
+                                                        <td class="col-2 text-center text-capitalize">
+                                                            <?= $br['jenis'] ?>
+                                                        </td>
+                                                        <td class="col-2 text-center"><?= $jumlahBarang ?></td>
+                                                        <td class="col-2 text-end pe-10"><?= number_format($hargaSatuan) ?></td>
+                                                        <td class="col-2 text-end pe-10"><?= number_format($penjualanBarang) ?></td>
+                                                    </tr>
+                                                <?php } ?>
+
+                                                <?php
+                                                foreach ($list_produk as $br) {
+                                                    $jumlahBarang = 0;
+                                                    $penjualanBarang = 0;
+                                                    foreach ($data as $dt) {
+                                                        if (
+                                                            $br['id_barang'] == $dt['id_barang']
+                                                            && $br['jenis'] == $dt['jenis']
+                                                            && $br['id_reservasi'] == $dt['id_reservasi']
+                                                            && $br['jns'] == $dt['jns']
+                                                        ) {
+                                                            $jmlBarang = ($dt['jml'] == 0) ? 1 : $dt['jml'];
+                                                            if (
+                                                                $dt['lokal'] != $br['lokal'] &&
+                                                                $dt['domestik'] != $br['domestik'] &&
+                                                                $dt['internasional'] != $br['internasional']
+                                                            ) {
+                                                                $jumlahBarang = 0;
+                                                                $penjualanBarang = 0;
+                                                                if ($dt['jns'] == 'LOKAL') {
+                                                                    $hargaSatuan = $dt['lokal'];
+                                                                    $penjualanBarang += ($dt['lokal'] * $jmlBarang);
+                                                                    $totalPenjualan += ($dt['lokal'] * $jmlBarang);
+                                                                } elseif ($dt['jns'] == 'DOMESTIK') {
+                                                                    $hargaSatuan = $dt['domestik'];
+                                                                    $penjualanBarang += ($dt['domestik'] * $jmlBarang);
+                                                                    $totalPenjualan += ($dt['domestik'] * $jmlBarang);
+                                                                } else {
+                                                                    $hargaSatuan = $dt['internasional'];
+                                                                    $penjualanBarang += ($dt['internasional'] * $jmlBarang);
+                                                                    $totalPenjualan += ($dt['internasional'] * $jmlBarang);
+                                                                }
+                                                                $jumlahBarang += $jmlBarang;
+                                                ?>
+                                                                <tr>
+                                                                    <td class="col-4">
+                                                                        <?= $br['namabarang'] ?>
+                                                                        <?= ($br['jns'] == 'LOKAL') ? '<i>(Lokal)</i>' : ''; ?>
+                                                                        <?= ($br['jns'] == 'DOMESTIK') ? '<i>(Domestik)</i>' : ''; ?>
+                                                                        <?= ($br['jns'] == 'INTERNASIONAL') ? '<i>(Internasional)</i>' : ''; ?>
+                                                                        <?= ($br['id_reservasi'] != NULL) ? '<i>(Reservasi)</i>' : ''; ?>
+                                                                    </td>
+                                                                    <td class="col-2 text-center text-capitalize">
+                                                                        <?= $br['jenis'] ?>
+                                                                    </td>
+                                                                    <td class="col-2 text-center"><?= $jumlahBarang ?></td>
+                                                                    <td class="col-2 text-end pe-10"><?= number_format($hargaSatuan) ?></td>
+                                                                    <td class="col-2 text-end pe-10"><?= number_format($penjualanBarang) ?></td>
+                                                                </tr>
+
+                                                    <?php
+                                                            } else {
+                                                                if ($dt['jns'] == 'LOKAL') {
+                                                                    $hargaSatuan = $dt['lokal'];
+                                                                    $penjualanBarang += ($dt['lokal'] * $jmlBarang);
+                                                                    $totalPenjualan += ($dt['lokal'] * $jmlBarang);
+                                                                } elseif ($dt['jns'] == 'DOMESTIK') {
+                                                                    $hargaSatuan = $dt['domestik'];
+                                                                    $penjualanBarang += ($dt['domestik'] * $jmlBarang);
+                                                                    $totalPenjualan += ($dt['domestik'] * $jmlBarang);
+                                                                } else {
+                                                                    $hargaSatuan = $dt['internasional'];
+                                                                    $penjualanBarang += ($dt['internasional'] * $jmlBarang);
+                                                                    $totalPenjualan += ($dt['internasional'] * $jmlBarang);
+                                                                }
+                                                                $jumlahBarang += $jmlBarang;
+                                                            }
+                                                        }
+                                                    }
+
+                                                    ?>
+                                                    <tr>
+                                                        <td class="col-4">
+                                                            <?= $br['namabarang'] ?>
+                                                            <?= ($br['jns'] == 'LOKAL') ? '<i>(Lokal)</i>' : ''; ?>
+                                                            <?= ($br['jns'] == 'DOMESTIK') ? '<i>(Domestik)</i>' : ''; ?>
+                                                            <?= ($br['jns'] == 'INTERNASIONAL') ? '<i>(Internasional)</i>' : ''; ?>
+                                                            <?= ($br['id_reservasi'] != NULL) ? '<i>(Reservasi)</i>' : ''; ?>
+                                                        </td>
+                                                        <td class="col-2 text-center text-capitalize">
+                                                            <?= $br['jenis'] ?>
+                                                        </td>
+                                                        <td class="col-2 text-center"><?= $jumlahBarang ?></td>
+                                                        <td class="col-2 text-end pe-10"><?= number_format($hargaSatuan) ?></td>
+                                                        <td class="col-2 text-end pe-10"><?= number_format($penjualanBarang) ?></td>
+                                                    </tr>
+                                                <?php } ?>
+
+                                                <?php
+                                                foreach ($list_paket as $br) {
+                                                    $jumlahBarang = 0;
+                                                    $penjualanBarang = 0;
+                                                    foreach ($data as $dt) {
+                                                        if (
+                                                            $br['id_barang'] == $dt['id_barang']
+                                                            && $br['jenis'] == $dt['jenis']
+                                                            && $br['id_reservasi'] == $dt['id_reservasi']
+                                                            && $br['jns'] == $dt['jns']
+                                                        ) {
+                                                            $jmlBarang = ($dt['jml'] == 0) ? 1 : $dt['jml'];
+
+                                                            if (
+                                                                $dt['lokal'] != $br['lokal'] &&
+                                                                $dt['domestik'] != $br['domestik'] &&
+                                                                $dt['internasional'] != $br['internasional']
+                                                            ) {
+                                                                $jumlahBarang = 0;
+                                                                $penjualanBarang = 0;
+                                                                if ($dt['jns'] == 'LOKAL') {
+                                                                    $hargaSatuan = $dt['lokal'];
+                                                                    $penjualanBarang += ($dt['lokal'] * $jmlBarang);
+                                                                    $totalPenjualan += ($dt['lokal'] * $jmlBarang);
+                                                                } elseif ($dt['jns'] == 'DOMESTIK') {
+                                                                    $hargaSatuan = $dt['domestik'];
+                                                                    $penjualanBarang += ($dt['domestik'] * $jmlBarang);
+                                                                    $totalPenjualan += ($dt['domestik'] * $jmlBarang);
+                                                                } else {
+                                                                    $hargaSatuan = $dt['internasional'];
+                                                                    $penjualanBarang += ($dt['internasional'] * $jmlBarang);
+                                                                    $totalPenjualan += ($dt['internasional'] * $jmlBarang);
+                                                                }
+                                                                $jumlahBarang += $jmlBarang;
+                                                ?>
+                                                                <tr>
+                                                                    <td class="col-4">
+                                                                        <?= $br['namabarang'] ?>
+                                                                        <?= ($br['jns'] == 'LOKAL') ? '<i>(Lokal)</i>' : ''; ?>
+                                                                        <?= ($br['jns'] == 'DOMESTIK') ? '<i>(Domestik)</i>' : ''; ?>
+                                                                        <?= ($br['jns'] == 'INTERNASIONAL') ? '<i>(Internasional)</i>' : ''; ?>
+                                                                        <?= ($br['id_reservasi'] != NULL) ? '<i>(Reservasi)</i>' : ''; ?>
+                                                                    </td>
+                                                                    <td class="col-2 text-center text-capitalize">
+                                                                        <?= $br['jenis'] ?>
+                                                                    </td>
+                                                                    <td class="col-2 text-center"><?= $jumlahBarang ?></td>
+                                                                    <td class="col-2 text-end pe-10"><?= number_format($hargaSatuan) ?></td>
+                                                                    <td class="col-2 text-end pe-10"><?= number_format($penjualanBarang) ?></td>
+                                                                </tr>
+                                                    <?php
+                                                            } else {
+                                                                if ($dt['jns'] == 'LOKAL') {
+                                                                    $hargaSatuan = $dt['lokal'];
+                                                                    $penjualanBarang += ($dt['lokal'] * $jmlBarang);
+                                                                    $totalPenjualan += ($dt['lokal'] * $jmlBarang);
+                                                                } elseif ($dt['jns'] == 'DOMESTIK') {
+                                                                    $hargaSatuan = $dt['domestik'];
+                                                                    $penjualanBarang += ($dt['domestik'] * $jmlBarang);
+                                                                    $totalPenjualan += ($dt['domestik'] * $jmlBarang);
+                                                                } else {
+                                                                    $hargaSatuan = $dt['internasional'];
+                                                                    $penjualanBarang += ($dt['internasional'] * $jmlBarang);
+                                                                    $totalPenjualan += ($dt['internasional'] * $jmlBarang);
+                                                                }
+                                                                $jumlahBarang += $jmlBarang;
+                                                            }
+                                                        }
+                                                    }
+
+                                                    ?>
+                                                    <tr>
+                                                        <td class="col-4">
+                                                            <?= $br['namabarang'] ?>
+                                                            <?= ($br['jns'] == 'LOKAL') ? '<i>(Lokal)</i>' : ''; ?>
+                                                            <?= ($br['jns'] == 'DOMESTIK') ? '<i>(Domestik)</i>' : ''; ?>
+                                                            <?= ($br['jns'] == 'INTERNASIONAL') ? '<i>(Internasional)</i>' : ''; ?>
+                                                            <?= ($br['id_reservasi'] != NULL) ? '<i>(Reservasi)</i>' : ''; ?>
+                                                        </td>
+                                                        <td class="col-2 text-center text-capitalize">
+                                                            <?= $br['jenis'] ?>
+                                                        </td>
+                                                        <td class="col-2 text-center"><?= $jumlahBarang ?></td>
+                                                        <td class="col-2 text-end pe-10"><?= number_format($hargaSatuan) ?></td>
+                                                        <td class="col-2 text-end pe-10"><?= number_format($penjualanBarang) ?></td>
                                                     </tr>
                                                 <?php } ?>
                                             </tbody>
                                             <tfoot>
                                                 <tr>
                                                     <th>Tanggal : <?= $tglShow ?></th>
-                                                    <th>Total : <?= number_format($totalPenjualan) ?></th>
+                                                    <th>Total : <?= number_format($totalPenjualan); ?></th>
                                                 </tr>
                                             </tfoot>
                                         </table>

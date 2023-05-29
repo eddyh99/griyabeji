@@ -8,12 +8,12 @@
 
             <!-- ======= Start Row Content Canva JS ====== -->
 
-            <div class="row">
-                <div class="col-md-12 text-right my-10">
+            <div class="row my-10">
+                <div class="col-md-12 text-right mb-5">
                     <a class="btn btn-primary" href="<?= base_url() ?>pengguna/tambah">Tambah</a>
                 </div>
                 <div class="card">
-                    <div class="card-content py-6 px-8">
+                    <div class="card-body">
                         <table id="table_data" class="table table-striped nowrap" width="100%">
                             <thead>
                                 <tr>

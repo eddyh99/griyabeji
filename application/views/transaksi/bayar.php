@@ -28,7 +28,7 @@
             <label class="form-label">Diskon</label>
         </div>
         <div class="col">
-            <input type="text" class="form-control rounded-pill" name="diskon" id="diskon">
+            <input type="text" class="form-control rounded-pill typeMoney" name="diskon" id="diskon">
         </div>
         <div class="col">
             <input type="password" class="form-control rounded-pill" name="passcode" id="passcode" maxlength="6" minlength="6">
