@@ -16,6 +16,18 @@
                         <?php } ?>
                         <form id="form_input" method="post" action="<?= base_url() ?>pengayah/AddData">
                             <div class="form-group row mb-5">
+                                <label class="col-sm-3 col-form-label">Username</label>
+                                <div class="col">
+                                    <input type="text" class="form-control" id="username" name="username" maxlength="20">
+                                </div>
+                            </div>
+                            <div class="form-group row mb-5">
+                                <label class="col-sm-3 col-form-label">Password</label>
+                                <div class="col">
+                                    <input type="password" class="form-control" id="password" name="password" maxlength="20">
+                                </div>
+                            </div>
+                            <div class="form-group row mb-5">
                                 <label class="col-sm-3 col-form-label">Nama</label>
                                 <div class="col">
                                     <input type="text" class="form-control" id="nama" name="nama" maxlength="35">

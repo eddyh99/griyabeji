@@ -114,6 +114,8 @@ class Reservasi extends CI_Controller
 			'content'	 => 'reservasi/index',
 			'extra'		 => 'reservasi/js/js_index',
 			'extracss'	 => 'reservasi/css/css_index',
+			'h_rsv'		 => 'collapse',
+			'sideres'	 => 'active',
 			'guide'		 => $guide,
 			'pengayah'	 => $pengayah,
 			'pengunjung' => $pengunjung,
@@ -122,6 +124,27 @@ class Reservasi extends CI_Controller
 			'pakets'	 => $pakets,
 			'pengguna'	 => $pengguna,
 			'countries'	 => $countries,
+
+		);
+
+		$this->load->view('layout/wrapper', $data);
+	}
+
+	public function pengantar($content = NULL)
+	{
+		if ($content != NULL) {
+			$content = 'reservasi/pengantar-detail';
+		} else {
+			$content = 'reservasi/pengantar';
+		}
+
+		$data	= array(
+			'title'		 => 'Pengantar',
+			'content'	 => $content,
+			'extra'		 => 'reservasi/js/js_index',
+			'extracss'	 => 'reservasi/css/css_index',
+			'h_rsv'		 => 'collapse',
+			'sideres1'	 => 'active',
 
 		);
 
