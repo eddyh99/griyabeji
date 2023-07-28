@@ -21,9 +21,17 @@
                                 <table id="pesanan" class="display" width="100%">
                                     <tfoot>
                                         <tr>
-                                            <th colspan="3" style="text-align:right">Total:</th>
+                                            <th colspan="3" style="text-align:right">Sub Total:</th>
                                             <th></th>
                                         </tr>
+                                        <tr>
+                                            <th colspan="3" style="text-align:right">Diskon:</th>
+                                            <th style="text-align:right"><span id="diskon"><?=number_format($list["diskon"])?></span></th>
+                                        </tr>										
+                                        <tr>
+                                            <th colspan="3" style="text-align:right">Total:</th>
+                                            <th style="text-align:right"><span id="totalbelanja"></th>
+                                        </tr>										
                                     </tfoot>
                                 </table>
                             </div>

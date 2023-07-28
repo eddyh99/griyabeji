@@ -106,6 +106,7 @@ define("PAKET_DETAIL",'paket_detail');
 define("PAKET_PROMO",'paket_promo');
 
 define("STORE",'store');
+define("ASSIGNSTORE",'assignstore');
 define("PENGUNJUNG",'pengunjung');
 define("KAS",'kas');
 

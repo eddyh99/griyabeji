@@ -130,13 +130,15 @@ class Mdl_produk extends CI_Model
 		$this->db->insert(PRODUK_HARGA, $harga);
 
 		$detail = array();
-		foreach ($items as $dt) {
-			$temp["id_produk"]  = $id;
-			$temp["id_items"]   = $dt;
-			array_push($detail, $temp);
-		}
+		if (count($items)>0){
+			foreach ($items as $dt) {
+				$temp["id_produk"]  = $id;
+				$temp["id_items"]   = $dt;
+				array_push($detail, $temp);
+			}
 
-		$this->db->insert_batch(PRODUK_DETAIL, $detail);
+			$this->db->insert_batch(PRODUK_DETAIL, $detail);
+		}
 
 		$this->db->trans_complete();
 
@@ -164,13 +166,15 @@ class Mdl_produk extends CI_Model
 		$this->db->insert(PRODUK_HARGA, $harga);
 
 		$detail = array();
-		foreach ($items as $dt) {
-			$temp["id_produk"]  = $id;
-			$temp["id_items"]   = $dt;
-			array_push($detail, $temp);
-		}
+		if (count($items)>0){
+			foreach ($items as $dt) {
+				$temp["id_produk"]  = $id;
+				$temp["id_items"]   = $dt;
+				array_push($detail, $temp);
+			}
 
-		$this->db->insert_batch(PRODUK_DETAIL, $detail);
+			$this->db->insert_batch(PRODUK_DETAIL, $detail);
+		}
 		$this->db->trans_complete();
 
 		if ($this->db->trans_status() === FALSE) {

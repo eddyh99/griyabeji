@@ -1,6 +1,12 @@
 <script src="<?= base_url() ?>assets/bootstrap/plugins/select2/js/select2.full.min.js"></script>
 <script src="https://cdn.datatables.net/plug-ins/1.13.4/api/sum().js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
 <script>
+    $( "#arrival" ).datepicker({
+        dateFormat: 'dd-mm-yy',
+        minDate: new Date(),
+    });
     // ==== START INPUT SELECT2 TRANSAKSI ====  
     $("#guide").select2({
         placeholder: "--Pilih Guide--",
@@ -337,10 +343,14 @@
             };
         }
 
+        var arrival=$("#arrival").val();
+
         localStorage.setItem('dataSet', JSON.stringify(dataSet));
         localStorage.setItem('guide', JSON.stringify(guide));
         localStorage.setItem('pengayah', JSON.stringify(pengayah));
         localStorage.setItem('jumlah_pengunjung', JSON.stringify(jumlah_pengunjung));
+        localStorage.setItem('arrival', JSON.stringify(arrival));
+        localStorage.setItem('namatamu', $("#pengunjung").val());
         window.location.href = "<?= base_url() ?>reservasi/summarybayar"
     })
 

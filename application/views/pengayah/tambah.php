@@ -16,6 +16,18 @@
                         <?php } ?>
                         <form id="form_input" method="post" action="<?= base_url() ?>pengayah/AddData">
                             <div class="form-group row mb-5">
+                                <label class="col-sm-3 col-form-label">Username</label>
+                                <div class="col">
+                                    <input type="text" class="form-control" id="username" name="username" maxlength="20">
+                                </div>
+                            </div>
+                            <div class="form-group row mb-5">
+                                <label class="col-sm-3 col-form-label">Password</label>
+                                <div class="col">
+                                    <input type="password" class="form-control" id="password" name="password" maxlength="20">
+                                </div>
+                            </div>
+                            <div class="form-group row mb-5">
                                 <label class="col-sm-3 col-form-label">Nama</label>
                                 <div class="col">
                                     <input type="text" class="form-control" id="nama" name="nama" maxlength="35">
@@ -25,6 +37,15 @@
                                 <label class="col-sm-3 col-form-label">Whatsapp</label>
                                 <div class="col">
                                     <input type="number" class="form-control" id="whatsapp" name="whatsapp" maxlength="14">
+                                </div>
+                            </div>
+                            <div class="form-group row mb-5">
+                                <label class="col-sm-3 col-form-label">Jenis</label>
+                                <div class="col">
+                                    <select name="tipe" class="form-control">
+                                        <option value="domestik">Domestik</option>
+                                        <option value="internasional">internasional</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="d-flex justify-content-between">

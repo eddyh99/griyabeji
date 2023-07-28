@@ -21,6 +21,7 @@
                                 <tr>
                                     <th>Nama</th>
                                     <th>Whatsapp</th>
+                                    <th>Tipe</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>

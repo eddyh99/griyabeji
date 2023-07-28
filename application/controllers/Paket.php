@@ -130,9 +130,6 @@ class Paket extends CI_Controller
 		$internasional = $this->input->post("internasional");
 		$new_internasional = str_replace(array('\'', '"', ',', ';', '<', '>'), '', $internasional);
 		$_POST["internasional"] = $new_internasional;
-		$kdguide = $this->input->post("kdguide");
-		$new_kdguide = str_replace(array('\'', '"', ',', ';', '<', '>'), '', $kdguide);
-		$_POST["kdguide"] = $new_kdguide;
 		$kiguide = $this->input->post("kiguide");
 		$new_kiguide = str_replace(array('\'', '"', ',', ';', '<', '>'), '', $kiguide);
 		$_POST["kiguide"] = $new_kiguide;
@@ -148,8 +145,7 @@ class Paket extends CI_Controller
 		$this->form_validation->set_rules('domestik', 'Harga Domestik', 'trim|required');
 		$this->form_validation->set_rules('internasional', 'Harga Internasional', 'trim|required');
 		$this->form_validation->set_rules('id_produk[]', 'Nama Produk', 'trim|required');
-		$this->form_validation->set_rules('kdguide', 'Komisi Domestik Guide', 'trim|required');
-		$this->form_validation->set_rules('kiguide', 'Komisi Internasional Guide', 'trim|required');
+		$this->form_validation->set_rules('kiguide', 'Komisi Guide', 'trim|required');
 		$this->form_validation->set_rules('kdpangayahan', 'Komisi Domestik Pangayahan', 'trim|required');
 		$this->form_validation->set_rules('kipengayahan', 'Komisi Internasional Pengayahan', 'trim|required');
 		$this->form_validation->set_rules('kipengayahan', 'Komisi Internasional Pengayahan', 'trim|required');
@@ -166,8 +162,7 @@ class Paket extends CI_Controller
 		$domestik	    = $this->security->xss_clean($this->input->post('domestik'));
 		$internasional	= $this->security->xss_clean($this->input->post('internasional'));
 		$id_produk	    = $this->security->xss_clean($this->input->post('id_produk'));
-		$kdguide	= $this->security->xss_clean($this->input->post('kdguide'));
-		$kiguide	= $this->security->xss_clean($this->input->post('kiguide'));
+		$kiguide		= $this->security->xss_clean($this->input->post('kiguide'));
 		$kdpangayahan	= $this->security->xss_clean($this->input->post('kdpangayahan'));
 		$kipengayahan	= $this->security->xss_clean($this->input->post('kipengayahan'));
 		$komisi	= $this->security->xss_clean($this->input->post('komisi'));
@@ -187,7 +182,7 @@ class Paket extends CI_Controller
 			"lokal"			=> $lokal,
 			"domestik"		=> $domestik,
 			"internasional" => $internasional,
-			"komisi_guide_domestik" => $kdguide,
+			"komisi_guide_domestik" => $kiguide,
 			"komisi_guide_internasional" => $kiguide,
 			"komisi_pengayah_domestik" => $kdpangayahan,
 			"komisi_pengayah_internasional" => $kipengayahan,
@@ -199,7 +194,7 @@ class Paket extends CI_Controller
 
 		// Checking Success and Error AddData
 		$result		= $this->paket->insertData($data, $harga, $id_produk);
-		print_r($result);
+		//print_r($result);
 		// untuk sukses
 		// $result["code"]=0;
 
@@ -222,21 +217,19 @@ class Paket extends CI_Controller
 		// $result		= $this->PenggunaModel->getUser($username);
 		$id	= base64_decode($this->security->xss_clean($id));
 		$result		= $this->paket->getPaket($id);
-		$items		= $this->paket->itempaket($id);
-
+		$items=$this->paket->itempaket($id);
 		// $produk		= $result;
 		$result["id_items"] = array();
 		foreach ($items as $itm) {
 			array_push($result["id_items"], $itm["id_produk"]);
 		}
 
-
 		$data		= array(
 			'title'		 => NAMETITLE . ' - Ubah Data Paket',
 			'content'    => 'paket/ubah',
 			'colmas'	 => 'hover show',
 			'detail'     => $result,
-			'items'		 => $items,
+			'items'		 => $this->produk->listproduk(),
 			'extra'	     => 'paket/js/js_tambah',
 			'extracss'	 => 'paket/css/css_tambah',
 			'side6'		 => 'active',
@@ -256,9 +249,6 @@ class Paket extends CI_Controller
 		$internasional = $this->input->post("internasional");
 		$new_internasional = str_replace(array('\'', '"', ',', ';', '<', '>'), '', $internasional);
 		$_POST["internasional"] = $new_internasional;
-		$kdguide = $this->input->post("kdguide");
-		$new_kdguide = str_replace(array('\'', '"', ',', ';', '<', '>'), '', $kdguide);
-		$_POST["kdguide"] = $new_kdguide;
 		$kiguide = $this->input->post("kiguide");
 		$new_kiguide = str_replace(array('\'', '"', ',', ';', '<', '>'), '', $kiguide);
 		$_POST["kiguide"] = $new_kiguide;
@@ -274,8 +264,7 @@ class Paket extends CI_Controller
 		$this->form_validation->set_rules('domestik', 'Harga Domestik', 'trim|required');
 		$this->form_validation->set_rules('internasional', 'Harga Internasional', 'trim|required');
 		$this->form_validation->set_rules('id_items[]', 'Nama Items', 'trim|required');
-		$this->form_validation->set_rules('kdguide', 'Komisi Domestik Guide', 'trim|required');
-		$this->form_validation->set_rules('kiguide', 'Komisi Internasional Guide', 'trim|required');
+		$this->form_validation->set_rules('kiguide', 'Komisi Guide', 'trim|required');
 		$this->form_validation->set_rules('kdpangayahan', 'Komisi Domestik Pangayahan', 'trim|required');
 		$this->form_validation->set_rules('kipengayahan', 'Komisi Internasional Pengayahan', 'trim|required');
 		$this->form_validation->set_rules('komisi', 'Komisi x2', 'trim');
@@ -294,8 +283,7 @@ class Paket extends CI_Controller
 		$internasional	= $this->security->xss_clean($this->input->post('internasional'));
 		$id_items	    = $this->security->xss_clean($this->input->post('id_items'));
 		$id	    		= $this->security->xss_clean($this->input->post('id'));
-		$kdguide	= $this->security->xss_clean($this->input->post('kdguide'));
-		$kiguide	= $this->security->xss_clean($this->input->post('kiguide'));
+		$kiguide		= $this->security->xss_clean($this->input->post('kiguide'));
 		$kdpangayahan	= $this->security->xss_clean($this->input->post('kdpangayahan'));
 		$kipengayahan	= $this->security->xss_clean($this->input->post('kipengayahan'));
 		$komisi	= $this->security->xss_clean($this->input->post('komisi'));
@@ -316,7 +304,7 @@ class Paket extends CI_Controller
 			"lokal"			=> $lokal,
 			"domestik"		=> $domestik,
 			"internasional" => $internasional,
-			"komisi_guide_domestik" => $kdguide,
+			"komisi_guide_domestik" => $kiguide,
 			"komisi_guide_internasional" => $kiguide,
 			"komisi_pengayah_domestik" => $kdpangayahan,
 			"komisi_pengayah_internasional" => $kipengayahan,

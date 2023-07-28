@@ -1,10 +1,14 @@
 <!-- ======= Start Content wrapper ====== -->
 <div class="container mb-10 mt-auto">
     <form id="reservasiForm" enctype="multipart/form-data">
+        <input type="hidden" id="jumlahpengunjung" name="jumlahpengunjung">
+        <input type="hidden" id="guide_id" name="guide_id">
+        <input type="hidden" id="pengayah_id" name="pengayah_id">
+        <input type="hidden" id="namatamu" name="namatamu">
         <div class="row my-5">
             <div class="col-md mb-5">
-                <label class="form-label">Kode Reservasi (optional)</label>
-                <input type="text" class="form-control rounded-pill" name="reservasi" id="reservasi" readonly>
+                <label class="form-label">Arrival Date</label>
+                <input type="text" class="form-control rounded-pill" name="arrival" id="arrival" readonly>
             </div>
             <div class="col-md mb-5">
                 <label class="form-label">Guide</label>

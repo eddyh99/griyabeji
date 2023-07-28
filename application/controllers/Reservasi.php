@@ -24,7 +24,6 @@ class Reservasi extends CI_Controller
 
 	public function index()
 	{
-
 		$guide = $this->guide->listguide();
 		// $guide = array (
 		// 	array(
@@ -114,6 +113,8 @@ class Reservasi extends CI_Controller
 			'content'	 => 'reservasi/index',
 			'extra'		 => 'reservasi/js/js_index',
 			'extracss'	 => 'reservasi/css/css_index',
+			'h_rsv'		 => 'collapse',
+			'sideres'	 => 'active',
 			'guide'		 => $guide,
 			'pengayah'	 => $pengayah,
 			'pengunjung' => $pengunjung,
@@ -122,6 +123,27 @@ class Reservasi extends CI_Controller
 			'pakets'	 => $pakets,
 			'pengguna'	 => $pengguna,
 			'countries'	 => $countries,
+
+		);
+
+		$this->load->view('layout/wrapper', $data);
+	}
+
+	public function pengantar($content = NULL)
+	{
+		if ($content != NULL) {
+			$content = 'reservasi/pengantar-detail';
+		} else {
+			$content = 'reservasi/pengantar';
+		}
+
+		$data	= array(
+			'title'		 => 'Pengantar',
+			'content'	 => $content,
+			'extra'		 => 'reservasi/js/js_index',
+			'extracss'	 => 'reservasi/css/css_index',
+			'h_rsv'		 => 'collapse',
+			'sideres1'	 => 'active',
 
 		);
 
@@ -150,7 +172,6 @@ class Reservasi extends CI_Controller
 
 	public function simpandata()
 	{
-
 		$dp = $this->input->post("dp");
 		$new_dp = str_replace(array(
 			'\'', '"',
@@ -159,28 +180,18 @@ class Reservasi extends CI_Controller
 		$_POST["dp"] = $new_dp;
 
 		$data = json_decode($this->security->xss_clean($this->input->get('data')));
-		$guide = json_decode($this->security->xss_clean($this->input->get('guide')));
-		$pengayah = json_decode($this->security->xss_clean($this->input->get('pengayah')));
-		$jumlahpengunjung = json_decode($this->security->xss_clean($this->input->get('jumlahpengunjung')));
+		$guide_id = $this->security->xss_clean($this->input->post('guide_id'));
+		$pengayah_id = $this->security->xss_clean($this->input->post('pengayah_id'));
+		$jumlahpengunjung = $this->security->xss_clean($this->input->post('jumlahpengunjung'));
+		$arrival = $this->security->xss_clean($this->input->post('arrival'));
+		$namatamu = $this->security->xss_clean($this->input->post('namatamu'));
 		$DP = $this->security->xss_clean($this->input->post('dp'));
-
+		
 
 		$url = '././assets/Bukti_Pembayaran/';
 		$buktiUpload = time() . '.png';
 		$image_name =  $url . $buktiUpload;
-		// file_put_contents($image_name, $data);
-
-		if (empty($guide->id_guide)) {
-			$guide_id = NULL;
-		} else {
-			$guide_id = $guide->id_guide;
-		}
-
-		if (empty($pengayah->id_pengayah)) {
-			$pengayah_id = NULL;
-		} else {
-			$pengayah_id = $pengayah->id_pengayah;
-		}
+		// file_put_contents($image_name, $data);	
 
 		$allowTypes = array('jpg', 'png', 'jpeg');
 		// Upload file 
@@ -206,12 +217,14 @@ class Reservasi extends CI_Controller
 		}
 
 		$mtrans = array(
-			"pengayah_id"	=> $pengayah_id,
-			"guide_id"		=> $guide_id,
+			"arrivaldate"	=> date_format(date_create($arrival),"Y-m-d"),
+			"pengayah_id"	=> empty($pengayah_id)? NULL:$pengayah_id,
+			"guide_id"		=> empty($guide_id) ? NULL : $guide_id,
 			"tanggal"		=> date("y-m-d H:i:s"),
-			"jml_tamu"		=> $jumlahpengunjung->jumlah_pengunjung,
+			"jml_tamu"		=> $jumlahpengunjung,
+			"namatamu"		=> $namatamu,
 			"DP"			=> $DP,
-			"buktibayar"	=> $buktiUpload,
+			"buktibayar"	=> empty($_FILES["bukti_bayar"]["name"]) ? NULL:$buktiUpload,
 			"is_proses"		=> "yes",
 			"userid"		=> $_SESSION["logged_status"]["username"]
 		);
@@ -219,6 +232,8 @@ class Reservasi extends CI_Controller
 		$result = $this->reservasi->add_data($mtrans, $data);
 		if (@$result["code"] == 0) {
 			echo "0";
+		}else{
+			echo $result['message'];
 		}
 	}
 

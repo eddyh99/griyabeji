@@ -1,4 +1,5 @@
-<!-- <link rel="stylesheet" href="<?= base_url() ?>assets/bootstrap/plugins/select2/css/select2.min.css"> -->
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+
 <style>
     .select2-selection__choice__remove {
         display: none !important;
@@ -43,5 +44,33 @@
     #pesanan_wrapper .paginate_button.active .page-link {
         border-radius: 100%;
         background: #202b46;
+    }
+
+    @media (min-width: 768px) {
+        .embed-responsive-item {
+            width: 560px;
+            height: 315px;
+        }
+    }
+
+    @media (max-width: 767px) {
+        .embed-responsive-item {
+            width: 100%;
+            height: 360px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .embed-responsive-item {
+            width: 100%;
+            height: 240px;
+        }
+    }
+
+    @media (max-width: 360px) {
+        .embed-responsive-item {
+            width: 100%;
+            height: 144px;
+        }
     }
 </style>

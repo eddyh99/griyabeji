@@ -50,33 +50,13 @@
                                         <div class="col-sm-7">
                                             <select multiple id="namaitems" name="id_items[]" class="form-control namaitems-select">
                                                 <?php foreach ($items as $item) { ?>
-                                                    <option value="<?= $item["id_produk"] ?>" selected><?= $item["namaproduk"] ?></option>
+                                                    <option value="<?= $item["id_produk"] ?>" <?php echo in_array($item["id_produk"],$detail["id_items"])?"selected":""?>><?= $item["namaproduk"] ?></option>
                                                 <?php } ?>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="form-group row mb-5">
-                                        <label class="col-sm-3 col-form-label">Komisi Guide 2x?</label>
-                                        <div class="col-sm">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="yes" id="komisi" name="komisi" <?= ($detail["is_double"] == 'yes') ? 'checked' : ''; ?>>
-                                                <label class="form-check-label" for="komisi">
-                                                    Komisi Guide x2 untuk Internasional?
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xl">
-                                    <div class="form-group row mb-5">
-                                        <label class="col-sm-3 col-form-label">Komisi Guide Domestik</label>
-                                        <div class="col-sm d-flex align-items-center">
-                                            <span class="me-3">Rp. </span>
-                                            <input type="text" class="form-control rupiah typeMoney" id="kdguide" name="kdguide" maxlength="35" autocomplete="off" value="<?= $detail['komisi_guide_domestik']; ?>">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row mb-5">
-                                        <label class="col-sm-3 col-form-label">Komisi Guide Internasional</label>
+                                        <label class="col-sm-3 col-form-label">Komisi Guide</label>
                                         <div class="col-sm d-flex align-items-center">
                                             <span class="me-3">Rp. </span>
                                             <input type="text" class="form-control rupiah typeMoney" id="kiguide" name="kiguide" maxlength="35" autocomplete="off" value="<?= $detail['komisi_guide_internasional']; ?>">

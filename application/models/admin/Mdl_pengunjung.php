@@ -2,12 +2,20 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Mdl_pengunjung extends CI_Model{
-	public function Listpengunjung(){		
-		$sql="SELECT id, nama, ig, whatsapp, email, b.state_name as statename, c.name as countryname 
-        FROM ".PENGUNJUNG." a 
-        INNER JOIN tbl_state b ON a.state_id=b.state_code AND a.country_code=b.country_code 
-        INNER JOIN tbl_country c ON b.country_code=c.code
-        WHERE status='no'";
+	public function Listpengunjung($term=NULL){
+		if (empty($term)){
+			$sql="SELECT id, nama, ig, whatsapp, email, b.state_name as statename, c.name as countryname 
+			FROM ".PENGUNJUNG." a 
+			LEFT JOIN tbl_state b ON a.state_id=b.state_code AND a.country_code=b.country_code 
+			INNER JOIN tbl_country c ON a.country_code=c.code
+			WHERE status='no'";
+		}else{
+			$sql="SELECT id, nama, ig, whatsapp, email, b.state_name as statename, c.name as countryname 
+			FROM ".PENGUNJUNG." a 
+			LEFT JOIN tbl_state b ON a.state_id=b.state_code AND a.country_code=b.country_code 
+			INNER JOIN tbl_country c ON a.country_code=c.code
+			WHERE status='no' AND nama like '".$term."%'";
+		}
 		$query=$this->db->query($sql);
 		if ($query){
 			return $query->result_array();

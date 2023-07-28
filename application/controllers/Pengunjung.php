@@ -55,6 +55,12 @@ class Pengunjung extends CI_Controller
 		echo json_encode($result);
 	}
 
+	public function Listpengunjung()
+	{
+		$term=$_GET["search"];
+		$result = $this->pengunjung->Listpengunjung($term);
+		echo json_encode($result);
+	}
 	public function tambah()
 	{
 
@@ -147,11 +153,10 @@ class Pengunjung extends CI_Controller
 	public function AddData()
 	{
 		$this->form_validation->set_rules('nama', 'Nama', 'trim|required');
-		$this->form_validation->set_rules('whatsapp', 'Whatsapp', 'trim|required');
+		$this->form_validation->set_rules('whatsapp', 'Whatsapp', 'trim');
 		$this->form_validation->set_rules('email', 'Email', 'trim');
 		$this->form_validation->set_rules('ig', 'Instagram', 'trim');
 		$this->form_validation->set_rules('countryname', 'Country', 'trim|required');
-		$this->form_validation->set_rules('statename', 'State', 'trim|required');
 
 		if ($this->form_validation->run() == FALSE) {
 			$this->session->set_flashdata('message', $this->message->error_msg(validation_errors()));
@@ -166,13 +171,13 @@ class Pengunjung extends CI_Controller
 		$countryname	= $this->security->xss_clean($this->input->post('countryname'));
 		$statename		= $this->security->xss_clean($this->input->post('statename'));
 
-
+		
 		$data		= array(
 			"nama"      	=> $nama,
 			"whatsapp"  	=> $whatsapp,
 			"email"		  	=> $email,
 			"ig"		  	=> $ig,
-			"state_id"  	=> $statename,
+			"state_id"  	=> empty($statename)?null:$statename,
 			"country_code"	=> $countryname,
 			"userid"		=> $_SESSION["logged_status"]["username"]
 		);
@@ -203,6 +208,58 @@ class Pengunjung extends CI_Controller
 		}
 	}
 
+	public function simpanajax()
+	{
+		$this->form_validation->set_rules('nama', 'Nama', 'trim|required');
+		$this->form_validation->set_rules('whatsapp', 'Whatsapp', 'trim');
+		$this->form_validation->set_rules('email', 'Email', 'trim');
+		$this->form_validation->set_rules('ig', 'Instagram', 'trim');
+		$this->form_validation->set_rules('countryname', 'Country', 'trim|required');
+
+		if ($this->form_validation->run() == FALSE) {
+			echo json_encode(validation_errors());
+		}
+
+		$nama	    	= $this->security->xss_clean($this->input->post('nama'));
+		$whatsapp		= $this->security->xss_clean($this->input->post('whatsapp'));
+		$email			= $this->security->xss_clean($this->input->post('email'));
+		$ig				= $this->security->xss_clean($this->input->post('ig'));
+		$countryname	= $this->security->xss_clean($this->input->post('countryname'));
+		$statename		= $this->security->xss_clean($this->input->post('statename'));
+
+		
+		$data		= array(
+			"nama"      	=> $nama,
+			"whatsapp"  	=> $whatsapp,
+			"email"		  	=> $email,
+			"ig"		  	=> $ig,
+			"state_id"  	=> empty($statename)?null:$statename,
+			"country_code"	=> $countryname,
+			"userid"		=> $_SESSION["logged_status"]["username"]
+		);
+
+		// print_r($data);
+		// die;
+
+		// Checking Success and Error AddData
+		$result		= $this->pengunjung->insertData($data);
+		// untuk sukses
+		// $result["code"]=0;
+
+		//untuk gagal
+		// $result["code"]=5011;
+		// $result["message"]="Data gagal di inputkan";
+
+
+
+		if ($result["code"] == 0) {
+			$pengunjung = $this->pengunjung->listpengunjung();
+			echo json_encode($pengunjung);
+		} else {
+			echo json_encode("Data tidak bisa disimpan, silahkan tunggu beberapa saat");
+		}
+	}
+	
 	public function ubah($id)
 	{
 
@@ -250,11 +307,10 @@ class Pengunjung extends CI_Controller
 	public function updateData()
 	{
 		$this->form_validation->set_rules('nama', 'Nama', 'trim|required');
-		$this->form_validation->set_rules('whatsapp', 'Whatsapp', 'trim|required');
+		$this->form_validation->set_rules('whatsapp', 'Whatsapp', 'trim');
 		$this->form_validation->set_rules('email', 'Email', 'trim');
 		$this->form_validation->set_rules('ig', 'Instagram', 'trim');
 		$this->form_validation->set_rules('countryname', 'Country', 'trim|required');
-		$this->form_validation->set_rules('statename', 'State', 'trim|required');
 
 		if ($this->form_validation->run() == FALSE) {
 			$this->session->set_flashdata('message', $this->message->error_msg(validation_errors()));
@@ -277,7 +333,7 @@ class Pengunjung extends CI_Controller
 			"whatsapp"  	=> $whatsapp,
 			"email"		  	=> $email,
 			"ig"		  	=> $ig,
-			"state_id"  	=> $statename,
+			"state_id"  	=> empty($statename)?null:$statename,
 			"country_code"	=> $countryname,
 			"userid"		=> $_SESSION["logged_status"]["username"]
 		);

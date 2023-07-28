@@ -12,14 +12,17 @@
 		</div>
 		<div class="col">
 			<label>Pengayah (optional)</label>
-			<select name="pengayah" id="pengayah" class="form-control rounded-pill">
+			<select name="pengayah" id="pengayah" class="form-control rounded-pill" <?= ($_SESSION["logged_status"]["role"] == "pengayah") ? 'disabled' : ''; ?>>
 				<option></option>
 				<?php foreach ($pengayah as $dt) { ?>
-					<option value="<?= $dt["id"] ?>"><?= $dt["nama"] ?></option>
-				<?php } ?>
+					<option value="<?= $dt["id"] ?>" <?php echo ($_SESSION["logged_status"]["nama"] == $dt["nama"]) ? 'selected' : ''; ?>><?= $dt["nama"] ?></option>				<?php } ?>
 			</select>
 		</div>
-	</div>
+		<div class="col">
+			<label>Arrival Date</label>
+			<input type="text" id="arrival" class="form-control rounded-pill" value="<?=date("d-m-Y")?>">
+		</div>
+	</div>	
 	<div class="row mb-5">
 		<div class="col">
 			<label>Pengunjung</label>

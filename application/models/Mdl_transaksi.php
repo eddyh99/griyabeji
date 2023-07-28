@@ -82,10 +82,9 @@ class Mdl_transaksi extends CI_Model
 		b.nama AS pengayah,
 		c.nama AS guide
 		FROM `penjualan` a
-		LEFT JOIN `pengayah` b ON a.pengayah_id = a.pengayah_id
-		LEFT JOIN `pengayah` c ON a.guide_id = a.guide_id
-		WHERE DATE(a.tanggal) >= ?
-		AND DATE(a.tanggal) <= ? ";
+		LEFT JOIN `pengayah` b ON a.pengayah_id = b.id 
+		LEFT JOIN `guide` c ON a.guide_id = c.id
+		WHERE DATE(a.tanggal) BETWEEN ? AND ? GROUP BY a.id";
 		$query = $this->db->query($sql, array($start, $end));
 		if ($query) {
 			return $query->result_array();
@@ -100,6 +99,7 @@ class Mdl_transaksi extends CI_Model
 		SELECT 
 		a.id,
 		a.tanggal,
+		a.diskon,
 		b.nama AS pengayah,
 		c.nama AS guide
 		FROM `penjualan` a

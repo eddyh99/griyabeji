@@ -8,11 +8,17 @@ class Auth extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->model("Mdl_auth", "auth");
+		$this->load->model("admin/Mdl_assignstaff","assignstaff");
 	}
 
 	public function index()
 	{
-		if (isset($this->session->userdata['logged_status'])) {
+		if (isset($_SESSION['logged_status'])) {
+			if ($_SESSION['logged_status']['role'] == 'pengayah') {
+				redirect('reservasi');
+			}elseif ($result->role=='kasir'){
+				redirect('store/penjualan');
+			}
 			redirect("dashboard");
 		}
 
@@ -48,6 +54,17 @@ class Auth extends CI_Controller
 				'is_login'  => true
 			);
 			$this->session->set_userdata('logged_status', $session_data);
+			if ($result->role == 'pengayah') {
+				redirect('reservasi');
+			}elseif ($result->role=='kasir'){
+				$store=$this->assignstaff->getStoreID($uname);
+				if (!empty($store)){
+					$_SESSION['logged_status']["storeid"]=$store->storeid;
+					redirect('store/penjualan');	
+				}else{
+					redirect('transaksi');
+				}
+			}
 			redirect('dashboard');
 		} else {
 			$this->session->set_flashdata('error', "username atau password salah, mohon periksa ulang");

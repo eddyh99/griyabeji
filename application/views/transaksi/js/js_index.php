@@ -1,6 +1,44 @@
 <script src="<?= base_url() ?>assets/bootstrap/plugins/select2/js/select2.full.min.js"></script>
 <script src="https://cdn.datatables.net/plug-ins/1.13.4/api/sum().js"></script>
 <script>
+    $("#listreservasi").select2({
+        placeholder: "--Kode Reservasi--",
+        allowClear: true,
+		dropdownParent: $("#carireservasi")
+    });
+
+    $("#kode_reservasi").keydown(function(e){
+        var code = (e.keyCode ? e.keyCode : e.which);
+        if (code == 112) {
+            if (e.altKey) {
+                $.ajax({
+                    url: "<?= base_url() ?>transaksi/listreservasi",
+                    success: function(response) {
+                        var data = JSON.parse(response);
+                        var selectProduk = document.getElementById("listreservasi");
+                        for (i = selectProduk.options.length - 1; i > 0; i--) {
+                            selectProduk.remove(i);
+                        }
+                        for (var i = 0; i < data.length; i++) {
+                            var option = document.createElement("OPTION"),
+                                txt = document.createTextNode(data[i].id + " - " + data[i].namatamu);
+                            option.appendChild(txt);
+                            option.setAttribute("value", data[i].id);
+                            selectProduk.insertBefore(option, selectProduk.lastChild);
+                        }
+                        $("#carireservasi").modal("show");
+                    },
+                });
+            }
+        }
+    });
+
+    $("#pilihreservasi").on("click",function(){
+        $("#kode_reservasi").val($("#listreservasi").val());
+        $("#reservasi").val($("#listreservasi").val());
+        $("#carireservasi").modal("hide");
+    });
+
     // ==== START INPUT SELECT2 TRANSAKSI ====  
     $("#guide").select2({
         placeholder: "--Pilih Guide--",
@@ -27,10 +65,17 @@
         placeholder: "--Pilih Pengunjung--",
         allowClear: true,
         ajax: {
-            url: '<?= base_url() ?>pengunjung/Listdata',
+            url: '<?= base_url() ?>pengunjung/Listpengunjung',
             dataType: 'json',
             type: "GET",
+			data: function (params) {
+			  var query = {
+				search: params.term,
+			  }
+			  return query;
+			},
             processResults: function(data) {
+				console.log(data);
                 return {
                     results: $.map(data, function(item) {
                         return {
@@ -309,13 +354,14 @@
                 var lokal = $(this).find(':selected').data("lokal");
                 var domestik = $(this).find(':selected').data("domestik");
                 var inter = $(this).find(':selected').data("inter");
-
-                if (state.toLowerCase() == "bali") {
-                    harga = lokal;
+				jml = $("#jml").val();
+                
+				if (state.toLowerCase() == "bali") {
+                    harga = jml*lokal;
                 } else if (country.toLowerCase() == "indonesia") {
-                    harga = domestik;
+                    harga = jml*domestik;
                 } else {
-                    harga = inter;
+                    harga = jml*inter;
                 }
 
                 var dataProduk = dataSet.findIndex((find => find.id_pengunjung === id_pengunjung && find.id_barang === idbrg && find.jenis === "produk"));
@@ -339,12 +385,12 @@
                         "barang": namabrg,
                         "id_barang": idbrg,
                         "jenis": "produk",
-                        "jumlah": "",
+                        "jumlah": jml,
                         "total": harga
                     };
                     dataSet.push(arr);
                 } else {
-                    console.log('Produk sudah ada!');
+                    dataSet[dataProduk].total = parseInt(dataSet[dataProduk].jumlah)*harga;               
                 }
             }
         });
@@ -355,12 +401,14 @@
                 var lokal = $(this).find(':selected').data("lokal");
                 var domestik = $(this).find(':selected').data("domestik");
                 var inter = $(this).find(':selected').data("inter");
+				jml = $("#jml").val();
+				
                 if (state.toLowerCase() == "bali") {
-                    harga = lokal;
+                    harga = jml*lokal;
                 } else if (country.toLowerCase() == "indonesia") {
-                    harga = domestik;
+                    harga = jml*domestik;
                 } else {
-                    harga = inter;
+                    harga = jml*inter;
                 }
 
                 var dataPaket = dataSet.findIndex((find => find.id_pengunjung === id_pengunjung && find.id_barang === idbrg && find.jenis === "paket"));
@@ -384,12 +432,12 @@
                         "barang": namabrg,
                         "id_barang": idbrg,
                         "jenis": "paket",
-                        "jumlah": "",
+                        "jumlah": jml,
                         "total": harga
                     };
                     dataSet.push(arr);
-                } else {
-                    console.log('Paket sudah ada!');
+                }else {
+                    dataSet[dataPaket].total = parseInt(dataSet[dataPaket].jumlah)*harga;
                 }
             }
         });
@@ -404,6 +452,7 @@
         tblpesanan.clear();
         tblpesanan.rows.add(dataSet);
         tblpesanan.draw();
+
     });
 
     var groupColumn = 0;
@@ -555,6 +604,7 @@
                     $("#pengayah").val(data.master.pengayah_id).change();
                     $("#jumlah_pengunjung").val(data.master.jml_tamu);
                     $("#reservasi").val(idreservasi);
+                    $("#pengunjung").val(1);
 
                     $.each(data.barang, function(k, v) {
                         // console.log(v.lokal);
@@ -599,8 +649,12 @@
     })
 
     // ==== START SELECT COUNTRY & STATE  ====  
-    $("#countryname").select2();
-    $("#statename").select2();
+    $("#countryname").select2({
+	    dropdownParent: $("#newvisitor")
+	});
+    $("#statename").select2({
+	    dropdownParent: $("#newvisitor")
+	});
 
     $("#countryname").on("change", function() {
         var country = $(this).val();
@@ -626,4 +680,33 @@
         })
     });
     // ==== END SELECT COUNTRY & STATE  ====  
+	
+	$("#simpandata").on("click",function(){
+		$.ajax({
+            url: "<?= base_url() ?>pengunjung/simpanajax",
+			type: 'POST',
+			data: $('#form_pengguna').serialize(),
+            success: function(response) {
+                var data = JSON.parse(response);
+                var select = document.getElementById("pengunjung");
+                for (i = select.options.length - 1; i > 0; i--) {
+                    select.remove(i);
+                }
+                for (var i = 0; i < data.length; i++) {
+                    var option = document.createElement("OPTION"),
+                        txt = document.createTextNode(data[i].nama);
+                    option.appendChild(txt);
+                    option.setAttribute("value", data[i].id);
+					option.setAttribute("data-state",data[i].statename);
+					option.setAttribute("data-country",data[i].countryname);
+                    select.insertBefore(option, select.lastChild);
+                }
+				$('#newvisitor').modal('hide');
+				$("#form_pengguna")[0].reset();
+            },
+            error: function(response) {
+                alert(response);
+            }
+        })
+	})
 </script>

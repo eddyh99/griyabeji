@@ -15,6 +15,12 @@
                             <div class="alert alert-warning"><?= $_SESSION["message"] ?></div>
                         <?php } ?>
                         <form id="form_input" method="post" action="<?= base_url() ?>guide/AddData">
+                        <div class="form-group row mb-5">
+                                <label class="col-sm-3 col-form-label">ID Partner</label>
+                                <div class="col">
+                                    <input type="text" class="form-control" id="idpartner" name="idpartner" maxlength="20">
+                                </div>
+                            </div>
                             <div class="form-group row mb-5">
                                 <label class="col-sm-3 col-form-label">Nama</label>
                                 <div class="col">
@@ -25,6 +31,12 @@
                                 <label class="col-sm-3 col-form-label">Whatsapp</label>
                                 <div class="col">
                                     <input type="number" class="form-control" id="whatsapp" name="whatsapp" maxlength="14">
+                                </div>
+                            </div>
+                            <div class="form-group row mb-5">
+                                <label class="col-sm-3 col-form-label">No. KTP</label>
+                                <div class="col">
+                                    <input type="text" class="form-control" id="noktp" name="noktp" maxlength="20">
                                 </div>
                             </div>
                             <div class="d-flex justify-content-between">

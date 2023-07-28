@@ -1,0 +1,1 @@
+__ci_last_regenerate|i:1687938564;logged_status|a:4:{s:8:"username";s:5:"admin";s:4:"nama";s:5:"admin";s:4:"role";s:5:"admin";s:8:"is_login";b:1;}message|s:179:"Cannot add or update a child row: a foreign key constraint fails (`odzhvlzt_bjsystem`.`store`, CONSTRAINT `store_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `pengguna` (`username`))";__ci_vars|a:1:{s:7:"message";s:3:"old";}

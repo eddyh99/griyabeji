@@ -19,7 +19,7 @@
                             <div class="col-lg-6">
                                 <div class="card-body">
                                     <div class="form-group row my-3">
-                                        <label class="col-sm-3 col-form-label">Nama Store</label>
+                                        <label class="col-sm-3 col-form-label">Nama Divisi</label>
                                         <div class="col-sm-7">
                                         <input type="text" class="form-control" id="namastore" name="namastore" maxlength="35" value="<?=$detail['namastore']?>">
                                         </div>

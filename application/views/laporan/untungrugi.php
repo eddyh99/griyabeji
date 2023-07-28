@@ -110,16 +110,16 @@
                                                     foreach ($data as $dt) {
                                                         $jmlBarang = ($dt['jml'] == 0) ? 1 : $dt['jml'];
                                                         if ($dt['id'] == $pj['id']) {
-
+                                                            if ($dt['jns'] == 'LOKAL') {
+                                                                $penjualan += ($dt['lokal'] * $jmlBarang);
+                                                            } elseif ($dt['jns'] == 'DOMESTIK') {
+                                                                $penjualan += ($dt['domestik'] * $jmlBarang);
+                                                            } else {
+                                                                $penjualan += ($dt['internasional'] * $jmlBarang);
+                                                            }
+                                                            
                                                             if ($dt['jenis'] == 'items') {
                                                                 $cost += ($dt['hpp'] * $jmlBarang);
-                                                                if ($dt['jns'] == 'LOKAL') {
-                                                                    $penjualan += ($dt['lokal'] * $jmlBarang);
-                                                                } elseif ($dt['jns'] == 'DOMESTIK') {
-                                                                    $penjualan += ($dt['domestik'] * $jmlBarang);
-                                                                } else {
-                                                                    $penjualan += ($dt['internasional'] * $jmlBarang);
-                                                                }
                                                             }
 
                                                             if ($dt['jenis'] == 'produk') {
@@ -127,13 +127,6 @@
                                                                     if ($dt['id'] == $produk['id'] && $dt['id_reservasi'] == $produk['id_reservasi'] && $dt['id_barang'] == $produk['id_barang']) {
                                                                         foreach ($produk['items'] as $item) {
                                                                             $cost += ($item['hpp'] * $jmlBarang);
-                                                                        }
-                                                                        if ($dt['jns'] == 'LOKAL') {
-                                                                            $penjualan += ($dt['lokal'] * $jmlBarang);
-                                                                        } elseif ($dt['jns'] == 'DOMESTIK') {
-                                                                            $penjualan += ($dt['domestik'] * $jmlBarang);
-                                                                        } else {
-                                                                            $penjualan += ($dt['internasional'] * $jmlBarang);
                                                                         }
                                                                     }
                                                                 }
@@ -143,14 +136,7 @@
                                                                     if ($dt['id'] == $paket['id'] && $dt['id_reservasi'] == $paket['id_reservasi'] && $dt['id_barang'] == $paket['id_barang']) {
                                                                         foreach ($paket['produk'] as $produk) {
                                                                             foreach ($produk['items'] as $item) {
-                                                                                $cost += ($item['hpp'] * $jmlBarang);
-                                                                                if ($dt['jns'] == 'LOKAL') {
-                                                                                    $penjualan += ($item['lokal'] * $jmlBarang);
-                                                                                } elseif ($dt['jns'] == 'DOMESTIK') {
-                                                                                    $penjualan += ($item['domestik'] * $jmlBarang);
-                                                                                } else {
-                                                                                    $penjualan += ($item['internasional'] * $jmlBarang);
-                                                                                }
+                                                                                $cost += ($item['hpp'] * $jmlBarang);                                                                                
                                                                             }
                                                                         }
                                                                     }
