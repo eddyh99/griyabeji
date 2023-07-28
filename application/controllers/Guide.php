@@ -74,6 +74,7 @@ class Guide extends CI_Controller
 	{
 		$this->form_validation->set_rules('nama', 'Nama', 'trim|required');
 		$this->form_validation->set_rules('whatsapp', 'Whatsapp', 'trim|required');
+		$this->form_validation->set_rules('idpartner', 'ID Partner', 'trim|required');
 
 		if ($this->form_validation->run() == FALSE) {
 			$this->session->set_flashdata('message', $this->message->error_msg(validation_errors()));
@@ -83,11 +84,15 @@ class Guide extends CI_Controller
 
 		$nama	    = $this->security->xss_clean($this->input->post('nama'));
 		$whatsapp	= $this->security->xss_clean($this->input->post('whatsapp'));
+		$idpartner	= $this->security->xss_clean($this->input->post('idpartner'));
+		$noktp		= $this->security->xss_clean($this->input->post('noktp'));
 
 
 		$data		= array(
+			"idpartner" => $idpartner,
 			"nama"      => $nama,
 			"whatsapp"  => $whatsapp,
+			"noktp"  	=> $noktp,
 			"userid"	=> $_SESSION["logged_status"]["username"]
 		);
 
@@ -143,6 +148,7 @@ class Guide extends CI_Controller
 	{
 		$this->form_validation->set_rules('nama', 'Nama', 'trim|required');
 		$this->form_validation->set_rules('whatsapp', 'Whatsapp', 'trim|required');
+		$this->form_validation->set_rules('idpartner', 'ID Partner', 'trim|required');
 
 		$id	= $this->security->xss_clean($this->input->post('id'));
 
@@ -153,13 +159,17 @@ class Guide extends CI_Controller
 		}
 
 		$nama	    = $this->security->xss_clean($this->input->post('nama'));
+		$idpartner	= $this->security->xss_clean($this->input->post('idpartner'));
 		$whatsapp	= $this->security->xss_clean($this->input->post('whatsapp'));
+		$noktp		= $this->security->xss_clean($this->input->post('noktp'));
 		$id			= $this->security->xss_clean($this->input->post('id'));
 
 
 		$data	= array(
 			"nama"      => $nama,
 			"whatsapp"  => $whatsapp,
+			"noktp"  	=> $noktp,
+			"idpartner" => $idpartner,
 		);
 
 		// print_r(json_encode($data));

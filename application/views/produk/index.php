@@ -20,7 +20,7 @@
                             <thead>
                                 <tr>
                                     <th></th>
-                                    <th>Nama Produk</th>
+                                    <th>Nama Experience</th>
                                     <th>Local</th>
                                     <th>Domestik</th>
                                     <th>Internasional</th>

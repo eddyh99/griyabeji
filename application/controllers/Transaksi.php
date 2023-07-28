@@ -43,7 +43,7 @@ class Transaksi extends CI_Controller
 		// For Select Country
 		$countries = $this->pengunjung->getCountry();
 		$data	= array(
-			'title'		 => 'Data Pengguna',
+			'title'		 => 'Transaksi',
 			'content'	 => 'transaksi/index',
 			'extra'		 => 'transaksi/js/js_index',
 			'extracss'	 => 'transaksi/css/css_index',
@@ -77,7 +77,7 @@ class Transaksi extends CI_Controller
 
 		$result = $this->transaksi->listTansaksi($tanggal_awal, $tanggal_akhir);
 		$data	= array(
-			'title'		 => 'Data Pengguna',
+			'title'		 => 'Data Transaksi',
 			'content'	 => 'transaksi/list',
 			'extra'		 => 'transaksi/js/js_list',
 			'extracss'	 => 'transaksi/css/css_index',
@@ -91,6 +91,10 @@ class Transaksi extends CI_Controller
 		);
 
 		$this->load->view('layout/wrapper', $data);
+	}
+
+	public function listreservasi(){
+		echo json_encode($this->reservasi->list_reservasi());
 	}
 
 	public function detail($id)
@@ -165,7 +169,7 @@ class Transaksi extends CI_Controller
 		$data = json_decode($this->security->xss_clean($this->input->post('data')));
 		$guide = json_decode($this->security->xss_clean($this->input->post('guide')));
 		$pengayah = json_decode($this->security->xss_clean($this->input->post('pengayah')));
-		$diskon = $this->security->xss_clean($this->input->post('diskon'));
+		$diskon = str_replace(",","",$this->security->xss_clean($this->input->post('diskon')));
 		$payment = $this->security->xss_clean($this->input->post('payment'));
 		$reservasi = $this->security->xss_clean($this->input->post('reservasi'));
 

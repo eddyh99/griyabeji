@@ -19,6 +19,7 @@
                         <table id="table_data" class="table table-striped nowrap" width="100%">
                             <thead>
                                 <tr>
+                                    <th>ID Partner</th>
                                     <th>Nama</th>
                                     <th>Whatsapp</th>
                                     <th>Aksi</th>

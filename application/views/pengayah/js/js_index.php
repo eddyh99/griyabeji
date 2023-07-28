@@ -18,7 +18,7 @@ $(function(){
 						  }
 			},
 		    "aoColumnDefs": [{	
-				"aTargets": [2],
+				"aTargets": [3],
 				"mData": "id",
 				"mRender": function (data, type, full, meta){
 					button='<a href="<?=base_url()?>pengayah/ubah/'+encodeURI(btoa(full.id))+'" class="btn btn-simple btn-success btn-icon remove rounded-circle mx-1"><i class="material-icons fs-3">update</i></a>';
@@ -37,6 +37,7 @@ $(function(){
             "columns": [
 				  { "data": "nama"},
                   { "data": "whatsapp" },
+                  { "data": "tipe" },
 			]
 	});
 })

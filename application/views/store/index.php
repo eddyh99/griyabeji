@@ -19,7 +19,7 @@
                             <table id="table_data" class="table table-striped nowrap" width="100%">
                                 <thead>
                                 <tr>
-                                    <th>Nama Store</th>
+                                    <th>Nama Divisi</th>
                                     <th>Aksi</th>
                                 </tr>
                                 </thead>

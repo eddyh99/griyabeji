@@ -17,6 +17,12 @@
                         <form id="form_input" method="post" action="<?= base_url() ?>guide/updateData">
                             <input type="hidden" name="id" value="<?= $detail["id"] ?>">
                             <div class="form-group row mb-5">
+                                <label class="col-sm-3 col-form-label">ID Member</label>
+                                <div class="col">
+                                    <input type="text" class="form-control" id="idpartner" name="idpartner" maxlength="20" value="<?= $detail['idpartner'] ?>">
+                                </div>
+                            </div>
+                            <div class="form-group row mb-5">
                                 <label class="col-sm-3 col-form-label">Nama</label>
                                 <div class="col">
                                     <input type="text" class="form-control" id="nama" name="nama" maxlength="35" value="<?= $detail['nama'] ?>">
@@ -26,6 +32,12 @@
                                 <label class="col-sm-3 col-form-label">Whatsapp</label>
                                 <div class="col">
                                     <input type="number" class="form-control" id="whatsapp" name="whatsapp" value="<?= $detail['whatsapp'] ?>" maxlength="14">
+                                </div>
+                            </div>
+                            <div class="form-group row mb-5">
+                                <label class="col-sm-3 col-form-label">No. KTP</label>
+                                <div class="col">
+                                    <input type="text" class="form-control" id="noktp" name="noktp" value="<?= $detail['noktp'] ?>" maxlength="20">
                                 </div>
                             </div>
                             <div class="d-flex justify-content-between">

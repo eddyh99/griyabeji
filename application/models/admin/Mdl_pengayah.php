@@ -5,7 +5,7 @@ class Mdl_pengayah extends CI_Model
 {
 	public function Listpengayah()
 	{
-		$sql = "SELECT id,username, nama,whatsapp FROM " . PENGAYAH . " WHERE status='no'";
+		$sql = "SELECT id, nama,whatsapp,tipe FROM " . PENGAYAH . " WHERE status='no'";
 		$query = $this->db->query($sql);
 		if ($query) {
 			return $query->result_array();
@@ -14,10 +14,10 @@ class Mdl_pengayah extends CI_Model
 		}
 	}
 
-	public function getUser($username)
+	public function getUser($id)
 	{
-		$sql = "SELECT id, nama,whatsapp FROM " . PENGAYAH . " WHERE id=? AND status='no'";
-		$query = $this->db->query($sql, $username);
+		$sql = "SELECT id, nama,whatsapp,tipe FROM " . PENGAYAH . " WHERE id=? AND status='no'";
+		$query = $this->db->query($sql, $id);
 		if ($query) {
 			return (array)$query->row();
 		} else {
@@ -35,24 +35,18 @@ class Mdl_pengayah extends CI_Model
 
 		$this->db->trans_start();
 
-		$pengguna = $this->db->insert_string(PENGGUNA, $datapengguna) . " ON DUPLICATE KEY UPDATE passwd=?, nama=?, role=?,passcode=?, status='0'";
-		if ($this->db->query($pengguna, array($datapengguna["passwd"], $datapengguna["nama"], $datapengguna["role"], $datapengguna["passcode"]))) {
+			$this->db->insert(PENGGUNA, $datapengguna);
 			//insert ke tabel Pengayah
 			$this->db->insert(PENGAYAH, $data);
 
-			$this->db->trans_complete();
+		$this->db->trans_complete();
 
-			if ($this->db->trans_status() === FALSE) {
-				$this->db->trans_rollback();
-				return array("code" => 511, "message" => $this->db->error());
-			} else {
-				$this->db->trans_commit();
-				return array("code" => 0, "message" => "");
-			}
-		} else {
-			$this->db->trans_complete();
+		if ($this->db->trans_status() === FALSE) {
 			$this->db->trans_rollback();
-			return array("code" => 511, "message" => $this->db->error());
+			return array("code"=>511, "message"=>"Data gagal disimpan, periksa ulang");
+		} else {
+			$this->db->trans_commit();
+			return array("code" => 0, "message" => "");
 		}
 	}
 

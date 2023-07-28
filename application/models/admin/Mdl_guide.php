@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Mdl_guide extends CI_Model{
 	public function Listguide(){		
-		$sql="SELECT id, nama,whatsapp FROM ".GUIDE." WHERE status='no'";
+		$sql="SELECT id, nama,whatsapp,idpartner,noktp FROM ".GUIDE." WHERE status='no'";
 		$query=$this->db->query($sql);
 		if ($query){
 			return $query->result_array();
@@ -13,7 +13,7 @@ class Mdl_guide extends CI_Model{
 	}
 
 	public function getUser($username){
-	    $sql="SELECT id, nama,whatsapp FROM " . GUIDE . " WHERE id=? AND status='no'";
+	    $sql="SELECT id, nama,whatsapp,idpartner,noktp FROM " . GUIDE . " WHERE id=? AND status='no'";
 	    $query=$this->db->query($sql,$username);
 		if ($query){
 			return (array)$query->row();

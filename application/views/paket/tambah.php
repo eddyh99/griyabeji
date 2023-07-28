@@ -53,29 +53,9 @@
                                                 <?php } ?>
                                             </select>
                                         </div>
-                                    </div>
+                                    </div>                                    
                                     <div class="form-group row mb-5">
-                                        <label class="col-sm-3 col-form-label">Komisi Guide 2x?</label>
-                                        <div class="col-sm">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="yes" id="komisi" name="komisi">
-                                                <label class="form-check-label" for="komisi">
-                                                    Komisi Guide x2 untuk Internasional?
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xl">
-                                    <div class="form-group row mb-5">
-                                        <label class="col-sm-3 col-form-label">Komisi Guide Domestik</label>
-                                        <div class="col-sm d-flex align-items-center">
-                                            <span class="me-3">Rp. </span>
-                                            <input type="text" class="form-control rupiah typeMoney" id="kdguide" name="kdguide" maxlength="35" autocomplete="off">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row mb-5">
-                                        <label class="col-sm-3 col-form-label">Komisi Guide Internasional</label>
+                                        <label class="col-sm-3 col-form-label">Komisi Guide</label>
                                         <div class="col-sm d-flex align-items-center">
                                             <span class="me-3">Rp. </span>
                                             <input type="text" class="form-control rupiah typeMoney" id="kiguide" name="kiguide" maxlength="35" autocomplete="off">

@@ -320,7 +320,6 @@ class Laporan extends CI_Controller
 			$pk['id_barang'] = $paket['id_barang'];
 			$pk['namabarang'] = $paket['namabarang'];
 			$pk['produk'] = $list_items_by_produk_in_paket;
-
 			array_push($listItemsbyPaket, $pk);
 		}
 
@@ -372,8 +371,8 @@ class Laporan extends CI_Controller
 		}
 
 		$result = $this->kas->getpenjualan($tanggal_awal, $tanggal_akhir);
-		// print("<pre>" . print_r($result, true) . "</pre>");
-		// die;
+		//print("<pre>" . print_r($result, true) . "</pre>");
+		//die;
 
 		$uniqueitems = array();
 		$uniqueproduk = array();
@@ -550,8 +549,8 @@ class Laporan extends CI_Controller
 			array_push($listItemsbyPaket, $pk);
 		}
 
-		// print("<pre>" . print_r($penjualan, true) . "</pre>");
-		// die;
+		//print("<pre>" . print_r($penjualan, true) . "</pre>");
+		//die;
 
 		$data	= array(
 			'title'		 	=> 'Laporan Untung Rugi',

@@ -90,4 +90,14 @@ class Mdl_pengguna extends CI_Model
 			return array("code" => 5111);
 		}
 	}
+
+	public function getNonAdmin(){
+		$sql="SELECT username,nama,role FROM " . PENGGUNA . " WHERE status='no' AND role='kasir' AND username NOT IN (SELECT username FROM ".ASSIGNSTORE." WHERE status=0)";
+	    $query=$this->db->query($sql);
+		if ($query){
+			return (array)$query->result_array();
+		}else{
+            return $this->db->error();
+		}
+	}
 }

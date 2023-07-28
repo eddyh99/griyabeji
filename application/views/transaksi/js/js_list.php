@@ -37,7 +37,7 @@
                         "id_barang": v.id_produk,
                         "jenis": v.jenis,
                         "jumlah": jml,
-                        "total": harga
+                        "total": jml*harga
                     };
                     dataSet.push(arr);
                 });
@@ -53,7 +53,9 @@
 
     var table;
     $(function() {
-        table = $('#table_data').DataTable();
+        table = $('#table_data').DataTable({
+			order: [[1, 'desc']]
+		});
     })
 
     var groupColumn = 0;
@@ -69,8 +71,10 @@
         drawCallback: function(settings) {
             var api = this.api();
             var total = api.column(3).data().sum();
+			var diskon = parseInt($("#diskon").text().replace(',', ''));
+			$("#totalbelanja").text((total-diskon).toLocaleString("id"));
             $(api.column(3).footer()).html(
-                total.toLocaleString("en")
+                total.toLocaleString("id")
             );
             var rows = api.rows({
                 page: 'current'
@@ -112,7 +116,7 @@
                 data: 'total',
                 title: 'Total',
                 className: "dt-body-right text-end",
-                render: $.fn.dataTable.render.number(',', '.', 0, ''),
+                render: $.fn.dataTable.render.number('.', ',', 0, ''),
             }
         ]
     });

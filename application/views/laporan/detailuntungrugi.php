@@ -74,19 +74,21 @@
                                             }
                                         }
                                     }
+									
+                                    //print("<pre>" . print_r($data, true) . "</pre>");
 
                                     foreach ($data as $dt) {
-                                        $jmlBarang = ($dt['jml'] == 0) ? 1 : $dt['jml'];
                                         if ($dt['id'] == $pj['id']) {
+                                            if ($dt['jns'] == 'LOKAL') {
+                                                $penjualan += ($dt['lokal'] * $jmlBarang);
+                                            } elseif ($dt['jns'] == 'DOMESTIK') {
+                                                $penjualan += ($dt['domestik'] * $jmlBarang);
+                                            } else {
+                                                $penjualan += ($dt['internasional'] * $jmlBarang);
+                                            }
+
                                             if ($dt['jenis'] == 'items') {
                                                 $cost += ($dt['hpp'] * $jmlBarang);
-                                                if ($dt['jns'] == 'LOKAL') {
-                                                    $penjualan += ($dt['lokal'] * $jmlBarang);
-                                                } elseif ($dt['jns'] == 'DOMESTIK') {
-                                                    $penjualan += ($dt['domestik'] * $jmlBarang);
-                                                } else {
-                                                    $penjualan += ($dt['internasional'] * $jmlBarang);
-                                                }
                                             }
 
                                             if ($dt['jenis'] == 'produk') {
@@ -95,29 +97,15 @@
                                                         foreach ($produk['items'] as $item) {
                                                             $cost += ($item['hpp'] * $jmlBarang);
                                                         }
-                                                        if ($dt['jns'] == 'LOKAL') {
-                                                            $penjualan += ($dt['lokal'] * $jmlBarang);
-                                                        } elseif ($dt['jns'] == 'DOMESTIK') {
-                                                            $penjualan += ($dt['domestik'] * $jmlBarang);
-                                                        } else {
-                                                            $penjualan += ($dt['internasional'] * $jmlBarang);
-                                                        }
                                                     }
                                                 }
                                             }
                                             if ($dt['jenis'] == 'paket') {
-                                                foreach ($listItemsbyPaket as $paket) {
+                                                foreach ($listItemsbyPaket as $paket) {                                                    
                                                     if ($dt['id'] == $paket['id'] && $dt['id_reservasi'] == $paket['id_reservasi'] && $dt['id_barang'] == $paket['id_barang']) {
                                                         foreach ($paket['produk'] as $produk) {
                                                             foreach ($produk['items'] as $item) {
-                                                                $cost += ($item['hpp'] * $jmlBarang);
-                                                                if ($dt['jns'] == 'LOKAL') {
-                                                                    $penjualan += ($item['lokal'] * $jmlBarang);
-                                                                } elseif ($dt['jns'] == 'DOMESTIK') {
-                                                                    $penjualan += ($item['domestik'] * $jmlBarang);
-                                                                } else {
-                                                                    $penjualan += ($item['internasional'] * $jmlBarang);
-                                                                }
+                                                                $cost += ($item['hpp'] * $jmlBarang);                                                                
                                                             }
                                                         }
                                                     }
@@ -125,7 +113,7 @@
                                             }
                                         }
                                     }
-
+                                                                       
                                     $laba = $penjualan - $komisi - $cost;
                                     // $laba = $penjualan;
                                     $totalPenjualan += $laba;
@@ -260,7 +248,7 @@
                                                                     </td>
                                                                     <td class="pe-0"><?= ($br['jenis'] == 'items') ? ' <i>Souvenir</i> ' : ''; ?></td>
                                                                     <td class="text-center pe-0"><?= $jumlahBarang; ?></td>
-                                                                    <td class="text-end pe-0"><?= $komisibarang; ?></td>
+                                                                    <td class="text-end pe-0"><?= number_format($komisibarang); ?></td>
                                                                     <td class="text-end pe-0"><?= number_format($br['hpp']); ?></td>
                                                                     <td class="text-end pe-0"><?= number_format($penjualanBarang - $br['hpp'] - $komisibarang); ?></td>
                                                                 </tr>
@@ -343,15 +331,16 @@
 
                                                                         foreach ($listItemsbyProduk as $produk) {
                                                                             if ($dt['id'] == $produk['id'] && $dt['id_reservasi'] == $produk['id_reservasi'] && $dt['id_barang'] == $produk['id_barang']) {
-                                                                                foreach ($produk['items'] as $item) {
-                                                                                    $costBarang += ($item['hpp'] * $jmlBarang);
-                                                                                }
                                                                                 if ($dt['jns'] == 'LOKAL') {
                                                                                     $penjualanBarang += ($dt['lokal'] * $jmlBarang);
                                                                                 } elseif ($dt['jns'] == 'DOMESTIK') {
                                                                                     $penjualanBarang += ($dt['domestik'] * $jmlBarang);
                                                                                 } else {
                                                                                     $penjualanBarang += ($dt['internasional'] * $jmlBarang);
+                                                                                }
+
+                                                                                foreach ($produk['items'] as $item) {
+                                                                                    $costBarang += ($item['hpp'] * $jmlBarang);
                                                                                 }
                                                                             }
                                                                         }
@@ -368,7 +357,7 @@
                                                                     </td>
                                                                     <td class="pe-0"><i><?= $br['jenis']; ?></i></td>
                                                                     <td class="text-center pe-0"><?= $jumlahBarang; ?></td>
-                                                                    <td class="text-end pe-0"><?= $komisibarang; ?></td>
+                                                                    <td class="text-end pe-0"><?= number_format($komisibarang); ?></td>
                                                                     <td class="text-end pe-0"><?= number_format($costBarang); ?></td>
                                                                     <td class="text-end pe-0"><?= number_format($penjualanBarang - $costBarang - $komisibarang); ?></td>
                                                                 </tr>
@@ -449,16 +438,16 @@
 
                                                                         foreach ($listItemsbyPaket as $paket) {
                                                                             if ($dt['id'] == $paket['id'] && $dt['id_reservasi'] == $paket['id_reservasi'] && $dt['id_barang'] == $paket['id_barang']) {
+                                                                                if ($dt['jns'] == 'LOKAL') {
+                                                                                    $penjualanBarang += ($dt['lokal'] * $jmlBarang);
+                                                                                } elseif ($dt['jns'] == 'DOMESTIK') {
+                                                                                    $penjualanBarang += ($dt['domestik'] * $jmlBarang);
+                                                                                } else {
+                                                                                    $penjualanBarang += ($dt['internasional'] * $jmlBarang);
+                                                                                }
                                                                                 foreach ($paket['produk'] as $produk) {
                                                                                     foreach ($produk['items'] as $item) {
-                                                                                        $costBarang += ($item['hpp'] * $jmlBarang);
-                                                                                        if ($dt['jns'] == 'LOKAL') {
-                                                                                            $penjualanBarang += ($item['lokal'] * $jmlBarang);
-                                                                                        } elseif ($dt['jns'] == 'DOMESTIK') {
-                                                                                            $penjualanBarang += ($item['domestik'] * $jmlBarang);
-                                                                                        } else {
-                                                                                            $penjualanBarang += ($item['internasional'] * $jmlBarang);
-                                                                                        }
+                                                                                        $costBarang += ($item['hpp'] * $jmlBarang);                                                                                       
                                                                                     }
                                                                                 }
                                                                             }
@@ -476,7 +465,7 @@
                                                                     </td>
                                                                     <td class="pe-0"><i><?= $br['jenis']; ?></i></td>
                                                                     <td class="text-center pe-0"><?= $jumlahBarang; ?></td>
-                                                                    <td class="text-end pe-0"><?= $komisibarang; ?></td>
+                                                                    <td class="text-end pe-0"><?= number_format($komisibarang); ?></td>
                                                                     <td class="text-end pe-0"><?= number_format($costBarang); ?></td>
                                                                     <td class="text-end pe-0"><?= number_format($penjualanBarang - $costBarang - $komisibarang); ?></td>
                                                                 </tr>

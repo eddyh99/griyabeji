@@ -1,4 +1,5 @@
-<!-- <link rel="stylesheet" href="<?= base_url() ?>assets/bootstrap/plugins/select2/css/select2.min.css"> -->
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+
 <style>
     .select2-selection__choice__remove {
         display: none !important;

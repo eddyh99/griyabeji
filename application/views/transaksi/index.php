@@ -2,11 +2,11 @@
 <div class="container-fluid container-md mb-10 mt-auto">
 	<div class="row my-5">
 		<div class="col-4">
-			<label>Kode Reservasi (optional)</label>
+			<label>Kode Reservasi (optional)</label><br>
 			<div class="row">
 				<div class="col">
-					<input type="text" class="form-control rounded-pill" name="kode_reservasi" id="kode_reservasi">
-					<input type="text" class="form-control rounded-pill" name="reservasi" id="reservasi" hidden>
+					<input type="text" class="form-control rounded-pill" name="kode_reservasi" id="kode_reservasi" placeholder="ALT+F1 utk pencarian">
+					<input type="hidden" class="form-control rounded-pill" name="reservasi" id="reservasi">
 					<small class="ms-5" id="notif_reservasi"></small>
 				</div>
 				<div class="col-auto">
@@ -57,20 +57,16 @@
 			<div class="row g-3 repeatDiv" id="repeatDiv">
 				<div class="col-3">
 					<label>Items</label>
-					<select name="namaitems[]" class="form-control namaitems rounded-pill" id="selectItems">
+					<select name="namaitems[]" id="namaitem" class="form-control namaitems rounded-pill" id="selectItems">
 						<option></option>
 						<?php foreach ($items as $dt) { ?>
 							<option data-lokal="<?= $dt["lokal"] ?>" data-domestik="<?= $dt["domestik"] ?>" data-inter="<?= $dt["internasional"] ?>" value="<?= $dt["id"] ?>"><?= $dt["namaitem"] ?></option>
 						<?php } ?>
 					</select>
 				</div>
-				<div class="col-1">
-					<label>Jumlah</label>
-					<input type="text" name="jml[]" id="jml" class="form-control rounded-pill" value="1">
-				</div>
 				<div class="col-3">
 					<label>Produk</label>
-					<select name="namaproduk[]" class="form-control namaproduk rounded-pill" id="selectProduk">
+					<select name="namaproduk[]" id="namaproduk" class="form-control namaproduk rounded-pill" id="selectProduk">
 						<option></option>
 						<?php foreach ($produks as $dt) { ?>
 							<option data-lokal="<?= $dt["lokal"] ?>" data-domestik="<?= $dt["domestik"] ?>" data-inter="<?= $dt["internasional"] ?>" value="<?= $dt["id"] ?>"><?= $dt["namaproduk"] ?></option>
@@ -79,19 +75,24 @@
 				</div>
 				<div class="col-3">
 					<label>Paket</label>
-					<select name="namapaket[]" class="form-control namapaket rounded-pill" id="selectPaket">
+					<select name="namapaket[]" id="namapaket" class="form-control namapaket rounded-pill" id="selectPaket">
 						<option></option>
 						<?php foreach ($pakets as $dt) { ?>
 							<option data-lokal="<?= $dt["lokal"] ?>" data-domestik="<?= $dt["domestik"] ?>" data-inter="<?= $dt["internasional"] ?>" value="<?= $dt["id"] ?>"><?= $dt["namapaket"] ?></option>
 						<?php } ?>
 					</select>
 				</div>
-				<div class="col" id="hide_add">
+				<div class="col-1">
+					<label>Jumlah</label>
+					<input type="text" name="jml[]" id="jml" class="form-control rounded-pill" value="1">
+				</div>
+				
+				<!--<div class="col" id="hide_add">
 					<button class="btn btn-beji btn-icon remove rounded-circle mt-7" id="addfield" data-increment="1">
 						<i class="fas fa-plus"></i>
 					</button>
-					<!-- <button id="check">check</button> -->
-				</div>
+					<button id="check">check</button>
+				</div>-->
 			</div>
 		</div>
 	</div>
@@ -129,7 +130,7 @@
 			</div>
 			<div class="modal-body">
 				<!-- ====== Start Tambah Pengguna ====== -->
-				<form id="form_input">
+				<form id="form_pengguna">
 					<div class="form-group row my-3">
 						<label class="col-sm-3 col-form-label">Nama</label>
 						<div class="col-sm">
@@ -179,6 +180,26 @@
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal">Close</button>
 				<button type="button" id="simpandata" class="btn btn-beji rounded-pill">Save changes</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="carireservasi" tabindex="-1" aria-labelledby="newvisitorLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Data Reservasi</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<select id="listreservasi" class="form-control">
+				</select>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal">Close</button>
+				<button type="button" id="pilihreservasi" class="btn btn-beji rounded-pill">Pilih</button>
 			</div>
 		</div>
 	</div>

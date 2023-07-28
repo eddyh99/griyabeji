@@ -30,6 +30,7 @@ class Mdl_reservasi extends CI_Model
 
 		//insert ke tabel produk
 		$this->db->insert("reservasi", $mtrans);
+		$error=$this->db->error();
 		$id = $this->db->insert_id();
 
 		$unikproduk = $this->unik_produk($data, 'id_barang');
@@ -45,7 +46,7 @@ class Mdl_reservasi extends CI_Model
 			foreach ($data as $dt) {
 				if ($temp["id_produk"] == $dt->id_barang && $temp["jenis"] == $dt->jenis) {
 					$temp2["id_detail"]		= $id_detail;
-					$temp2["id_pengunjung"] = $dt->id_pengunjung;
+					$temp2["id_pengunjung"]	= $mtrans["namatamu"];
 					$temp2["jml"]			= $dt->jumlah;
 					array_push($pengunjung, $temp2);
 				}
@@ -58,7 +59,7 @@ class Mdl_reservasi extends CI_Model
 
 		if ($this->db->trans_status() === FALSE) {
 			$this->db->trans_rollback();
-			return array("code" => 511, "message" => "Data tidak dapat disimpan, periksa ulang");
+			return array("code" => 511, "message" => $error["message"]);
 		} else {
 			$this->db->trans_commit();
 			return array("code" => 0, "message" => "");
@@ -284,5 +285,11 @@ class Mdl_reservasi extends CI_Model
 		} else {
 			return $this->db->error();
 		}
+	}
+
+	public function list_reservasi(){
+		$sql="SELECT a.id, b.nama as namatamu FROM reservasi a INNER JOIN pengunjung b ON a.namatamu=b.id WHERE a.id NOT IN (SELECT id_reservasi FROM penjualan_pengunjung WHERE id_reservasi IS NOT NULL);";
+		$query=$this->db->query($sql);
+		return $query->result();
 	}
 }

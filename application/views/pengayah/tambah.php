@@ -39,6 +39,15 @@
                                     <input type="number" class="form-control" id="whatsapp" name="whatsapp" maxlength="14">
                                 </div>
                             </div>
+                            <div class="form-group row mb-5">
+                                <label class="col-sm-3 col-form-label">Jenis</label>
+                                <div class="col">
+                                    <select name="tipe" class="form-control">
+                                        <option value="domestik">Domestik</option>
+                                        <option value="internasional">internasional</option>
+                                    </select>
+                                </div>
+                            </div>
                             <div class="d-flex justify-content-between">
                                 <div class="text-right">
                                     <a name="btnBack" href="<?= base_url() ?>pengayah" class="btn btn-warning">

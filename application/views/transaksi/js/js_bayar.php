@@ -5,9 +5,9 @@
     var kode_reservasi = JSON.parse(localStorage.getItem('kode_reservasi'));
     var dp = JSON.parse(localStorage.getItem('dp'));
     var buktibayar = JSON.parse(localStorage.getItem('buktibayar'));
-
+    console.log(pengayah);
     $("#guide").val(guide.namaguide);
-    $("#pengayah").val(pengayah.namaguide);
+    $("#pengayah").val(pengayah.namapengayah);
     $("#reservasi").val(kode_reservasi.kode_reservasi);
 
     $("#img_bukti_bayar").attr("src", "<?= base_url() ?>assets/Bukti_pembayaran/" + buktibayar);

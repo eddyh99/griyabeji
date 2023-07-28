@@ -11,18 +11,19 @@ class Store extends CI_Controller
 			redirect(base_url());
 		}
 		$this->load->model('admin/mdl_store', 'store');
+		$this->load->model('admin/mdl_items', 'items');
 	}
 
 	public function index()
 	{
 
 		$data	= array(
-			'title'		 => NAMETITLE . '- Data Store',
+			'title'		 => NAMETITLE . '- Data Divisi',
 			'content'	 => 'store/index',
 			'extra'		 => 'store/js/js_index',
 			'colmas'	 => 'hover show',
 			'side7'		 => 'active',
-			'breadcrumb' => 'Master / Store'
+			'breadcrumb' => 'Master / Divisi'
 		);
 		$this->load->view('layout/wrapper', $data);
 	}
@@ -47,20 +48,20 @@ class Store extends CI_Controller
 	{
 
 		$data = array(
-			'title'		 => NAMETITLE . ' - Tambah Data Store',
+			'title'		 => NAMETITLE . ' - Tambah Data Divisi',
 			'content'	 => 'store/tambah',
 			'colmas'	 => 'hover show',
 			'colset'	 => 'collapse in',
 			'collap'	 => 'collapse',
 			'side7'		 => 'active',
-			'breadcrumb' => 'Master / Store / Tambah Data'
+			'breadcrumb' => 'Master / Store / Tambah Divisi'
 		);
 		$this->load->view('layout/wrapper', $data);
 	}
 
 	public function AddData()
 	{
-		$this->form_validation->set_rules('namastore', 'Nama Store', 'trim|required');
+		$this->form_validation->set_rules('namastore', 'Nama Divisi', 'trim|required');
 
 		if ($this->form_validation->run() == FALSE) {
 			$this->session->set_flashdata('message', $this->message->error_msg(validation_errors()));
@@ -72,7 +73,8 @@ class Store extends CI_Controller
 
 
 		$data		= array(
-			"storename"      => $namastore
+			"storename"     => $namastore,
+			"userid"		=> $_SESSION["logged_status"]["username"]
 		);
 
 		// print_r(json_encode($data));
@@ -111,7 +113,7 @@ class Store extends CI_Controller
 		// );
 
 		$data		= array(
-			'title'		 => NAMETITLE . ' - Ubah Data Store',
+			'title'		 => NAMETITLE . ' - Ubah Data Divisi',
 			'content'    => 'store/ubah',
 			'detail'     => $result,
 			'mn_master'	 => 'active',
@@ -119,14 +121,14 @@ class Store extends CI_Controller
 			'colset'	 => 'collapse in',
 			'collap'	 => 'collapse',
 			'side7'		 => 'active',
-			'breadcrumb' => 'Master / Store / Ubah Data'
+			'breadcrumb' => 'Master / Divisi / Ubah Data'
 		);
 		$this->load->view('layout/wrapper', $data);
 	}
 
 	public function updateData()
 	{
-		$this->form_validation->set_rules('namastore', 'Nama Store', 'trim|required');
+		$this->form_validation->set_rules('namastore', 'Nama Divisi', 'trim|required');
 
 		$id	= $this->security->xss_clean($this->input->post('id'));
 
@@ -192,5 +194,53 @@ class Store extends CI_Controller
 			$this->session->set_flashdata('message', $this->message->error_msg($result["message"]));
 			redirect(base_url() . "store");
 		}
+	}
+
+	public function penjualan(){
+		$data = array(
+			'title'		 => NAMETITLE . ' - Penjualan Divisi',
+			'content'	 => 'transaksistore/index',
+			'extra'		 => 'transaksistore/js/js_index',
+			'colmas'	 => 'hover show',
+			'colset'	 => 'collapse in',
+			'collap'	 => 'collapse',
+			'side10'	 => 'active',
+			'breadcrumb' => 'Store / Penjualan Divisi'
+		);
+		$this->load->view('layout/wrapper', $data);
+	}
+
+	public function getPenjualan(){
+		echo json_encode($this->store->get_penjualan($_SESSION["logged_status"]["storeid"]));
+	}
+
+	public function tambahpenjualan(){
+		$data = array(
+			'title'		 => NAMETITLE . ' - Tambah Penjualan Divisi',
+			'content'	 => 'transaksistore/tambah',
+			'extra'	 	 => 'transaksistore/js/js_tambah',
+			'items'		 => $this->items->Listitems(),
+			'colmas'	 => 'hover show',
+			'colset'	 => 'collapse in',
+			'collap'	 => 'collapse',
+			'side10'	 => 'active',
+			'breadcrumb' => 'Store / Tambah Penjualan Divisi'
+		);
+		$this->load->view('layout/wrapper', $data);
+	}
+
+	public function addtransaksi(){
+		$barang = json_decode($this->security->xss_clean($this->input->post('barang')));
+        
+		$transaksi	= array(
+			"tanggal"	=> date("Y-m-d H:i:s"),
+			"storeid"	=> $_SESSION["logged_status"]["storeid"],
+			"userid"	=> $_SESSION["logged_status"]["username"],
+			"create_at"	=> date("Y-m-d H:i:s")
+		);
+		
+		$result	= $this->store->insert_transaksi($transaksi,$barang);
+		$this->session->set_flashdata('message', "Data berhasil tersimpan");
+		echo "0";
 	}
 }
