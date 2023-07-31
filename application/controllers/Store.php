@@ -31,16 +31,6 @@ class Store extends CI_Controller
 	public function Listdata()
 	{
 		$result = $this->store->liststore();
-		// $result = array (
-		// 	array(
-		//         "id"            => "1",
-		// 		"namastore"		=> "Waterfall Store",
-		// 	),
-		// 	array(
-		//         "id"            => "2",
-		// 		"namastore"		=> "Pool Store",
-		// 	),
-		// );
 		echo json_encode($result);
 	}
 
@@ -64,7 +54,7 @@ class Store extends CI_Controller
 		$this->form_validation->set_rules('namastore', 'Nama Divisi', 'trim|required');
 
 		if ($this->form_validation->run() == FALSE) {
-			$this->session->set_flashdata('message', $this->message->error_msg(validation_errors()));
+			$this->session->set_flashdata('error_validation', $this->message->error_msg(validation_errors()));
 			redirect(base_url() . "store/tambah");
 			return;
 		}
@@ -77,27 +67,14 @@ class Store extends CI_Controller
 			"userid"		=> $_SESSION["logged_status"]["username"]
 		);
 
-		// print_r(json_encode($data));
-		// die;
-
-		// Checking Success and Error AddData
 		$result		= $this->store->insertData($data);
 
-		// untuk sukses
-		// $result["code"]=0;
-
-		//untuk gagal
-		// $result["code"]=5011;
-		// $result["message"]="Data gagal di inputkan";
-
-
-
 		if ($result["code"] == 0) {
-			$this->session->set_flashdata('message', $this->message->success_msg());
+			$this->session->set_flashdata('success', $this->message->success_msg());
 			redirect(base_url() . "store");
 			return;
 		} else {
-			$this->session->set_flashdata('message', $this->message->error_msg($result["message"]));
+			$this->session->set_flashdata('error', $this->message->error_msg($result["message"]));
 			redirect(base_url() . "store/tambah");
 			return;
 		}
@@ -108,9 +85,6 @@ class Store extends CI_Controller
 		// Menampilkan Hasil Single Data ketika di click username tertentu sebagai parameter
 		$id			= base64_decode($this->security->xss_clean($id));
 		$result		= $this->store->getStore($id);
-		// $result = array (
-		// 	"namastore"		    => "Waterfall Beji",
-		// );
 
 		$data		= array(
 			'title'		 => NAMETITLE . ' - Ubah Data Divisi',
@@ -133,7 +107,7 @@ class Store extends CI_Controller
 		$id	= $this->security->xss_clean($this->input->post('id'));
 
 		if ($this->form_validation->run() == FALSE) {
-			$this->session->set_flashdata('message', $this->message->error_msg(validation_errors()));
+			$this->session->set_flashdata('error_validation', $this->message->error_msg(validation_errors()));
 			redirect(base_url() . "store/ubah/" . base64_encode($id));
 			return;
 		}
@@ -146,26 +120,14 @@ class Store extends CI_Controller
 			"storename"      => $namastore
 		);
 
-		// print_r(json_encode($data));
-		// die;
-
-
 		$result		= $this->store->updateData($data, $id);
-		//untuk cek sukses atau gagal dengan cara menambahkan array result
-
-		// untuk sukses
-		// $result["code"]=0;
-
-		//untuk gagal
-		//$result["code"]=5011;
-		//$result["message"]="Data gagal di inputkan";
 
 		if ($result["code"] == 0) {
-			$this->session->set_flashdata('message',  $this->message->success_msg());
+			$this->session->set_flashdata('success',  $this->message->success_msg());
 			redirect(base_url() . "store");
 			return;
 		} else {
-			$this->session->set_flashdata('message', $this->message->error_msg($result["message"]));
+			$this->session->set_flashdata('error', $this->message->error_msg($result["message"]));
 			redirect(base_url() . "store/ubah/" . base64_encode($id));
 			return;
 		}
@@ -180,18 +142,11 @@ class Store extends CI_Controller
 		$id	= base64_decode($this->security->xss_clean($id));
 		$result		= $this->store->hapusData($data, $id);
 
-		// untuk sukses
-		// $result["code"]=0;
-
-		//untuk gagal
-		// $result["code"]=5011;
-		// $result["message"]="Data gagal di Dihapus";
-
 		if ($result["code"] == 0) {
-			$this->session->set_flashdata('message', $this->message->delete_msg());
+			$this->session->set_flashdata('success', $this->message->delete_msg());
 			redirect(base_url() . "store");
 		} else {
-			$this->session->set_flashdata('message', $this->message->error_msg($result["message"]));
+			$this->session->set_flashdata('error', $this->message->error_msg($result["message"]));
 			redirect(base_url() . "store");
 		}
 	}

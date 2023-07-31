@@ -11,9 +11,6 @@
                 <!-- ====== Start Tambah Pengguna ====== -->
                 <div class="card">
                     <div class="card-body">
-                        <?php if (isset($_SESSION["message"])) { ?>
-                            <div class="alert alert-warning"><?= $_SESSION["message"] ?></div>
-                        <?php } ?>
                         <form id="form_input" method="post" action="<?= base_url() ?>paket/AddData">
                             <div class="row">
                                 <div class="col-xl">
@@ -98,3 +95,37 @@
     <!--====== End Content ====== -->
 </div>
 <!--======= End Content wrapper ====== -->
+
+
+<!-- Alert Message -->
+<?php if (isset($_SESSION["error"])) { ?>
+    <script>
+        setTimeout(function() {
+            Swal.fire({
+                title: '<?= $_SESSION['error'] ?>',
+                position: 'top-end',
+                background: '#FF8888',
+                customClass: {
+                    title: 'toast-griya-title',
+                },
+                confirmButtonColor: '#202B46',
+            });
+        }, 100);
+    </script>
+<?php } ?>
+
+<?php if (isset($_SESSION["error_validation"])) { ?>
+    <script>
+        setTimeout(function() {
+            Swal.fire({
+                title: '<?= trim(str_replace('"', '', json_encode($_SESSION['error_validation']))) ?>',
+                position: 'top-end',
+                background: '#F1416C',
+                confirmButtonColor: '#202B46',
+                customClass: {
+                    title: 'toast-griya-title'
+                }
+            });
+        }, 100);
+    </script>
+<?php } ?>

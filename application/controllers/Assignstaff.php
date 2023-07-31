@@ -15,9 +15,6 @@ class Assignstaff extends CI_Controller {
     }
     
     public function index() {
-		// $result	= $this->assignModel->ListStaff();
-		// print_r(json_encode($result));
-		// die;
 		$data	= array(
 			'title'		 => NAMETITLE . ' - Data Assign Staff',
 			'content'	 => 'assignstaff/index',
@@ -40,8 +37,6 @@ class Assignstaff extends CI_Controller {
 		// Hanya get data yang non ADMIN !!
 		$staff	= $this->pengguna->getNonAdmin();
 		$store	= $this->store->Liststore();
-		// print_r(json_encode($staff));
-		// die;
 		$data	= array(
 			'title'		 => NAMETITLE . ' - Tambah Data Staff',
 			'content'	 => 'assignstaff/tambah',
@@ -61,7 +56,7 @@ class Assignstaff extends CI_Controller {
 		$this->form_validation->set_rules('storeid', 'Store', 'trim|required');
 
 		if ($this->form_validation->run() == FALSE){
-		    $this->session->set_flashdata('message', $this->message->error_msg(validation_errors()));
+		    $this->session->set_flashdata('error_validation', $this->message->error_msg(validation_errors()));
 		    redirect("assignstaff/tambah");
             return;
 		}
@@ -75,27 +70,15 @@ class Assignstaff extends CI_Controller {
             "storeid"		=> $storeid,
             "userid"        => $userid
         );
-
-		// print_r(json_encode($data));
-		// die;
 		
-		// Checking Success and Error 
-		 $result		= $this->assignstaff->insertData($data);
-
-		// untuk sukses
-		// $result["code"]=0;
-
-		//untuk gagal
-		// $result["code"]=5011;
-		// $result["message"]="Data gagal di inputkan";
-
+		$result		= $this->assignstaff->insertData($data);
 
 		if ($result["code"]==0) {
-		    $this->session->set_flashdata('message', $this->message->success_msg());
+		    $this->session->set_flashdata('success', $this->message->success_msg());
 		    redirect("assignstaff");
             return;
 		}else{
-		    $this->session->set_flashdata('message', $this->message->error_msg($result["message"]));
+		    $this->session->set_flashdata('error', $this->message->error_msg($result["message"]));
 		    redirect("assignstaff/tambah");
             return;
 		}
@@ -116,16 +99,7 @@ class Assignstaff extends CI_Controller {
 			"storeid"	=> $storeid
 		);
 
-		// Ceck Suskes & Gagal
-		$result		= $this->assignstaff->hapusData($data,$where);
-		
-		// untuk sukses
-		// $result["code"]=0;
-
-		//untuk gagal
-		// $result["code"]=5011;
-		// $result["message"]="Data gagal di Dihapus";
-
+		$result		= $this->assignstaff->hapusData($data,$where);		
 
 		if ($result["code"]==0) {
 		    $this->session->set_flashdata('message', $this->message->delete_msg());

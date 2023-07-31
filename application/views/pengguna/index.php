@@ -56,3 +56,21 @@
         }, 100);
     </script>
 <?php } ?>
+
+
+<?php if (isset($_SESSION["error"])) { ?>
+    <script>
+        setTimeout(function() {
+            Swal.fire({
+                title: '<?= $_SESSION['error'] ?>',
+                position: 'top-end',
+                background: '#F1416C',
+                customClass: {
+                    title: 'toast-griya-title',
+                },
+                timer: 3000,
+                showConfirmButton: false,
+            });
+        }, 100);
+    </script>
+<?php } ?>

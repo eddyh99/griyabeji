@@ -64,6 +64,10 @@ table.dataTable.table-striped>tbody>tr.even td:nth-child(1) {
     background-color: rgb(236, 236, 236);
 }
 
+.sweet-title-error-validation {
+    color: white;
+}
+
 @media (min-width: 768px) {
     .hanaka-back {
         font-size: 12px;

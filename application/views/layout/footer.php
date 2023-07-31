@@ -1,6 +1,6 @@
 <?php if (@$_SESSION["logged_status"]["is_login"]) { ?>
 	<!-- ====== Start Footer Page ====== -->
-	<div id="kt_app_footer" class="app-footer mt-auto">
+	<div id="kt_app_footer" class="app-footer mt-auto fixed-bottom">
 		<!-- ====== STart Footer container ====== -->
 		<div class="app-container container-fluid d-flex flex-column flex-md-row flex-center flex-md-stack py-3">
 			<div class="text-dark order-2 order-md-1">

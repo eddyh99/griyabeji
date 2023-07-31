@@ -41,32 +41,6 @@ class Paket extends CI_Controller
 			$i++;
 		}
 
-		// $result = array (
-		// 	array(
-		//         "id"            => "1",
-		// 		"namapaket"	    => "Middle Spiritual",
-		// 		"local"			=> "1000000",
-		// 		"domestik"		=> "2000000",
-		// 		"internasional"	=> "3000000",
-		//         "namaproduk"	=> ["Purification Ceremony", "Healing Therapy"]
-		// 	),
-		// 	array(
-		//         "id"            => "2",
-		// 		"namapaket"	    => "Middle Hash",
-		// 		"local"			=> "1000000",
-		// 		"domestik"		=> "2000000",
-		// 		"internasional"	=> "3000000",
-		//         "namaproduk"	=> ["Palm Reading", "Healing Therapy"]
-		// 	),
-		// 	array(
-		//         "id"            => "3",
-		// 		"namapaket"	    => "Combo Complate",
-		// 		"local"			=> "1000000",
-		// 		"domestik"		=> "2000000",
-		// 		"internasional"	=> "3000000",
-		//         "namaproduk"	=> ["Palm Reading", "Healing Therapy", "Purification Ceremony"]
-		// 	),
-		// );
 		echo json_encode($result);
 	}
 
@@ -88,23 +62,6 @@ class Paket extends CI_Controller
 	{
 
 		$items = $this->produk->listproduk();
-		//  array (
-		// 	array(
-		//         "id"            => "1",
-		// 		"namaproduk"		=> "Palm Reading",
-		// 	),
-		// 	array(
-		//         "id"            => "2",
-		// 		"namaproduk"		=> "Healing Therapy",
-		// 	),
-		// 	array(
-		//         "id"            => "3",
-		// 		"namaproduk"		=> "Purification Ceremony",
-		// 	),
-		// );
-
-
-
 
 		$data = array(
 			'title'		 => NAMETITLE . ' - Tambah Data Paket',
@@ -152,7 +109,7 @@ class Paket extends CI_Controller
 		$this->form_validation->set_rules('komisi', 'Komisi x2', 'trim');
 
 		if ($this->form_validation->run() == FALSE) {
-			$this->session->set_flashdata('message', $this->message->error_msg(validation_errors()));
+			$this->session->set_flashdata('error_validation', $this->message->error_msg(validation_errors()));
 			redirect(base_url() . "paket/tambah");
 			return;
 		}
@@ -189,22 +146,14 @@ class Paket extends CI_Controller
 			"userid"		=> $_SESSION["logged_status"]["username"]
 		);
 
-		// print_r(json_encode($data));
-		// die;
-
-		// Checking Success and Error AddData
 		$result		= $this->paket->insertData($data, $harga, $id_produk);
-		//print_r($result);
-		// untuk sukses
-		// $result["code"]=0;
 
-		//untuk gagal
 		if ($result["code"] == 0) {
-			$this->session->set_flashdata('message', $this->message->success_msg());
+			$this->session->set_flashdata('success', $this->message->success_msg());
 			redirect(base_url() . "paket");
 			return;
 		} else {
-			$this->session->set_flashdata('message', $this->message->error_msg($result["message"]));
+			$this->session->set_flashdata('error', $this->message->error_msg($result["message"]));
 			redirect(base_url() . "paket/tambah");
 			return;
 		}
@@ -218,7 +167,7 @@ class Paket extends CI_Controller
 		$id	= base64_decode($this->security->xss_clean($id));
 		$result		= $this->paket->getPaket($id);
 		$items=$this->paket->itempaket($id);
-		// $produk		= $result;
+
 		$result["id_items"] = array();
 		foreach ($items as $itm) {
 			array_push($result["id_items"], $itm["id_produk"]);
@@ -272,7 +221,7 @@ class Paket extends CI_Controller
 		$id	= $this->security->xss_clean($this->input->post('id'));
 
 		if ($this->form_validation->run() == FALSE) {
-			$this->session->set_flashdata('message', $this->message->error_msg(validation_errors()));
+			$this->session->set_flashdata('error_validation', $this->message->error_msg(validation_errors()));
 			redirect(base_url() . "paket/ubah/" . base64_encode($id));
 			return;
 		}
@@ -314,21 +263,12 @@ class Paket extends CI_Controller
 
 		$result		= $this->paket->updateData($data, $harga, $id_items, $id);
 
-		//untuk cek sukses atau gagal dengan cara menambahkan array result
-
-		// untuk sukses
-		// $result["code"]=0;
-
-		//untuk gagal
-		// $result["code"]=5011;
-		// $result["message"]="Data gagal di inputkan";
-
 		if ($result["code"] == 0) {
-			$this->session->set_flashdata('message',  $this->message->success_msg());
+			$this->session->set_flashdata('success',  $this->message->success_msg());
 			redirect(base_url() . "paket");
 			return;
 		} else {
-			$this->session->set_flashdata('message', $this->message->error_msg($result["message"]));
+			$this->session->set_flashdata('error', $this->message->error_msg($result["message"]));
 			redirect(base_url() . "paket/ubah/" . base64_encode($id));
 			return;
 		}
@@ -343,18 +283,11 @@ class Paket extends CI_Controller
 		$id	= base64_decode($this->security->xss_clean($id));
 		$result		= $this->paket->hapusData($data, $id);
 
-		// untuk sukses
-		// $result["code"]=0;
-
-		//untuk gagal
-		// $result["code"]=5011;
-		// $result["message"]="Data gagal di Dihapus";
-
 		if ($result["code"] == 0) {
-			$this->session->set_flashdata('message', $this->message->delete_msg());
+			$this->session->set_flashdata('success', $this->message->delete_msg());
 			redirect(base_url() . "paket");
 		} else {
-			$this->session->set_flashdata('message', $this->message->error_msg($result["message"]));
+			$this->session->set_flashdata('error', $this->message->error_msg($result["message"]));
 			redirect(base_url() . "paket");
 		}
 	}
@@ -376,56 +309,12 @@ class Paket extends CI_Controller
 	public function ListHargaItemsData()
 	{
 		$result	= $this->paket->promopaket();
-		// $result = array (
-		// 	array(
-		// 		"id"            => "1",
-		// 		"namaitem"		=> "Paket 1",
-		// 		"awal"			=> "44 January 2023",
-		// 		"akhir"			=> "12 January 2023",
-		// 		"local"			=> "1000000",
-		// 		"domestik"		=> "2000000",
-		// 		"internasional"	=> "3000000",
-		// 	),
-		// 	array(
-		// 		"id"            => "2",
-		// 		"namaitem"		=> "Paket 2",
-		// 		"awal"			=> "11 January 2023",
-		// 		"akhir"			=> "12 January 2023",
-		// 		"local"			=> "1000000",
-		// 		"domestik"		=> "2000000",
-		// 		"internasional"	=> "3000000",
-		// 	),
-		// 	array(
-		// 		"id"            => "3",
-		// 		"namaitem"		=> "Paket 3",
-		// 		"awal"			=> "11 January 2023",
-		// 		"akhir"			=> "12 January 2023",
-		// 		"local"			=> "1000000",
-		// 		"domestik"		=> "2000000",
-		// 		"internasional"	=> "3000000",
-		// 	),
-		// );
 		echo json_encode($result);
 	}
 
 	public function tambahharga()
 	{
 		$pakets = $this->paket->listpaket();
-		// $pakets = array(
-		// 	array(
-		// 		"id"			=> "1",
-		// 		"namapaket"		=> "Paket 33"
-		// 	),
-		// 	array(
-		// 		"id"			=> "2",
-		// 		"namapaket"		=> "Paket 41"
-		// 	),
-		// 	array(
-		// 		"id"			=> "3",
-		// 		"namapaket"		=> "Paket 5"
-		// 	),
-		// );
-
 
 		$data	= array(
 			'title'		 => NAMETITLE . ' - Harga Paket',
@@ -484,20 +373,7 @@ class Paket extends CI_Controller
 			"userid" 		=> $_SESSION["logged_status"]["username"]
 		);
 
-		// print_r(json_encode($data));
-		// die;
-
-		// Checking Success and Error AddData
 		$result		= $this->paket->insertpromo($data);
-
-		// untuk sukses
-		// $result["code"]=0;
-
-		//untuk gagal
-		// $result["code"]=5011;
-		// $result["message"]="Data gagal di inputkan";
-
-
 
 		if ($result["code"] == 0) {
 			$this->session->set_flashdata('message', $this->message->success_msg());

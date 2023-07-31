@@ -30,28 +30,6 @@ class Pengayah extends CI_Controller
 	public function Listdata()
 	{
 		$result = $this->pengayah->Listpengayah();
-		// $result = array (
-		// 	array(
-		//         "id"            => "1",
-		// 		"nama"		    => "I Made Farhan Sucipto Nugroho",
-		// 		"whatsapp"		=> "11111111",
-		// 	),
-		// 	array(
-		//         "id"            => "2",
-		// 		"nama"		    => "Pengayah 2",
-		// 		"whatsapp"		=> "22222222",
-		// 	),
-		// 	array(
-		//         "id"            => "3",
-		// 		"nama"		    => "Pengayah 3",
-		// 		"whatsapp"		=> "333333333",
-		// 	),
-		// 	array(
-		//         "id"            => "4",
-		// 		"nama"		    => "Pengayah 4",
-		// 		"whatsapp"		=> "44444444",
-		// 	),
-		// );
 		echo json_encode($result);
 	}
 
@@ -79,7 +57,7 @@ class Pengayah extends CI_Controller
 		$this->form_validation->set_rules('tipe', 'Tipe Pengayah', 'trim|required');
 
 		if ($this->form_validation->run() == FALSE) {
-			$this->session->set_flashdata('message', $this->message->error_msg(validation_errors()));
+			$this->session->set_flashdata('error_validation', $this->message->error_msg(validation_errors()));
 			redirect(base_url() . "pengayah/tambah");
 			return;
 		}
@@ -107,28 +85,14 @@ class Pengayah extends CI_Controller
 			"status"  => 'no',
 		);
 
-		// print_r($datapengguna);
-		// die;
-
-		// print_r(json_encode($data));
-		// die;
-
-		// Checking Success and Error AddData
 		$result		= $this->pengayah->insertData($data, $datapengguna);
-		// untuk sukses
-		// $result["code"]=0;
-
-		//untuk gagal
-		// $result["code"]=5011;
-		// $result["message"]="Data gagal di inputkan";
-
 
 		if ($result["code"] == 0) {
-			$this->session->set_flashdata('message', $this->message->success_msg());
+			$this->session->set_flashdata('success', $this->message->success_msg());
 			redirect(base_url() . "pengayah");
 			return;
 		} else {
-			$this->session->set_flashdata('message', $this->message->error_msg($result["message"]));
+			$this->session->set_flashdata('error', $this->message->error_msg($result["message"]));
 			redirect(base_url() . "pengayah/tambah");
 			return;
 		}
@@ -140,11 +104,6 @@ class Pengayah extends CI_Controller
 		$id	= base64_decode($this->security->xss_clean($id));
 		// Menampilkan Hasil Single Data ketika di click username tertentu sebagai parameter
 		$result		= $this->pengayah->getUser($id);
-
-		// $result = array (
-		// 	"nama"		    => "Pengayah 2",
-		// 	"whatsapp"	    => "085123123123",
-		// );
 
 		$data		= array(
 			'title'		 => 'Ubah Data Pengguna',
@@ -169,7 +128,7 @@ class Pengayah extends CI_Controller
 		$id	= $this->security->xss_clean($this->input->post('id'));
 
 		if ($this->form_validation->run() == FALSE) {
-			$this->session->set_flashdata('message', $this->message->error_msg(validation_errors()));
+			$this->session->set_flashdata('error_validation', $this->message->error_msg(validation_errors()));
 			redirect(base_url() . "pengayah/ubah/" . base64_encode($id));
 			return;
 		}
@@ -186,26 +145,14 @@ class Pengayah extends CI_Controller
 			"tipe"      => $tipe,
 		);
 
-		// print_r(json_encode($data));
-		// die;
-
-
 		$result		= $this->pengayah->updateData($data, $id);
-		//untuk cek sukses atau gagal dengan cara menambahkan array result
-
-		// untuk sukses
-		// $result["code"]=0;
-
-		//untuk gagal
-		// $result["code"]=5011;
-		// $result["message"]="Data gagal di inputkan";
 
 		if ($result["code"] == 0) {
-			$this->session->set_flashdata('message',  $this->message->success_msg());
+			$this->session->set_flashdata('success',  $this->message->success_msg());
 			redirect(base_url() . "pengayah");
 			return;
 		} else {
-			$this->session->set_flashdata('message', $this->message->error_msg($result["message"]));
+			$this->session->set_flashdata('error', $this->message->error_msg($result["message"]));
 			redirect(base_url() . "pengayah/ubah/" . base64_encode($id));
 			return;
 		}
@@ -220,18 +167,11 @@ class Pengayah extends CI_Controller
 		$id	= base64_decode($this->security->xss_clean($id));
 		$result		= $this->pengayah->hapusData($data, $id);
 
-		// untuk sukses
-		// $result["code"]=0;
-
-		//untuk gagal
-		// $result["code"]=5011;
-		// $result["message"]="Data gagal di Dihapus";
-
 		if ($result["code"] == 0) {
-			$this->session->set_flashdata('message', $this->message->delete_msg());
+			$this->session->set_flashdata('success', $this->message->delete_msg());
 			redirect(base_url() . "pengayah");
 		} else {
-			$this->session->set_flashdata('message', $this->message->error_msg($result["message"]));
+			$this->session->set_flashdata('error', $this->message->error_msg($result["message"]));
 			redirect(base_url() . "pengayah");
 		}
 	}

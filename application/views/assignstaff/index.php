@@ -13,9 +13,6 @@
                     <a class="btn btn-primary" href="<?=base_url()?>assignstaff/tambah">Tambah</a>
                 </div>
                 <div class="card ">
-                    <?php if (isset($_SESSION["message"])){?>
-                    <div class="alert alert-success"><?=$_SESSION["message"]?></div>
-                    <?php } ?>
                     <div class="card-content py-6 px-8">
                             <table id="table_data" class="table table-striped nowrap " width="100%">
                                 <thead>
@@ -41,3 +38,40 @@
 	<!--====== End Content ====== -->
 </div>
 <!--======= End Content wrapper ====== -->
+
+
+<!-- Alert Message -->
+<?php if (isset($_SESSION["success"])) { ?>
+    <script>
+        setTimeout(function() {
+            Swal.fire({
+                title: '<?= $_SESSION['success'] ?>',
+                position: 'top-end',
+                background: '#50CD89',
+                customClass: {
+                    title: 'toast-griya-title',
+                },
+                timer: 3000,
+                showConfirmButton: false,
+            });
+        }, 100);
+    </script>
+<?php } ?>
+
+
+<?php if (isset($_SESSION["error"])) { ?>
+    <script>
+        setTimeout(function() {
+            Swal.fire({
+                title: '<?= $_SESSION['error'] ?>',
+                position: 'top-end',
+                background: '#F1416C',
+                customClass: {
+                    title: 'toast-griya-title',
+                },
+                timer: 3000,
+                showConfirmButton: false,
+            });
+        }, 100);
+    </script>
+<?php } ?>
