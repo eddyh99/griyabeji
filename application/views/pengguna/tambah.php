@@ -97,8 +97,11 @@
             Swal.fire({
                 title: '<?= trim(str_replace('"', '', json_encode($_SESSION['error_validation']))) ?>',
                 position: 'top-end',
-                background: '#FFD600',
+                background: '#F1416C',
                 confirmButtonColor: '#202B46',
+                customClass: {
+                    title: 'toast-griya-title'
+                }
             });
         }, 100);
     </script>

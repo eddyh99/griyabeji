@@ -43,32 +43,7 @@ class Produk extends CI_Controller
 			}
 			$i++;
 		}
-		// $result = array (
-		// 	array(
-		//         "id"            => "1",
-		// 		"namaproduk"	=> "Purification Ceremony",
-		// 		"local"			=> "1000000",
-		// 		"domestik"		=> "2000000",
-		// 		"internasional"	=> "3000000",
-		// 		"namaitems"		=> ["Dupa", "Gelang", "Tirta", "Canang Sari", "Air", "Tas"]
-		// 	),
-		// 	array(
-		//         "id"            => "2",
-		// 		"namaproduk"	=> "Healing Therapy",
-		// 		"local"			=> "1000000",
-		// 		"domestik"		=> "2000000",
-		// 		"internasional"	=> "3000000",
-		// 		"namaitems"		=> "gelang"
-		// 	),
-		// 	array(
-		//         "id"            => "3",
-		// 		"namaproduk"	=> "Palm Reading",
-		// 		"local"			=> "1000000",
-		// 		"domestik"		=> "2000000",
-		// 		"internasional"	=> "3000000",
-		// 		"namaitems"		=> "dupa"
-		// 	),
-		// );
+		
 		echo json_encode($produk);
 	}
 
@@ -89,32 +64,7 @@ class Produk extends CI_Controller
 	public function tambah()
 	{
 		$items = $this->items->listitems();
-		// $items = array (
-		// 	array(
-		//         "id"            => "1",
-		// 		"namaitem"		=> "Dupa Wangi",
-		// 	),
-		// 	array(
-		//         "id"            => "2",
-		// 		"namaitem"		=> "Gelang Tridatu",
-		// 	),
-		// 	array(
-		//         "id"            => "3",
-		// 		"namaitem"		=> "Canang Sari",
-		// 	),
-		// 	array(
-		//         "id"            => "4",
-		// 		"namaitem"		=> "Toples Tirta",
-		// 	),
-		// 	array(
-		//         "id"            => "5",
-		// 		"namaitem"		=> "Dupa Cempaka",
-		// 	),
-		// );
-
-
-
-
+		
 		$data = array(
 			'title'		 => NAMETITLE . ' - Tambah Data Experience',
 			'colmas'	 => 'hover show',
@@ -160,7 +110,7 @@ class Produk extends CI_Controller
 		$this->form_validation->set_rules('komisi', 'Komisi x2', 'trim');
 
 		if ($this->form_validation->run() == FALSE) {
-			$this->session->set_flashdata('message', $this->message->error_msg(validation_errors()));
+			$this->session->set_flashdata('error_validation', $this->message->error_msg(validation_errors()));
 			redirect(base_url() . "produk/tambah");
 			return;
 		}
@@ -197,27 +147,14 @@ class Produk extends CI_Controller
 			"userid"		=> $_SESSION["logged_status"]["username"]
 		);
 
-		// print_r(json_encode($data));
-		// die;
-
-		// Checking Success and Error AddData
 		$result		= $this->produk->insertData($data, $harga, $items);
 
-		// untuk sukses
-		// $result["code"]=0;
-
-		//untuk gagal
-		// $result["code"]=5011;
-		// $result["message"]="Data gagal di inputkan";
-
-
-
 		if ($result["code"] == 0) {
-			$this->session->set_flashdata('message', $this->message->success_msg());
+			$this->session->set_flashdata('success', $this->message->success_msg());
 			redirect(base_url() . "produk");
 			return;
 		} else {
-			$this->session->set_flashdata('message', $this->message->error_msg($result["message"]));
+			$this->session->set_flashdata('error', $this->message->error_msg($result["message"]));
 			redirect(base_url() . "produk/tambah");
 			return;
 		}
@@ -237,46 +174,8 @@ class Produk extends CI_Controller
 		foreach ($items as $itm) {
 			array_push($result["id_items"], $itm["id_items"]);
 		}
-		//items ini belum muncul sesuai dengan yang id items dari produk
 
-		// $result = array (
-		// 	"namaproduk"	=> "PURIFICATION CEREMONY",
-		// 	"local"			=> "1000000",
-		// 	"domestik"		=> "2000000",
-		// 	"internasional"	=> "3000000",
-		// 	"id_items"		=> ["1", "2", "2"]
-		// );
 		$items = $this->items->listitems();
-
-
-		//$items = array (
-		// 	array(
-		//         "id"            => "1",
-		// 		"namaitem"		=> "Dupa Wangi",
-		// 	),
-		// 	array(
-		//         "id"            => "2",
-		// 		"namaitem"		=> "Gelang Tridatu",
-		// 	),
-		// 	array(
-		//         "id"            => "3",
-		// 		"namaitem"		=> "Canang Sari",
-		// 	),
-		// 	array(
-		//         "id"            => "4",
-		// 		"namaitem"		=> "Toples Tirta",
-		// 	),
-		// 	array(
-		//         "id"            => "5",
-		// 		"namaitem"		=> "Dupa Cempaka",
-		// 	),
-		// );
-
-
-		// print_r(json_encode($result));
-		// die;
-
-
 
 		$data		= array(
 			'title'		 => NAMETITLE . ' - Ubah Experience',
@@ -324,7 +223,7 @@ class Produk extends CI_Controller
 		$this->form_validation->set_rules('komisi', 'Komisi x2', 'trim');
 
 		if ($this->form_validation->run() == FALSE) {
-			$this->session->set_flashdata('message', $this->message->error_msg(validation_errors()));
+			$this->session->set_flashdata('error_validation', $this->message->error_msg(validation_errors()));
 			redirect(base_url() . "produk/ubah/" . base64_encode($id));
 			return;
 		}
@@ -366,21 +265,12 @@ class Produk extends CI_Controller
 
 		$result		= $this->produk->updateData($data, $harga, $id_items, $id);
 
-		//untuk cek sukses atau gagal dengan cara menambahkan array result
-
-		// untuk sukses
-		// $result["code"]=0;
-
-		//untuk gagal
-		// $result["code"]=5011;
-		// $result["message"]="Data gagal di inputkan";
-
 		if ($result["code"] == 0) {
-			$this->session->set_flashdata('message',  $this->message->success_msg());
+			$this->session->set_flashdata('success',  $this->message->success_msg());
 			redirect(base_url() . "produk");
 			return;
 		} else {
-			$this->session->set_flashdata('message', $this->message->error_msg($result["message"]));
+			$this->session->set_flashdata('error', $this->message->error_msg($result["message"]));
 			redirect(base_url() . "produk/ubah/" . base64_encode($id));
 			return;
 		}
@@ -395,18 +285,11 @@ class Produk extends CI_Controller
 		$id	= base64_decode($this->security->xss_clean($id));
 		$result		= $this->produk->hapusData($data, $id);
 
-		// untuk sukses
-		// $result["code"]=0;
-
-		//untuk gagal
-		// $result["code"]=5011;
-		// $result["message"]="Data gagal di Dihapus";
-
 		if ($result["code"] == 0) {
-			$this->session->set_flashdata('message', $this->message->delete_msg());
+			$this->session->set_flashdata('success', $this->message->delete_msg());
 			redirect(base_url() . "produk");
 		} else {
-			$this->session->set_flashdata('message', $this->message->error_msg($result["message"]));
+			$this->session->set_flashdata('error', $this->message->error_msg($result["message"]));
 			redirect(base_url() . "produk");
 		}
 	}
@@ -431,56 +314,12 @@ class Produk extends CI_Controller
 	public function ListHargaItemsData()
 	{
 		$result	= $this->produk->promoproduk();
-		// $result = array (
-		// 	array(
-		//         "id"            => "1",
-		// 		"namaitem"		=> "Palm Reading",
-		// 		"awal"			=> "44 January 2023",
-		// 		"akhir"			=> "12 January 2023",
-		// 		"local"			=> "1000000",
-		// 		"domestik"		=> "2000000",
-		// 		"internasional"	=> "3000000",
-		// 	),
-		// 	array(
-		//         "id"            => "2",
-		// 		"namaitem"		=> "Puri Cation",
-		// 		"awal"			=> "11 January 2023",
-		// 		"akhir"			=> "12 January 2023",
-		// 		"local"			=> "1000000",
-		// 		"domestik"		=> "2000000",
-		// 		"internasional"	=> "3000000",
-		// 	),
-		// 	array(
-		//         "id"            => "3",
-		// 		"namaitem"		=> "Healing",
-		// 		"awal"			=> "11 January 2023",
-		// 		"akhir"			=> "12 January 2023",
-		// 		"local"			=> "1000000",
-		// 		"domestik"		=> "2000000",
-		// 		"internasional"	=> "3000000",
-		// 	),
-		// );
 		echo json_encode($result);
 	}
 
 	public function tambahharga()
 	{
 		$produks	= $this->produk->listproduk();
-		// $produks = array(
-		// 	array(
-		// 		"id"			=> "1",
-		// 		"namaproduk"	=> "Purification Ceremony"
-		// 	),
-		// 	array(
-		// 		"id"			=> "2",
-		// 		"namaproduk"	=> "Healing Therapy"
-		// 	),
-		// 	array(
-		// 		"id"			=> "3",
-		// 		"namaproduk"	=> "Palm Reading"
-		// 	),
-		// );
-
 
 		$data	= array(
 			'title'		 => NAMETITLE . ' - Harga Produk',
@@ -539,20 +378,7 @@ class Produk extends CI_Controller
 			"userid" 		=> $_SESSION["logged_status"]["username"]
 		);
 
-		// print_r(json_encode($data));
-		// die;
-
-		// Checking Success and Error AddData
 		$result		= $this->produk->insertPromo($data);
-
-		// untuk sukses
-		// $result["code"]=0;
-
-		//untuk gagal
-		// $result["code"]=5011;
-		// $result["message"]="Data gagal di inputkan";
-
-
 
 		if ($result["code"] == 0) {
 			$this->session->set_flashdata('message', $this->message->success_msg());

@@ -30,28 +30,6 @@ class Guide extends CI_Controller
 	public function Listdata()
 	{
 		$result = $this->guide->listguide();
-		// $result = array (
-		// 	array(
-		//         "id"            => "1",
-		// 		"nama"		    => "I Gusti Made Bagus Adi Wicaksono Wijaya",
-		// 		"whatsapp"		=> "11111111",
-		// 	),
-		// 	array(
-		//         "id"            => "2",
-		// 		"nama"		    => "Guide 2",
-		// 		"whatsapp"		=> "22222222",
-		// 	),
-		// 	array(
-		//         "id"            => "3",
-		// 		"nama"		    => "Guide 3",
-		// 		"whatsapp"		=> "333333333",
-		// 	),
-		// 	array(
-		//         "id"            => "4",
-		// 		"nama"		    => "Guide 4",
-		// 		"whatsapp"		=> "44444444",
-		// 	),
-		// );
 		echo json_encode($result);
 	}
 
@@ -77,7 +55,7 @@ class Guide extends CI_Controller
 		$this->form_validation->set_rules('idpartner', 'ID Partner', 'trim|required');
 
 		if ($this->form_validation->run() == FALSE) {
-			$this->session->set_flashdata('message', $this->message->error_msg(validation_errors()));
+			$this->session->set_flashdata('error_validation', $this->message->error_msg(validation_errors()));
 			redirect(base_url() . "guide/tambah");
 			return;
 		}
@@ -96,23 +74,14 @@ class Guide extends CI_Controller
 			"userid"	=> $_SESSION["logged_status"]["username"]
 		);
 
-		// Checking Success and Error AddData
 		$result		= $this->guide->insertData($data);
-		// untuk sukses
-		// $result["code"]=0;
-
-		//untuk gagal
-		// $result["code"]=5011;
-		// $result["message"]="Data gagal di inputkan";
-
-
 
 		if ($result["code"] == 0) {
-			$this->session->set_flashdata('message', $this->message->success_msg());
+			$this->session->set_flashdata('success', $this->message->success_msg());
 			redirect(base_url() . "guide");
 			return;
 		} else {
-			$this->session->set_flashdata('message', $this->message->error_msg($result["message"]));
+			$this->session->set_flashdata('error', $this->message->error_msg($result["message"]));
 			redirect(base_url() . "guide/tambah");
 			return;
 		}
@@ -124,11 +93,6 @@ class Guide extends CI_Controller
 		// Menampilkan Hasil Single Data ketika di click id tertentu sebagai parameter
 		$id	= base64_decode($this->security->xss_clean($id));
 		$result		= $this->guide->getUser($id);
-
-		// $result = array (
-		// 	"nama"		    => "Guide1",
-		// 	"whatsapp"	    => "085123123123",
-		// );
 
 		$data		= array(
 			'title'		 => NAMETITLE . ' - Ubah Data Pengguna',
@@ -153,7 +117,7 @@ class Guide extends CI_Controller
 		$id	= $this->security->xss_clean($this->input->post('id'));
 
 		if ($this->form_validation->run() == FALSE) {
-			$this->session->set_flashdata('message', $this->message->error_msg(validation_errors()));
+			$this->session->set_flashdata('error_validation', $this->message->error_msg(validation_errors()));
 			redirect(base_url() . "guide/ubah/" . base64_encode($id));
 			return;
 		}
@@ -172,26 +136,14 @@ class Guide extends CI_Controller
 			"idpartner" => $idpartner,
 		);
 
-		// print_r(json_encode($data));
-		// die;
-
-
 		$result		= $this->guide->updateData($data, $id);
-		//untuk cek sukses atau gagal dengan cara menambahkan array result
-
-		// untuk sukses
-		// $result["code"]=0;
-
-		//untuk gagal
-		// $result["code"]=5011;
-		// $result["message"]="Data gagal di inputkan";
 
 		if ($result["code"] == 0) {
-			$this->session->set_flashdata('message',  $this->message->success_msg());
+			$this->session->set_flashdata('success',  $this->message->success_msg());
 			redirect(base_url() . "guide");
 			return;
 		} else {
-			$this->session->set_flashdata('message', $this->message->error_msg($result["message"]));
+			$this->session->set_flashdata('error', $this->message->error_msg($result["message"]));
 			redirect(base_url() . "guide/ubah/" . base64_encode($id));
 			return;
 		}
@@ -206,18 +158,11 @@ class Guide extends CI_Controller
 		$id	= base64_decode($this->security->xss_clean($id));
 		$result		= $this->guide->hapusData($data, $id);
 
-		// untuk sukses
-		// $result["code"]=0;
-
-		//untuk gagal
-		// $result["code"]=5011;
-		// $result["message"]="Data gagal di Dihapus";
-
 		if ($result["code"] == 0) {
-			$this->session->set_flashdata('message', $this->message->delete_msg());
+			$this->session->set_flashdata('success', $this->message->delete_msg());
 			redirect(base_url() . "guide");
 		} else {
-			$this->session->set_flashdata('message', $this->message->error_msg($result["message"]));
+			$this->session->set_flashdata('error', $this->message->error_msg($result["message"]));
 			redirect(base_url() . "guide");
 		}
 	}

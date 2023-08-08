@@ -44,29 +44,6 @@ class Kas extends CI_Controller
 	{
 
 		$result = $this->kas->listkas();
-		// $result = array (
-		// 	array(
-		//         "id"            => "1",
-		// 		"tanggal"		=> "14 May 2023",
-		// 		"nominal"		=> "100000",
-		// 		"keterangan"	=> "ini kas",
-		// 		"store"			=> "Warkop",
-		// 	),
-		// 	array(
-		//         "id"            => "2",
-		// 		"tanggal"		=> "15 May 2023",
-		// 		"nominal"		=> "200000",
-		// 		"keterangan"	=> "ini kas",
-		// 		"store"			=> "parkir",
-		// 	),
-		// 	array(
-		//         "id"            => "3",
-		// 		"tanggal"		=> "16 May 2023",
-		// 		"nominal"		=> "300000",
-		// 		"keterangan"	=> "ini kas",
-		// 		"store"			=> "Warung Herbal",
-		// 	),
-		// );
 		echo json_encode($result);
 	}
 
@@ -202,20 +179,6 @@ class Kas extends CI_Controller
 			"internasional"     => $internasional,
 		);
 
-		// print_r(json_encode($data));
-		// die;
-
-
-		// $result		= $this->PenggunaModel->updateData($data,$username);
-		//untuk cek sukses atau gagal dengan cara menambahkan array result
-
-		// untuk sukses
-		// $result["code"]=0;
-
-		//untuk gagal
-		// $result["code"]=5011;
-		// $result["message"]="Data gagal di inputkan";
-
 		if ($result["code"] == 0) {
 			$this->session->set_flashdata('message',  $this->message->success_msg());
 			redirect(base_url() . "items");
@@ -234,14 +197,6 @@ class Kas extends CI_Controller
 		);
 
 		$id	= base64_decode($this->security->xss_clean($id));
-		// $result		= $this->PenggunaModel->hapusData($data,$username);
-
-		// untuk sukses
-		// $result["code"]=0;
-
-		//untuk gagal
-		// $result["code"]=5011;
-		// $result["message"]="Data gagal di Dihapus";
 
 		if ($result["code"] == 0) {
 			$this->session->set_flashdata('message', $this->message->delete_msg());
@@ -268,10 +223,6 @@ class Kas extends CI_Controller
 
 		$result = $this->kas->laporanHarian($tglcari);
 		$store = $this->kas->listKasByDate($tglcari);
-
-		// print("<pre>" . print_r($result, true) . "</pre>");
-		// die;
-
 
 		$cash = 0;
 		$card = 0;
